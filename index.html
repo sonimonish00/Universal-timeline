@@ -1,67 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="An interactive Universal Timeline spanning from the Big Bang to the present day — exploring cosmology, geology, biology, empires, philosophy, science, and culture in strict chronological order.">
+    <meta name="description"
+        content="An interactive Universal Timeline spanning from the Big Bang to the present day — exploring cosmology, geology, biology, empires, philosophy, science, and culture in strict chronological order.">
     <title>Universal Timeline — From Singularity to Civilisation</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@600;700;800&display=swap"
+        rel="stylesheet">
     <style>
         /* ═══════════════════════════════════════════
            DESIGN SYSTEM — TOKENS
            ═══════════════════════════════════════════ */
         :root {
             /* Palette — Deep Space Theme */
-            --bg-root:        #08090d;
-            --bg-surface:     #0e1018;
-            --bg-card:        #13151d;
-            --bg-card-hover:  #191c27;
-            --bg-sidebar:     #0b0c12;
-            --bg-insight:     #0f1219;
+            --bg-root: #08090d;
+            --bg-surface: #0e1018;
+            --bg-card: #13151d;
+            --bg-card-hover: #191c27;
+            --bg-sidebar: #0b0c12;
+            --bg-insight: #0f1219;
 
-            --border-subtle:  rgba(255, 255, 255, 0.06);
-            --border-medium:  rgba(255, 255, 255, 0.10);
-            --border-accent:  rgba(139, 92, 246, 0.30);
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-medium: rgba(255, 255, 255, 0.10);
+            --border-accent: rgba(139, 92, 246, 0.30);
 
-            --text-primary:   #e8e9ed;
+            --text-primary: #e8e9ed;
             --text-secondary: #9ca0ad;
-            --text-tertiary:  #5f6478;
-            --text-accent:    #a78bfa;
-            --text-insight:   #fbbf24;
+            --text-tertiary: #5f6478;
+            --text-accent: #a78bfa;
+            --text-insight: #fbbf24;
 
             /* Accent Palette */
-            --accent:         #8b5cf6;
-            --accent-glow:    rgba(139, 92, 246, 0.15);
-            --accent-bright:  #a78bfa;
-            --accent-warm:    #f59e0b;
+            --accent: #8b5cf6;
+            --accent-glow: rgba(139, 92, 246, 0.15);
+            --accent-bright: #a78bfa;
+            --accent-warm: #f59e0b;
             --accent-warm-glow: rgba(245, 158, 11, 0.12);
 
             /* Domain Tag Colors */
-            --tag-cosmology:          #818cf8;
-            --tag-geology:            #f97316;
-            --tag-biology:            #34d399;
-            --tag-geography:          #22d3ee;
-            --tag-science_tech:       #60a5fa;
-            --tag-history:            #c084fc;
-            --tag-economics_trade:    #fbbf24;
-            --tag-politics:           #f87171;
-            --tag-philosophy_religion:#e879f9;
-            --tag-art_culture:        #fb7185;
-            --tag-military:           #ef4444;
+            --tag-cosmology: #818cf8;
+            --tag-geology: #f97316;
+            --tag-biology: #34d399;
+            --tag-geography: #22d3ee;
+            --tag-science_tech: #60a5fa;
+            --tag-history: #c084fc;
+            --tag-economics_trade: #fbbf24;
+            --tag-politics: #f87171;
+            --tag-philosophy_religion: #e879f9;
+            --tag-art_culture: #fb7185;
+            --tag-military: #ef4444;
             --tag-constitutional_law: #2dd4bf;
 
             /* Radii */
-            --radius-sm:  6px;
-            --radius-md:  10px;
-            --radius-lg:  16px;
-            --radius-xl:  20px;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
 
             /* Shadows */
-            --shadow-card:   0 2px 12px rgba(0,0,0,0.35), 0 0 0 1px var(--border-subtle);
-            --shadow-glow:   0 0 30px var(--accent-glow);
-            --shadow-insight:0 0 20px var(--accent-warm-glow);
+            --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--border-subtle);
+            --shadow-glow: 0 0 30px var(--accent-glow);
+            --shadow-insight: 0 0 20px var(--accent-warm-glow);
 
             /* Layout */
             --sidebar-width: 300px;
@@ -70,14 +74,20 @@
             /* Transitions */
             --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
             --transition-fast: 180ms var(--ease-out);
-            --transition-mid:  320ms var(--ease-out);
+            --transition-mid: 320ms var(--ease-out);
             --transition-slow: 500ms var(--ease-out);
         }
 
         /* ═══════════════════════════════════════════
            RESET & BASE
            ═══════════════════════════════════════════ */
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         html {
             scroll-behavior: smooth;
@@ -95,10 +105,22 @@
             overflow-x: hidden;
         }
 
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--border-medium); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.18); }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-medium);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.18);
+        }
 
         /* ═══════════════════════════════════════════
            AMBIENT BACKGROUND — GRADIENT ORB
@@ -110,6 +132,7 @@
             z-index: 0;
             overflow: hidden;
         }
+
         .ambient-bg::before {
             content: '';
             position: absolute;
@@ -117,9 +140,10 @@
             height: 800px;
             top: -200px;
             left: -200px;
-            background: radial-gradient(circle, rgba(139,92,246,0.07) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.07) 0%, transparent 70%);
             animation: orbFloat 25s ease-in-out infinite;
         }
+
         .ambient-bg::after {
             content: '';
             position: absolute;
@@ -127,17 +151,36 @@
             height: 600px;
             bottom: -100px;
             right: -150px;
-            background: radial-gradient(circle, rgba(245,158,11,0.04) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.04) 0%, transparent 70%);
             animation: orbFloat2 30s ease-in-out infinite;
         }
+
         @keyframes orbFloat {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(150px, 100px) scale(1.1); }
-            66% { transform: translate(-80px, 200px) scale(0.95); }
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(150px, 100px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-80px, 200px) scale(0.95);
+            }
         }
+
         @keyframes orbFloat2 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(-120px, -80px) scale(1.15); }
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(-120px, -80px) scale(1.15);
+            }
         }
 
         /* ═══════════════════════════════════════════
@@ -158,11 +201,13 @@
             -webkit-backdrop-filter: blur(24px) saturate(1.4);
             border-bottom: 1px solid var(--border-subtle);
         }
+
         .header-brand {
             display: flex;
             align-items: center;
             gap: 14px;
         }
+
         .header-icon {
             width: 38px;
             height: 38px;
@@ -172,8 +217,9 @@
             align-items: center;
             justify-content: center;
             font-size: 18px;
-            box-shadow: 0 0 20px rgba(139,92,246,0.3);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
         }
+
         .header-title {
             font-family: 'Playfair Display', serif;
             font-size: 22px;
@@ -184,6 +230,7 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
         .header-subtitle {
             font-size: 12px;
             color: var(--text-tertiary);
@@ -192,39 +239,46 @@
             text-transform: uppercase;
             margin-left: 4px;
         }
+
         .header-right {
             margin-left: auto;
             display: flex;
             align-items: center;
             gap: 16px;
         }
+
         .header-stats {
             display: flex;
             align-items: center;
             gap: 20px;
         }
+
         .stat-item {
             text-align: right;
         }
+
         .stat-value {
             font-family: 'JetBrains Mono', monospace;
             font-size: 18px;
             font-weight: 500;
             color: var(--accent-bright);
         }
+
         .stat-label {
             font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 0.08em;
             color: var(--text-tertiary);
         }
+
         .search-box {
             position: relative;
         }
+
         .search-input {
             width: 260px;
             padding: 9px 14px 9px 38px;
-            background: rgba(255,255,255,0.04);
+            background: rgba(255, 255, 255, 0.04);
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius-md);
             color: var(--text-primary);
@@ -233,11 +287,16 @@
             outline: none;
             transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
         }
-        .search-input::placeholder { color: var(--text-tertiary); }
+
+        .search-input::placeholder {
+            color: var(--text-tertiary);
+        }
+
         .search-input:focus {
             border-color: var(--accent);
             box-shadow: 0 0 0 3px var(--accent-glow);
         }
+
         .search-icon {
             position: absolute;
             left: 12px;
@@ -288,6 +347,7 @@
             align-items: center;
             gap: 8px;
         }
+
         .sidebar-section-title::before {
             content: '';
             width: 3px;
@@ -297,7 +357,12 @@
         }
 
         /* Epoch Navigation */
-        .epoch-nav { display: flex; flex-direction: column; gap: 3px; }
+        .epoch-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
         .epoch-nav-item {
             display: flex;
             align-items: center;
@@ -311,27 +376,31 @@
             color: var(--text-secondary);
             border: 1px solid transparent;
         }
+
         .epoch-nav-item:hover {
-            background: rgba(255,255,255,0.04);
+            background: rgba(255, 255, 255, 0.04);
             color: var(--text-primary);
         }
+
         .epoch-nav-item.active {
             background: var(--accent-glow);
             color: var(--text-accent);
             border-color: var(--border-accent);
         }
+
         .epoch-dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
             flex-shrink: 0;
         }
+
         .epoch-count {
             margin-left: auto;
             font-family: 'JetBrains Mono', monospace;
             font-size: 11px;
             color: var(--text-tertiary);
-            background: rgba(255,255,255,0.04);
+            background: rgba(255, 255, 255, 0.04);
             padding: 1px 7px;
             border-radius: 10px;
         }
@@ -342,6 +411,7 @@
             flex-wrap: wrap;
             gap: 6px;
         }
+
         .domain-tag {
             display: inline-flex;
             align-items: center;
@@ -357,15 +427,18 @@
             transition: all var(--transition-fast);
             user-select: none;
         }
+
         .domain-tag:hover {
             border-color: var(--border-medium);
-            background: rgba(255,255,255,0.03);
+            background: rgba(255, 255, 255, 0.03);
         }
+
         .domain-tag.active {
             border-color: var(--tag-color);
             background: color-mix(in srgb, var(--tag-color) 12%, transparent);
             color: var(--tag-color);
         }
+
         .domain-tag-dot {
             width: 6px;
             height: 6px;
@@ -380,6 +453,7 @@
             gap: 8px;
             margin-top: auto;
         }
+
         .sidebar-btn {
             display: flex;
             align-items: center;
@@ -387,7 +461,7 @@
             gap: 8px;
             padding: 10px 16px;
             border-radius: var(--radius-sm);
-            background: rgba(255,255,255,0.04);
+            background: rgba(255, 255, 255, 0.04);
             border: 1px solid var(--border-subtle);
             color: var(--text-secondary);
             font-size: 12px;
@@ -396,8 +470,9 @@
             cursor: pointer;
             transition: all var(--transition-fast);
         }
+
         .sidebar-btn:hover {
-            background: rgba(255,255,255,0.07);
+            background: rgba(255, 255, 255, 0.07);
             color: var(--text-primary);
             border-color: var(--border-medium);
         }
@@ -422,11 +497,12 @@
             padding: 120px 40px;
             gap: 20px;
         }
+
         .empty-state-icon {
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-glow), rgba(245,158,11,0.06));
+            background: linear-gradient(135deg, var(--accent-glow), rgba(245, 158, 11, 0.06));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -434,22 +510,33 @@
             margin-bottom: 8px;
             animation: emptyPulse 3s ease-in-out infinite;
         }
+
         @keyframes emptyPulse {
-            0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
-            50% { box-shadow: 0 0 40px 10px var(--accent-glow); }
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 var(--accent-glow);
+            }
+
+            50% {
+                box-shadow: 0 0 40px 10px var(--accent-glow);
+            }
         }
+
         .empty-state-title {
             font-family: 'Playfair Display', serif;
             font-size: 28px;
             font-weight: 700;
             color: var(--text-primary);
         }
+
         .empty-state-desc {
             font-size: 15px;
             color: var(--text-secondary);
             max-width: 480px;
             line-height: 1.7;
         }
+
         .empty-state-code {
             background: var(--bg-card);
             border: 1px solid var(--border-subtle);
@@ -463,10 +550,23 @@
             white-space: pre;
             line-height: 1.8;
         }
-        .code-keyword { color: #c084fc; }
-        .code-const { color: #60a5fa; }
-        .code-bracket { color: var(--text-tertiary); }
-        .code-comment { color: var(--text-tertiary); font-style: italic; }
+
+        .code-keyword {
+            color: #c084fc;
+        }
+
+        .code-const {
+            color: #60a5fa;
+        }
+
+        .code-bracket {
+            color: var(--text-tertiary);
+        }
+
+        .code-comment {
+            color: var(--text-tertiary);
+            font-style: italic;
+        }
 
         /* ═══════════════════════════════════════════
            EPOCH GROUP HEADERS
@@ -474,6 +574,7 @@
         .epoch-group {
             margin-bottom: 48px;
         }
+
         .epoch-header {
             position: sticky;
             top: var(--header-height);
@@ -485,13 +586,18 @@
             gap: 14px;
             margin-bottom: 20px;
         }
+
         .epoch-header-bar {
             width: 4px;
             height: 32px;
             border-radius: 2px;
             flex-shrink: 0;
         }
-        .epoch-header-info { flex: 1; }
+
+        .epoch-header-info {
+            flex: 1;
+        }
+
         .epoch-header-label {
             font-family: 'Playfair Display', serif;
             font-size: 22px;
@@ -499,17 +605,19 @@
             color: var(--text-primary);
             letter-spacing: -0.01em;
         }
+
         .epoch-header-range {
             font-family: 'JetBrains Mono', monospace;
             font-size: 12px;
             color: var(--text-tertiary);
             margin-top: 2px;
         }
+
         .epoch-header-count {
             font-family: 'JetBrains Mono', monospace;
             font-size: 13px;
             color: var(--text-tertiary);
-            background: rgba(255,255,255,0.04);
+            background: rgba(255, 255, 255, 0.04);
             padding: 4px 12px;
             border-radius: 20px;
             border: 1px solid var(--border-subtle);
@@ -522,6 +630,7 @@
             position: relative;
             padding-left: 36px;
         }
+
         .timeline-spine::before {
             content: '';
             position: absolute;
@@ -546,10 +655,12 @@
             opacity: 0;
             transform: translateY(16px);
         }
+
         .event-card.visible {
             opacity: 1;
             transform: translateY(0);
         }
+
         .event-card:hover {
             background: var(--bg-card-hover);
             border-color: var(--border-medium);
@@ -570,10 +681,12 @@
             z-index: 2;
             transition: all var(--transition-fast);
         }
+
         .event-card:hover::before {
             background: var(--accent);
             box-shadow: 0 0 12px var(--accent-glow);
         }
+
         /* Connector line from spine to card */
         .event-card::after {
             content: '';
@@ -592,6 +705,7 @@
             gap: 14px;
             margin-bottom: 12px;
         }
+
         .event-year {
             font-family: 'JetBrains Mono', monospace;
             font-size: 12px;
@@ -604,6 +718,7 @@
             white-space: nowrap;
             flex-shrink: 0;
         }
+
         .event-title {
             font-size: 17px;
             font-weight: 700;
@@ -611,11 +726,12 @@
             letter-spacing: -0.01em;
             line-height: 1.35;
         }
+
         .event-region {
             margin-left: auto;
             font-size: 11px;
             color: var(--text-tertiary);
-            background: rgba(255,255,255,0.03);
+            background: rgba(255, 255, 255, 0.03);
             padding: 3px 10px;
             border-radius: 20px;
             white-space: nowrap;
@@ -637,6 +753,7 @@
             gap: 6px;
             margin-bottom: 14px;
         }
+
         .event-tag {
             font-size: 10px;
             font-weight: 600;
@@ -655,6 +772,7 @@
             padding-top: 12px;
             margin-top: 4px;
         }
+
         .parallel-section-label {
             font-size: 10px;
             font-weight: 700;
@@ -666,16 +784,19 @@
             align-items: center;
             gap: 6px;
         }
+
         .parallel-section-label::before {
             content: '⟷';
             font-size: 14px;
             color: var(--accent-bright);
         }
+
         .parallel-items {
             display: flex;
             flex-direction: column;
             gap: 6px;
         }
+
         .parallel-item {
             display: flex;
             gap: 10px;
@@ -683,8 +804,9 @@
             line-height: 1.6;
             padding: 6px 10px;
             border-radius: var(--radius-sm);
-            background: rgba(255,255,255,0.015);
+            background: rgba(255, 255, 255, 0.015);
         }
+
         .parallel-region {
             font-weight: 600;
             color: var(--accent-bright);
@@ -693,6 +815,7 @@
             min-width: 110px;
             padding-top: 2px;
         }
+
         .parallel-desc {
             color: var(--text-secondary);
         }
@@ -717,28 +840,34 @@
             width: 100%;
             text-align: left;
         }
+
         .insight-toggle:hover {
             background: var(--accent-warm-glow);
-            border-color: rgba(245,158,11,0.3);
+            border-color: rgba(245, 158, 11, 0.3);
         }
+
         .insight-toggle-icon {
             font-size: 16px;
             transition: transform var(--transition-fast);
             flex-shrink: 0;
         }
+
         .insight-toggle.open .insight-toggle-icon {
             transform: rotate(90deg);
         }
+
         .insight-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height var(--transition-mid), opacity var(--transition-mid), padding var(--transition-mid);
             opacity: 0;
         }
+
         .insight-content.open {
             max-height: 400px;
             opacity: 1;
         }
+
         .insight-inner {
             margin-top: 10px;
             padding: 14px 16px;
@@ -749,6 +878,7 @@
             line-height: 1.7;
             color: var(--text-secondary);
         }
+
         .insight-label {
             font-size: 10px;
             font-weight: 700;
@@ -764,6 +894,7 @@
             font-size: 11px;
             color: var(--text-tertiary);
         }
+
         .event-sources span {
             font-weight: 600;
             color: var(--text-tertiary);
@@ -778,6 +909,7 @@
             color: var(--text-tertiary);
             font-size: 15px;
         }
+
         .no-results-icon {
             font-size: 48px;
             margin-bottom: 16px;
@@ -806,26 +938,38 @@
             opacity: 0;
             transform: translateY(20px);
             transition: all var(--transition-mid);
-            box-shadow: 0 4px 20px rgba(139,92,246,0.4);
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
         }
+
         .back-to-top.visible {
             opacity: 1;
             transform: translateY(0);
         }
+
         .back-to-top:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(139,92,246,0.5);
+            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.5);
         }
 
         /* ═══════════════════════════════════════════
            RESPONSIVE
            ═══════════════════════════════════════════ */
         @media (max-width: 1024px) {
-            .sidebar { width: 260px; padding: 20px 16px; }
-            .main-content { padding: 32px 28px 60px; }
+            .sidebar {
+                width: 260px;
+                padding: 20px 16px;
+            }
+
+            .main-content {
+                padding: 32px 28px 60px;
+            }
         }
+
         @media (max-width: 768px) {
-            :root { --sidebar-width: 0px; }
+            :root {
+                --sidebar-width: 0px;
+            }
+
             .sidebar {
                 position: fixed;
                 left: -300px;
@@ -833,19 +977,46 @@
                 width: 300px;
                 z-index: 90;
                 transition: left var(--transition-mid);
-                box-shadow: 4px 0 40px rgba(0,0,0,0.5);
+                box-shadow: 4px 0 40px rgba(0, 0, 0, 0.5);
             }
-            .sidebar.mobile-open { left: 0; }
+
+            .sidebar.mobile-open {
+                left: 0;
+            }
+
             .mobile-toggle {
                 display: flex !important;
             }
-            .main-content { padding: 24px 16px 60px; }
-            .header-stats { display: none; }
-            .search-input { width: 180px; }
-            .event-top-row { flex-wrap: wrap; }
-            .event-region { margin-left: 0; margin-top: 4px; }
-            .parallel-item { flex-direction: column; gap: 2px; }
-            .parallel-region { min-width: auto; }
+
+            .main-content {
+                padding: 24px 16px 60px;
+            }
+
+            .header-stats {
+                display: none;
+            }
+
+            .search-input {
+                width: 180px;
+            }
+
+            .event-top-row {
+                flex-wrap: wrap;
+            }
+
+            .event-region {
+                margin-left: 0;
+                margin-top: 4px;
+            }
+
+            .parallel-item {
+                flex-direction: column;
+                gap: 2px;
+            }
+
+            .parallel-region {
+                min-width: auto;
+            }
         }
 
         .mobile-toggle {
@@ -866,11 +1037,20 @@
         /* ═══════════════════════════════════════════
            UTILITIES / ANIMATIONS
            ═══════════════════════════════════════════ */
-        .hidden { display: none !important; }
+        .hidden {
+            display: none !important;
+        }
 
         @keyframes cardEnter {
-            from { opacity: 0; transform: translateY(20px); }
-            to   { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Overlay for mobile sidebar */
@@ -879,12 +1059,16 @@
             position: fixed;
             inset: 0;
             top: var(--header-height);
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
             z-index: 89;
         }
-        .sidebar-overlay.active { display: block; }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
     </style>
 </head>
+
 <body>
     <!-- Ambient Background -->
     <div class="ambient-bg" aria-hidden="true"></div>
@@ -897,6 +1081,7 @@
             <div>
                 <div class="header-title">Universal Timeline</div>
                 <div class="header-subtitle">From Singularity to Civilisation</div>
+                <a href="UT_parallel.html">Go to Universal Timeline Parallel World Page</a>
             </div>
         </div>
         <div class="header-right">
@@ -912,7 +1097,8 @@
             </div>
             <div class="search-box">
                 <span class="search-icon" aria-hidden="true">⌕</span>
-                <input type="text" class="search-input" id="searchInput" placeholder="Search events, regions, eras…" aria-label="Search timeline events">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search events, regions, eras…"
+                    aria-label="Search timeline events">
             </div>
         </div>
     </header>
@@ -963,162 +1149,162 @@
     <script src="timelineData.js"></script>
     <script>
 
-    /* ═══════════════════════════════════════════════════════════════
-       DOMAIN CONFIGURATION
-       ═══════════════════════════════════════════════════════════════ */
-    const DOMAIN_CONFIG = {
-        cosmology:          { label: 'Cosmology',          color: '#818cf8', icon: '✦' },
-        geology:            { label: 'Geology',            color: '#f97316', icon: '◆' },
-        biology:            { label: 'Biology',            color: '#34d399', icon: '❋' },
-        geography:          { label: 'Geography',          color: '#22d3ee', icon: '◉' },
-        science_tech:       { label: 'Science & Tech',     color: '#60a5fa', icon: '⚙' },
-        history:            { label: 'History',            color: '#c084fc', icon: '⏳' },
-        economics_trade:    { label: 'Economics & Trade',  color: '#fbbf24', icon: '⟐' },
-        politics:           { label: 'Politics',           color: '#f87171', icon: '⚑' },
-        philosophy_religion:{ label: 'Philosophy & Religion', color: '#e879f9', icon: '☸' },
-        art_culture:        { label: 'Art & Culture',      color: '#fb7185', icon: '♦' },
-        military:           { label: 'Military',           color: '#ef4444', icon: '⚔' },
-        constitutional_law: { label: 'Constitutional Law', color: '#2dd4bf', icon: '⚖' }
-    };
-
-    /* ═══════════════════════════════════════════════════════════════
-       APPLICATION STATE
-       ═══════════════════════════════════════════════════════════════ */
-    const state = {
-        searchQuery: '',
-        activeEpoch: null,          // null = show all
-        activeDomains: new Set(),   // empty = show all
-        allInsightsOpen: false
-    };
-
-    /* ═══════════════════════════════════════════════════════════════
-       UTILITY HELPERS
-       ═══════════════════════════════════════════════════════════════ */
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-
-    function formatYearLabel(yearStr) {
-        return escapeHtml(yearStr);
-    }
-
-    function debounce(fn, ms) {
-        let timer;
-        return (...args) => {
-            clearTimeout(timer);
-            timer = setTimeout(() => fn(...args), ms);
+        /* ═══════════════════════════════════════════════════════════════
+           DOMAIN CONFIGURATION
+           ═══════════════════════════════════════════════════════════════ */
+        const DOMAIN_CONFIG = {
+            cosmology: { label: 'Cosmology', color: '#818cf8', icon: '✦' },
+            geology: { label: 'Geology', color: '#f97316', icon: '◆' },
+            biology: { label: 'Biology', color: '#34d399', icon: '❋' },
+            geography: { label: 'Geography', color: '#22d3ee', icon: '◉' },
+            science_tech: { label: 'Science & Tech', color: '#60a5fa', icon: '⚙' },
+            history: { label: 'History', color: '#c084fc', icon: '⏳' },
+            economics_trade: { label: 'Economics & Trade', color: '#fbbf24', icon: '⟐' },
+            politics: { label: 'Politics', color: '#f87171', icon: '⚑' },
+            philosophy_religion: { label: 'Philosophy & Religion', color: '#e879f9', icon: '☸' },
+            art_culture: { label: 'Art & Culture', color: '#fb7185', icon: '♦' },
+            military: { label: 'Military', color: '#ef4444', icon: '⚔' },
+            constitutional_law: { label: 'Constitutional Law', color: '#2dd4bf', icon: '⚖' }
         };
-    }
 
-    /* ═══════════════════════════════════════════════════════════════
-       DATA PROCESSING
-       ═══════════════════════════════════════════════════════════════ */
-    function getMetadata() {
-        // Merge metadata from ALL data blocks in the timelineData array
-        const merged = { epochs: [] };
-        timelineData.forEach(block => {
-            if (block && block.metadata && Array.isArray(block.metadata.epochs)) {
-                block.metadata.epochs.forEach(ep => {
-                    if (!merged.epochs.find(e => e.id === ep.id)) merged.epochs.push(ep);
-                });
-            }
-        });
-        return merged.epochs.length > 0 ? merged : null;
-    }
+        /* ═══════════════════════════════════════════════════════════════
+           APPLICATION STATE
+           ═══════════════════════════════════════════════════════════════ */
+        const state = {
+            searchQuery: '',
+            activeEpoch: null,          // null = show all
+            activeDomains: new Set(),   // empty = show all
+            allInsightsOpen: false
+        };
 
-    function getEvents() {
-        // Concatenate events from ALL data blocks in the timelineData array
-        let allEvents = [];
-        timelineData.forEach(block => {
-            if (block && Array.isArray(block.events)) {
-                allEvents = allEvents.concat(block.events);
-            } else if (block && block.id) {
-                allEvents.push(block); // flat item
-            }
-        });
-        return allEvents;
-    }
-
-    function getEpochs() {
-        const meta = getMetadata();
-        if (meta && meta.epochs) return meta.epochs;
-        // Derive unique epochs from events
-        const events = getEvents();
-        const epochMap = new Map();
-        events.forEach(evt => {
-            if (evt.epoch_id && !epochMap.has(evt.epoch_id)) {
-                epochMap.set(evt.epoch_id, {
-                    id: evt.epoch_id,
-                    label: evt.epoch_id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
-                    start_year: evt.sort_year,
-                    end_year: evt.sort_year,
-                    color: '#8b5cf6'
-                });
-            } else if (evt.epoch_id && epochMap.has(evt.epoch_id)) {
-                const ep = epochMap.get(evt.epoch_id);
-                ep.start_year = Math.min(ep.start_year, evt.sort_year);
-                ep.end_year = Math.max(ep.end_year, evt.sort_year);
-            }
-        });
-        return Array.from(epochMap.values());
-    }
-
-    function filterEvents() {
-        const events = getEvents();
-        if (!events || events.length === 0) return [];
-
-        return events.filter(evt => {
-            // Search filter
-            if (state.searchQuery) {
-                const q = state.searchQuery.toLowerCase();
-                const searchable = [
-                    evt.event_title,
-                    evt.factual_description,
-                    evt.year_or_era,
-                    evt.region,
-                    ...(evt.parallel_events || []).map(p => p.region + ' ' + p.description),
-                    evt.systemic_insight || ''
-                ].join(' ').toLowerCase();
-                if (!searchable.includes(q)) return false;
-            }
-
-            // Epoch filter
-            if (state.activeEpoch && evt.epoch_id !== state.activeEpoch) return false;
-
-            // Domain filter
-            if (state.activeDomains.size > 0) {
-                const eventDomains = evt.domains || [];
-                const hasMatch = eventDomains.some(d => state.activeDomains.has(d));
-                if (!hasMatch) return false;
-            }
-
-            return true;
-        });
-    }
-
-    /* ═══════════════════════════════════════════════════════════════
-       RENDER — SIDEBAR
-       ═══════════════════════════════════════════════════════════════ */
-    function renderEpochNav() {
-        const epochNav = document.getElementById('epochNav');
-        const epochs = getEpochs();
-        const events = getEvents();
-
-        if (epochs.length === 0) {
-            epochNav.innerHTML = '<div style="color: var(--text-tertiary); font-size: 12px; padding: 8px 12px;">No epochs defined</div>';
-            return;
+        /* ═══════════════════════════════════════════════════════════════
+           UTILITY HELPERS
+           ═══════════════════════════════════════════════════════════════ */
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
-        // Count events per epoch
-        const counts = {};
-        events.forEach(evt => {
-            counts[evt.epoch_id] = (counts[evt.epoch_id] || 0) + 1;
-        });
+        function formatYearLabel(yearStr) {
+            return escapeHtml(yearStr);
+        }
 
-        // "All" option
-        let html = `
+        function debounce(fn, ms) {
+            let timer;
+            return (...args) => {
+                clearTimeout(timer);
+                timer = setTimeout(() => fn(...args), ms);
+            };
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           DATA PROCESSING
+           ═══════════════════════════════════════════════════════════════ */
+        function getMetadata() {
+            // Merge metadata from ALL data blocks in the timelineData array
+            const merged = { epochs: [] };
+            timelineData.forEach(block => {
+                if (block && block.metadata && Array.isArray(block.metadata.epochs)) {
+                    block.metadata.epochs.forEach(ep => {
+                        if (!merged.epochs.find(e => e.id === ep.id)) merged.epochs.push(ep);
+                    });
+                }
+            });
+            return merged.epochs.length > 0 ? merged : null;
+        }
+
+        function getEvents() {
+            // Concatenate events from ALL data blocks in the timelineData array
+            let allEvents = [];
+            timelineData.forEach(block => {
+                if (block && Array.isArray(block.events)) {
+                    allEvents = allEvents.concat(block.events);
+                } else if (block && block.id) {
+                    allEvents.push(block); // flat item
+                }
+            });
+            return allEvents;
+        }
+
+        function getEpochs() {
+            const meta = getMetadata();
+            if (meta && meta.epochs) return meta.epochs;
+            // Derive unique epochs from events
+            const events = getEvents();
+            const epochMap = new Map();
+            events.forEach(evt => {
+                if (evt.epoch_id && !epochMap.has(evt.epoch_id)) {
+                    epochMap.set(evt.epoch_id, {
+                        id: evt.epoch_id,
+                        label: evt.epoch_id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+                        start_year: evt.sort_year,
+                        end_year: evt.sort_year,
+                        color: '#8b5cf6'
+                    });
+                } else if (evt.epoch_id && epochMap.has(evt.epoch_id)) {
+                    const ep = epochMap.get(evt.epoch_id);
+                    ep.start_year = Math.min(ep.start_year, evt.sort_year);
+                    ep.end_year = Math.max(ep.end_year, evt.sort_year);
+                }
+            });
+            return Array.from(epochMap.values());
+        }
+
+        function filterEvents() {
+            const events = getEvents();
+            if (!events || events.length === 0) return [];
+
+            return events.filter(evt => {
+                // Search filter
+                if (state.searchQuery) {
+                    const q = state.searchQuery.toLowerCase();
+                    const searchable = [
+                        evt.event_title,
+                        evt.factual_description,
+                        evt.year_or_era,
+                        evt.region,
+                        ...(evt.parallel_events || []).map(p => p.region + ' ' + p.description),
+                        evt.systemic_insight || ''
+                    ].join(' ').toLowerCase();
+                    if (!searchable.includes(q)) return false;
+                }
+
+                // Epoch filter
+                if (state.activeEpoch && evt.epoch_id !== state.activeEpoch) return false;
+
+                // Domain filter
+                if (state.activeDomains.size > 0) {
+                    const eventDomains = evt.domains || [];
+                    const hasMatch = eventDomains.some(d => state.activeDomains.has(d));
+                    if (!hasMatch) return false;
+                }
+
+                return true;
+            });
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           RENDER — SIDEBAR
+           ═══════════════════════════════════════════════════════════════ */
+        function renderEpochNav() {
+            const epochNav = document.getElementById('epochNav');
+            const epochs = getEpochs();
+            const events = getEvents();
+
+            if (epochs.length === 0) {
+                epochNav.innerHTML = '<div style="color: var(--text-tertiary); font-size: 12px; padding: 8px 12px;">No epochs defined</div>';
+                return;
+            }
+
+            // Count events per epoch
+            const counts = {};
+            events.forEach(evt => {
+                counts[evt.epoch_id] = (counts[evt.epoch_id] || 0) + 1;
+            });
+
+            // "All" option
+            let html = `
             <div class="epoch-nav-item ${!state.activeEpoch ? 'active' : ''}" data-epoch="" role="button" tabindex="0">
                 <div class="epoch-dot" style="background: var(--accent)"></div>
                 All Epochs
@@ -1126,73 +1312,73 @@
             </div>
         `;
 
-        epochs.forEach(ep => {
-            const color = ep.color || '#8b5cf6';
-            const count = counts[ep.id] || 0;
-            html += `
+            epochs.forEach(ep => {
+                const color = ep.color || '#8b5cf6';
+                const count = counts[ep.id] || 0;
+                html += `
                 <div class="epoch-nav-item ${state.activeEpoch === ep.id ? 'active' : ''}" data-epoch="${escapeHtml(ep.id)}" role="button" tabindex="0">
                     <div class="epoch-dot" style="background: ${color}"></div>
                     ${escapeHtml(ep.label)}
                     <span class="epoch-count">${count}</span>
                 </div>
             `;
-        });
-
-        epochNav.innerHTML = html;
-
-        // Bind clicks
-        epochNav.querySelectorAll('.epoch-nav-item').forEach(item => {
-            item.addEventListener('click', () => {
-                state.activeEpoch = item.dataset.epoch || null;
-                render();
             });
-            item.addEventListener('keydown', e => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    item.click();
-                }
+
+            epochNav.innerHTML = html;
+
+            // Bind clicks
+            epochNav.querySelectorAll('.epoch-nav-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    state.activeEpoch = item.dataset.epoch || null;
+                    render();
+                });
+                item.addEventListener('keydown', e => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        item.click();
+                    }
+                });
             });
-        });
-    }
+        }
 
-    function renderDomainFilters() {
-        const domainFilters = document.getElementById('domainFilters');
+        function renderDomainFilters() {
+            const domainFilters = document.getElementById('domainFilters');
 
-        let html = '';
-        for (const [key, config] of Object.entries(DOMAIN_CONFIG)) {
-            const isActive = state.activeDomains.has(key);
-            html += `
+            let html = '';
+            for (const [key, config] of Object.entries(DOMAIN_CONFIG)) {
+                const isActive = state.activeDomains.has(key);
+                html += `
                 <button class="domain-tag ${isActive ? 'active' : ''}" data-domain="${key}" style="--tag-color: ${config.color}">
                     <span class="domain-tag-dot"></span>
                     ${config.label}
                 </button>
             `;
-        }
-        domainFilters.innerHTML = html;
+            }
+            domainFilters.innerHTML = html;
 
-        domainFilters.querySelectorAll('.domain-tag').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const domain = btn.dataset.domain;
-                if (state.activeDomains.has(domain)) {
-                    state.activeDomains.delete(domain);
-                } else {
-                    state.activeDomains.add(domain);
-                }
-                render();
+            domainFilters.querySelectorAll('.domain-tag').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const domain = btn.dataset.domain;
+                    if (state.activeDomains.has(domain)) {
+                        state.activeDomains.delete(domain);
+                    } else {
+                        state.activeDomains.add(domain);
+                    }
+                    render();
+                });
             });
-        });
-    }
+        }
 
-    /* ═══════════════════════════════════════════════════════════════
-       RENDER — MAIN CONTENT
-       ═══════════════════════════════════════════════════════════════ */
-    function renderTimeline() {
-        const main = document.getElementById('mainContent');
-        const events = getEvents();
+        /* ═══════════════════════════════════════════════════════════════
+           RENDER — MAIN CONTENT
+           ═══════════════════════════════════════════════════════════════ */
+        function renderTimeline() {
+            const main = document.getElementById('mainContent');
+            const events = getEvents();
 
-        // Empty state
-        if (!events || events.length === 0) {
-            main.innerHTML = `
+            // Empty state
+            if (!events || events.length === 0) {
+                main.innerHTML = `
                 <div class="empty-state">
                     <div class="empty-state-icon">✦</div>
                     <h1 class="empty-state-title">The Timeline Awaits</h1>
@@ -1213,43 +1399,43 @@
 <span class="code-bracket">];</span></div>
                 </div>
             `;
-            return;
-        }
+                return;
+            }
 
-        const filtered = filterEvents();
+            const filtered = filterEvents();
 
-        if (filtered.length === 0) {
-            main.innerHTML = `
+            if (filtered.length === 0) {
+                main.innerHTML = `
                 <div class="no-results">
                     <div class="no-results-icon">⌕</div>
                     <p>No events match your current filters.</p>
                     <p style="font-size: 13px; margin-top: 8px;">Try adjusting your search, epoch, or domain filters.</p>
                 </div>
             `;
-            return;
-        }
+                return;
+            }
 
-        // Group filtered events by epoch
-        const epochs = getEpochs();
-        const epochMap = new Map(epochs.map(ep => [ep.id, ep]));
-        const grouped = new Map();
+            // Group filtered events by epoch
+            const epochs = getEpochs();
+            const epochMap = new Map(epochs.map(ep => [ep.id, ep]));
+            const grouped = new Map();
 
-        filtered.forEach(evt => {
-            const eid = evt.epoch_id || '_ungrouped';
-            if (!grouped.has(eid)) grouped.set(eid, []);
-            grouped.get(eid).push(evt);
-        });
+            filtered.forEach(evt => {
+                const eid = evt.epoch_id || '_ungrouped';
+                if (!grouped.has(eid)) grouped.set(eid, []);
+                grouped.get(eid).push(evt);
+            });
 
-        let html = '';
-        grouped.forEach((events, epochId) => {
-            const epoch = epochMap.get(epochId);
-            const label = epoch ? epoch.label : 'Other Events';
-            const color = epoch ? (epoch.color || '#8b5cf6') : '#8b5cf6';
-            const rangeLabel = epoch
-                ? formatEpochRange(epoch.start_year, epoch.end_year)
-                : '';
+            let html = '';
+            grouped.forEach((events, epochId) => {
+                const epoch = epochMap.get(epochId);
+                const label = epoch ? epoch.label : 'Other Events';
+                const color = epoch ? (epoch.color || '#8b5cf6') : '#8b5cf6';
+                const rangeLabel = epoch
+                    ? formatEpochRange(epoch.start_year, epoch.end_year)
+                    : '';
 
-            html += `
+                html += `
                 <section class="epoch-group" id="epoch-${escapeHtml(epochId)}">
                     <div class="epoch-header">
                         <div class="epoch-header-bar" style="background: ${color}"></div>
@@ -1262,47 +1448,47 @@
                     <div class="timeline-spine">
             `;
 
-            events.forEach((evt, i) => {
-                html += renderEventCard(evt, i);
-            });
+                events.forEach((evt, i) => {
+                    html += renderEventCard(evt, i);
+                });
 
-            html += `
+                html += `
                     </div>
                 </section>
             `;
-        });
-
-        main.innerHTML = html;
-
-        // Animate cards in
-        requestAnimationFrame(() => {
-            const cards = main.querySelectorAll('.event-card');
-            cards.forEach((card, i) => {
-                setTimeout(() => card.classList.add('visible'), i * 40);
             });
-        });
 
-        // Bind insight toggles
-        main.querySelectorAll('.insight-toggle').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const content = btn.nextElementSibling;
-                btn.classList.toggle('open');
-                content.classList.toggle('open');
+            main.innerHTML = html;
+
+            // Animate cards in
+            requestAnimationFrame(() => {
+                const cards = main.querySelectorAll('.event-card');
+                cards.forEach((card, i) => {
+                    setTimeout(() => card.classList.add('visible'), i * 40);
+                });
             });
-        });
-    }
 
-    function renderEventCard(evt, idx) {
-        // Domain tags
-        const tagsHtml = (evt.domains || []).map(d => {
-            const cfg = DOMAIN_CONFIG[d] || { label: d, color: '#888' };
-            return `<span class="event-tag" style="--tag-color: ${cfg.color}">${cfg.label}</span>`;
-        }).join('');
+            // Bind insight toggles
+            main.querySelectorAll('.insight-toggle').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const content = btn.nextElementSibling;
+                    btn.classList.toggle('open');
+                    content.classList.toggle('open');
+                });
+            });
+        }
 
-        // Parallel events
-        let parallelHtml = '';
-        if (evt.parallel_events && evt.parallel_events.length > 0) {
-            parallelHtml = `
+        function renderEventCard(evt, idx) {
+            // Domain tags
+            const tagsHtml = (evt.domains || []).map(d => {
+                const cfg = DOMAIN_CONFIG[d] || { label: d, color: '#888' };
+                return `<span class="event-tag" style="--tag-color: ${cfg.color}">${cfg.label}</span>`;
+            }).join('');
+
+            // Parallel events
+            let parallelHtml = '';
+            if (evt.parallel_events && evt.parallel_events.length > 0) {
+                parallelHtml = `
                 <div class="parallel-section">
                     <div class="parallel-section-label">Meanwhile, Across the World</div>
                     <div class="parallel-items">
@@ -1315,12 +1501,12 @@
                     </div>
                 </div>
             `;
-        }
+            }
 
-        // Systemic insight
-        let insightHtml = '';
-        if (evt.systemic_insight) {
-            insightHtml = `
+            // Systemic insight
+            let insightHtml = '';
+            if (evt.systemic_insight) {
+                insightHtml = `
                 <button class="insight-toggle ${state.allInsightsOpen ? 'open' : ''}" aria-expanded="${state.allInsightsOpen}">
                     <span class="insight-toggle-icon">▸</span>
                     View Cause &amp; Effect
@@ -1332,19 +1518,19 @@
                     </div>
                 </div>
             `;
-        }
+            }
 
-        // Sources
-        let sourcesHtml = '';
-        if (evt.sources && evt.sources.length > 0) {
-            sourcesHtml = `
+            // Sources
+            let sourcesHtml = '';
+            if (evt.sources && evt.sources.length > 0) {
+                sourcesHtml = `
                 <div class="event-sources">
                     <span>Sources:</span> ${evt.sources.map(s => escapeHtml(s)).join(' · ')}
                 </div>
             `;
-        }
+            }
 
-        return `
+            return `
             <article class="event-card" data-id="${escapeHtml(evt.id)}">
                 <div class="event-top-row">
                     <span class="event-year">${formatYearLabel(evt.year_or_era)}</span>
@@ -1358,130 +1544,131 @@
                 ${sourcesHtml}
             </article>
         `;
-    }
-
-    function formatEpochRange(start, end) {
-        function fmt(y) {
-            const abs = Math.abs(y);
-            if (abs >= 1e9)  return (abs / 1e9).toFixed(1) + ' Bya';
-            if (abs >= 1e6)  return (abs / 1e6).toFixed(1) + ' Mya';
-            if (abs >= 1e3 && abs > 3000) return (abs / 1e3).toFixed(0) + 'K ya';
-            if (y < 0) return Math.abs(y) + ' BCE';
-            return y + ' CE';
         }
-        return fmt(start) + '  →  ' + fmt(end);
-    }
 
-    /* ═══════════════════════════════════════════════════════════════
-       RENDER — STATS
-       ═══════════════════════════════════════════════════════════════ */
-    function renderStats() {
-        const events = getEvents();
-        const epochs = getEpochs();
-        document.getElementById('eventCount').textContent = events.length;
-        document.getElementById('epochCount').textContent = epochs.length;
-    }
+        function formatEpochRange(start, end) {
+            function fmt(y) {
+                const abs = Math.abs(y);
+                if (abs >= 1e9) return (abs / 1e9).toFixed(1) + ' Bya';
+                if (abs >= 1e6) return (abs / 1e6).toFixed(1) + ' Mya';
+                if (abs >= 1e3 && abs > 3000) return (abs / 1e3).toFixed(0) + 'K ya';
+                if (y < 0) return Math.abs(y) + ' BCE';
+                return y + ' CE';
+            }
+            return fmt(start) + '  →  ' + fmt(end);
+        }
 
-    /* ═══════════════════════════════════════════════════════════════
-       MASTER RENDER
-       ═══════════════════════════════════════════════════════════════ */
-    function render() {
-        renderStats();
-        renderEpochNav();
-        renderDomainFilters();
-        renderTimeline();
-    }
+        /* ═══════════════════════════════════════════════════════════════
+           RENDER — STATS
+           ═══════════════════════════════════════════════════════════════ */
+        function renderStats() {
+            const events = getEvents();
+            const epochs = getEpochs();
+            document.getElementById('eventCount').textContent = events.length;
+            document.getElementById('epochCount').textContent = epochs.length;
+        }
 
-    /* ═══════════════════════════════════════════════════════════════
-       EVENT LISTENERS
-       ═══════════════════════════════════════════════════════════════ */
-    // Search
-    document.getElementById('searchInput').addEventListener('input', debounce(e => {
-        state.searchQuery = e.target.value.trim();
-        renderTimeline();
-    }, 220));
+        /* ═══════════════════════════════════════════════════════════════
+           MASTER RENDER
+           ═══════════════════════════════════════════════════════════════ */
+        function render() {
+            renderStats();
+            renderEpochNav();
+            renderDomainFilters();
+            renderTimeline();
+        }
 
-    // Clear filters
-    document.getElementById('clearFiltersBtn').addEventListener('click', () => {
-        state.searchQuery = '';
-        state.activeEpoch = null;
-        state.activeDomains.clear();
-        document.getElementById('searchInput').value = '';
-        render();
-    });
+        /* ═══════════════════════════════════════════════════════════════
+           EVENT LISTENERS
+           ═══════════════════════════════════════════════════════════════ */
+        // Search
+        document.getElementById('searchInput').addEventListener('input', debounce(e => {
+            state.searchQuery = e.target.value.trim();
+            renderTimeline();
+        }, 220));
 
-    // Expand all insights
-    document.getElementById('expandAllBtn').addEventListener('click', () => {
-        state.allInsightsOpen = !state.allInsightsOpen;
-        const btn = document.getElementById('expandAllBtn');
-        btn.innerHTML = state.allInsightsOpen
-            ? '<span>◇</span> Collapse All Insights'
-            : '<span>◈</span> Expand All Insights';
-        renderTimeline();
-    });
-
-    // Back to top
-    const backToTop = document.getElementById('backToTop');
-    window.addEventListener('scroll', () => {
-        backToTop.classList.toggle('visible', window.scrollY > 500);
-    });
-    backToTop.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // Mobile sidebar toggle
-    const mobileToggle = document.getElementById('mobileToggle');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebarOverlay');
-
-    mobileToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('mobile-open');
-        overlay.classList.toggle('active');
-    });
-    overlay.addEventListener('click', () => {
-        sidebar.classList.remove('mobile-open');
-        overlay.classList.remove('active');
-    });
-
-    /* ═══════════════════════════════════════════════════════════════
-       INTERSECTION OBSERVER — for card reveal on scroll
-       ═══════════════════════════════════════════════════════════════ */
-    function setupScrollReveal() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
-
-        document.querySelectorAll('.event-card:not(.visible)').forEach(card => {
-            observer.observe(card);
+        // Clear filters
+        document.getElementById('clearFiltersBtn').addEventListener('click', () => {
+            state.searchQuery = '';
+            state.activeEpoch = null;
+            state.activeDomains.clear();
+            document.getElementById('searchInput').value = '';
+            render();
         });
-    }
 
-    /* ═══════════════════════════════════════════════════════════════
-       KEYBOARD NAVIGATION
-       ═══════════════════════════════════════════════════════════════ */
-    document.addEventListener('keydown', e => {
-        // Ctrl/Cmd + K → focus search
-        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-            e.preventDefault();
-            document.getElementById('searchInput').focus();
-        }
-        // Escape → clear search & close mobile sidebar
-        if (e.key === 'Escape') {
-            document.getElementById('searchInput').blur();
+        // Expand all insights
+        document.getElementById('expandAllBtn').addEventListener('click', () => {
+            state.allInsightsOpen = !state.allInsightsOpen;
+            const btn = document.getElementById('expandAllBtn');
+            btn.innerHTML = state.allInsightsOpen
+                ? '<span>◇</span> Collapse All Insights'
+                : '<span>◈</span> Expand All Insights';
+            renderTimeline();
+        });
+
+        // Back to top
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            backToTop.classList.toggle('visible', window.scrollY > 500);
+        });
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Mobile sidebar toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        mobileToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('mobile-open');
+            overlay.classList.toggle('active');
+        });
+        overlay.addEventListener('click', () => {
             sidebar.classList.remove('mobile-open');
             overlay.classList.remove('active');
-        }
-    });
+        });
 
-    /* ═══════════════════════════════════════════════════════════════
-       INITIALIZE
-       ═══════════════════════════════════════════════════════════════ */
-    render();
+        /* ═══════════════════════════════════════════════════════════════
+           INTERSECTION OBSERVER — for card reveal on scroll
+           ═══════════════════════════════════════════════════════════════ */
+        function setupScrollReveal() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+
+            document.querySelectorAll('.event-card:not(.visible)').forEach(card => {
+                observer.observe(card);
+            });
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           KEYBOARD NAVIGATION
+           ═══════════════════════════════════════════════════════════════ */
+        document.addEventListener('keydown', e => {
+            // Ctrl/Cmd + K → focus search
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                document.getElementById('searchInput').focus();
+            }
+            // Escape → clear search & close mobile sidebar
+            if (e.key === 'Escape') {
+                document.getElementById('searchInput').blur();
+                sidebar.classList.remove('mobile-open');
+                overlay.classList.remove('active');
+            }
+        });
+
+        /* ═══════════════════════════════════════════════════════════════
+           INITIALIZE
+           ═══════════════════════════════════════════════════════════════ */
+        render();
     </script>
 </body>
+
 </html>

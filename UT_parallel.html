@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Universal Timeline</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    :root {
+      --bg: #0a0a0f;
+      --s: #111119;
+      --s2: #181824;
+      --b: #1e1e2e;
+      --t: #e0e0e6;
+      --d: #6b6b80;
+      --sc: #42a5f5;
+      --tc: #7c6aef;
+      --po: #ff6b9d;
+      --cu: #ffa726;
+      --in: #66bb6a;
+      --bi: #4ecdc4;
+      --ai: #ab47bc;
+      --en: #ef5350
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--t);
+      line-height: 1.5
+    }
+
+    .hd {
+      text-align: center;
+      padding: 50px 20px 20px
+    }
+
+    .hd h1 {
+      font-size: clamp(1.5rem, 4vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #7c6aef, #4ecdc4, #ff6b9d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    .hd p {
+      color: var(--d);
+      font-size: .8rem;
+      margin-top: 6px
+    }
+
+    .sb {
+      max-width: 420px;
+      margin: 10px auto;
+      display: block;
+      padding: 9px 16px;
+      border-radius: 24px;
+      border: 1px solid var(--b);
+      background: var(--s);
+      color: var(--t);
+      font-size: .82rem;
+      width: calc(100% - 40px);
+      font-family: inherit;
+      outline: none
+    }
+
+    .sb:focus {
+      border-color: var(--tc);
+      box-shadow: 0 0 16px #7c6aef22
+    }
+
+    .legend {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 12px 20px 20px
+    }
+
+    .lg {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: .65rem;
+      color: var(--d)
+    }
+
+    .lg span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block
+    }
+
+    .era {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 16px
+    }
+
+    .era-t {
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--tc);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 30px 0 8px;
+      border-bottom: 1px solid var(--b);
+      margin-bottom: 2px
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      border-bottom: 1px solid #141420;
+      transition: .2s;
+      cursor: pointer
+    }
+
+    .row:hover {
+      background: var(--s)
+    }
+
+    .row.open {
+      background: var(--s)
+    }
+
+    .yr {
+      padding: 10px 8px;
+      font-size: .7rem;
+      font-weight: 600;
+      color: var(--d);
+      white-space: nowrap;
+      border-right: 1px solid #141420
+    }
+
+    .cells {
+      padding: 8px 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      align-items: flex-start
+    }
+
+    .chip {
+      font-size: .68rem;
+      padding: 3px 8px;
+      border-radius: 10px;
+      border: 1px solid;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      line-height: 1.3;
+      transition: .2s
+    }
+
+    .chip .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0
+    }
+
+    .chip.sc {
+      border-color: #42a5f533;
+      color: #42a5f5
+    }
+
+    .chip.sc .dot {
+      background: #42a5f5
+    }
+
+    .chip.tc {
+      border-color: #7c6aef33;
+      color: #b0a4f0
+    }
+
+    .chip.tc .dot {
+      background: #7c6aef
+    }
+
+    .chip.po {
+      border-color: #ff6b9d33;
+      color: #ff6b9d
+    }
+
+    .chip.po .dot {
+      background: #ff6b9d
+    }
+
+    .chip.cu {
+      border-color: #ffa72633;
+      color: #ffa726
+    }
+
+    .chip.cu .dot {
+      background: #ffa726
+    }
+
+    .chip.in {
+      border-color: #66bb6a33;
+      color: #66bb6a
+    }
+
+    .chip.in .dot {
+      background: #66bb6a
+    }
+
+    .chip.bi {
+      border-color: #4ecdc433;
+      color: #4ecdc4
+    }
+
+    .chip.bi .dot {
+      background: #4ecdc4
+    }
+
+    .chip.ai {
+      border-color: #ab47bc33;
+      color: #ce93d8
+    }
+
+    .chip.ai .dot {
+      background: #ab47bc
+    }
+
+    .chip.en {
+      border-color: #ef535033;
+      color: #ef5350
+    }
+
+    .chip.en .dot {
+      background: #ef5350
+    }
+
+    .detail {
+      display: none;
+      grid-column: 1/-1;
+      padding: 6px 10px 10px 110px;
+      font-size: .72rem;
+      color: var(--d);
+      line-height: 1.6;
+      background: var(--s2);
+      border-bottom: 1px solid #141420
+    }
+
+    .row.open+.detail {
+      display: block
+    }
+
+    .detail b {
+      color: var(--t);
+      font-weight: 600
+    }
+
+    .hidden {
+      display: none
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: var(--d);
+      font-size: .65rem;
+      border-top: 1px solid var(--b);
+      margin-top: 40px
+    }
+
+    @media(max-width:600px) {
+      .row {
+        grid-template-columns: 72px 1fr
+      }
+
+      .detail {
+        padding-left: 80px
+      }
+
+      .cells {
+        gap: 3px
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <a href="index.html">Go to Universal Timeline Page</a>
+  <div class="hd">
+    <h1>Universal Timeline</h1>
+    <p>Big Bang → AI Era · Parallel events across domains · Click rows to expand</p>
+  </div>
+  <input class="sb" placeholder="Search events..." id="sr">
+  <div class="legend">
+    <div class="lg"><span style="background:var(--sc)"></span>Science</div>
+    <div class="lg"><span style="background:var(--bi)"></span>Biology</div>
+    <div class="lg"><span style="background:var(--en)"></span>Engineering</div>
+    <div class="lg"><span style="background:var(--tc)"></span>Tech/IT</div>
+    <div class="lg"><span style="background:var(--ai)"></span>AI</div>
+    <div class="lg"><span style="background:var(--po)"></span>Politics</div>
+    <div class="lg"><span style="background:var(--cu)"></span>Culture</div>
+    <div class="lg"><span style="background:var(--in)"></span>India</div>
+  </div>
+  <div id="app"></div>
+  <footer>Compiled Apr 2026 · Synthesized from multiple source timelines · Parallel cross-domain events</footer>
+  <script>
+    const D = [
+      {
+        era: "Cosmos & Earth (13.8 Bya–66 Mya)", rows: [
+          ["13.8 Bya", [["sc", "Big Bang — space, time, energy begin"]]],
+          ["4.6–4.5 Bya", [["sc", "Solar System forms"], ["sc", "Moon (Theia impact) → tilt → seasons"]]],
+          ["3.8 Bya", [["bi", "First life — prokaryotes in oceans"]]],
+          ["2.4 Bya", [["bi", "Photosynthesis → Great Oxidation Event (1st mass extinction)"]]],
+          ["541 Mya", [["bi", "Cambrian Explosion — all body plans appear"]]],
+          ["252 Mya", [["bi", "Permian Extinction — 96% species die"]]],
+          ["66 Mya", [["bi", "K-Pg Asteroid — dinosaurs gone; mammals rise"]]],
+        ]
+      },
+      {
+        era: "Human Origins (7 Mya–10,000 BCE)", rows: [
+          ["7 Mya", [["bi", "Hominid-chimp split; bipedalism begins"]]],
+          ["2.6 Mya", [["en", "Oldowan stone tools — first technology"]]],
+          ["300K BCE", [["bi", "Homo sapiens emerges in Africa"]]],
+          ["70K BCE", [["bi", "Out of Africa migration"], ["sc", "Toba supervolcano bottleneck"]]],
+          ["40K BCE", [["cu", "Cave art (Chauvet, Lascaux, Bhimbetka)"], ["bi", "Language fully developed"], ["cu", "Bone flutes — first music"]]],
+          ["15K BCE", [["po", "Americas peopled via Beringia"], ["sc", "Proto-agriculture (Levant)"]]],
+        ]
+      },
+      {
+        era: "Agricultural Revolution (10,000–1200 BCE)", rows: [
+          ["10,000 BCE", [["sc", "Neolithic Revolution — farming (Fertile Crescent, China, India)"], ["cu", "Göbekli Tepe ritual complex"], ["po", "Jericho — first walled settlement"]]],
+          ["5,500 BCE", [["en", "Wheel invented (Mesopotamia)"], ["en", "Copper smelting (Chalcolithic)"]]],
+          ["3,300 BCE", [["cu", "Cuneiform (Sumer) + Hieroglyphs (Egypt) — writing invented"], ["sc", "Positional numerals (Sumer)"]]],
+          ["3,100 BCE", [["po", "Egypt unified (Narmer)"], ["en", "Pyramids planned; surveying"]]],
+          ["2,600 BCE", [["en", "Great Pyramid of Giza; Stonehenge"], ["in", "IVC peak: Dholavira, Lothal port, grid cities, plumbing"], ["sc", "π ≈ 3.16 (Egypt)"]]],
+          ["1,900 BCE", [["in", "IVC collapse (river shift, monsoon)"], ["po", "Babylon rises; Egypt fragments"]]],
+          ["1,500 BCE", [["in", "Vedas composed; Sushruta — proto-surgery"], ["po", "Hittite Empire; Shang Dynasty (China)"]]],
+          ["1,200 BCE", [["en", "Iron smelting → Iron Age"], ["po", "Bronze Age Collapse; Sea Peoples"], ["cu", "Mahabharata & Ramayana oral tradition"]]],
+        ]
+      },
+      {
+        era: "Axial Age (800–200 BCE)", rows: [
+          ["800–600 BCE", [["sc", "Thales — geometry proofs; rational cosmology"], ["cu", "Homer — Iliad & Odyssey"], ["po", "Greek city-states; Rome founded"], ["cu", "First Olympics (776 BCE)"], ["sc", "First coins — Lydia"]]],
+          ["563 BCE", [["in", "Buddha — Four Noble Truths"], ["in", "Mahavira — Jainism, ahimsa"], ["po", "Cyrus founds Persian Empire"]]],
+          ["551 BCE", [["cu", "Confucius & Laozi — ethics & Tao (China)"]]],
+          ["508 BCE", [["po", "Athenian Democracy (Cleisthenes)"]]],
+          ["500 BCE", [["sc", "Pythagoras — theorem; Democritus — atoms"], ["bi", "Hippocrates — rational medicine, Oath"], ["cu", "Greek Tragedy — Aeschylus; Natya Shastra precursors"]]],
+          ["400 BCE", [["sc", "Plato (Republic, Academy) + Aristotle (logic, biology, Lyceum)"], ["en", "Parthenon built; Greek aqueducts"]]],
+          ["322 BCE", [["in", "Maurya Empire — Chanakya's Arthashastra"], ["po", "Alexander invades Punjab"]]],
+          ["300 BCE", [["sc", "Euclid — Elements; Archimedes — levers, pi, buoyancy"], ["en", "Roman roads (Appian Way)"]]],
+          ["261 BCE", [["in", "Ashoka — Buddhist edicts; non-violence"], ["po", "Qin unifies China (221 BCE); Great Wall begun"], ["po", "Rome: Punic Wars"]]],
+          ["200 BCE", [["in", "Wootz steel mastered"], ["po", "Silk Road opens — ideas, trade, disease travel"], ["po", "Han Dynasty begins (China)"]]],
+        ]
+      },
+      {
+        era: "Classical Empires & Religions (200 BCE–600 CE)", rows: [
+          ["27 BCE", [["po", "Roman Empire — Augustus; Pax Romana"], ["en", "Pantheon; Roman concrete; 85,000 km roads"]]],
+          ["~4 BCE", [["cu", "Jesus → Christianity emerges"], ["sc", "Ptolemy — geocentric model, trigonometry"]]],
+          ["105 CE", [["en", "Paper invented (Cai Lun, China)"], ["bi", "Galen — humoral medicine (dominant 1400 yrs)"]]],
+          ["320–499 CE", [["in", "Gupta Empire — India's Golden Age"], ["in", "Aryabhata — zero, decimal, π≈3.1416, sine, Earth rotation"], ["cu", "Kalidasa — Sanskrit drama peak"], ["po", "Western Rome falls (476 CE)"]]],
+          ["570–628 CE", [["cu", "Muhammad born; Islam emerges"], ["in", "Brahmagupta — rules for zero & negative numbers"], ["bi", "Charaka Samhita — Ayurveda systematized"]]],
+        ]
+      },
+      {
+        era: "Medieval World (600–1450 CE)", rows: [
+          ["622–750", [["po", "Islam: Hijra → Caliphate → Arabia to Spain"], ["po", "Tang Dynasty China peak"], ["in", "Arabs conquer Sindh (712); Pratiharas stop advance (730)"]]],
+          ["780–830", [["sc", "Al-Khwarizmi — algebra, algorithms, Hindu-Arabic numerals"], ["po", "Charlemagne crowned; Abbasid Golden Age; House of Wisdom"]]],
+          ["850–960", [["in", "Chola naval empire — SE Asia trade"], ["po", "Song Dynasty — gunpowder, printing, compass, paper money"], ["bi", "Ibn Sina (Avicenna) — Canon of Medicine"], ["cu", "Carnatic music foundation; Bharatanatyam temples"]]],
+          ["1095–1206", [["po", "Crusades (1095–1291)"], ["in", "Tarain (1192) — Delhi Sultanate begins"], ["po", "Mongol Empire — Genghis Khan (1206)"], ["po", "Magna Carta (1215)"], ["sc", "Fibonacci — Hindu-Arabic numerals to Europe (1202)"]]],
+          ["1347", [["bi", "Black Death — 30-60% of Europe dies"], ["po", "Feudalism collapses → capitalism seeds"]]],
+          ["1398–1453", [["in", "Timur sacks Delhi — 100K killed"], ["en", "Gutenberg printing press (1440)"], ["po", "Constantinople falls to Ottomans (1453)"], ["cu", "Dante, Chaucer — literary foundations"]]],
+        ]
+      },
+      {
+        era: "Exploration & Renaissance (1450–1600)", rows: [
+          ["1492–1498", [["po", "Columbus reaches Americas"], ["in", "Vasco da Gama — sea route to India; colonialism begins"], ["sc", "Columbian Exchange — crops, diseases cross oceans"]]],
+          ["1517–1543", [["cu", "Luther — Protestant Reformation"], ["sc", "Copernicus — heliocentric model"], ["bi", "Vesalius — modern anatomy (overturns Galen)"]]],
+          ["1526", [["in", "Babur — Mughal Empire begins (Panipat)"], ["po", "Cortés conquers Aztecs"]]],
+          ["1556–1600", [["in", "Akbar — Mughal synthesis; 25% world GDP"], ["cu", "Shakespeare — Globe Theatre; theater as mass medium"], ["en", "EIC chartered (1600); VOC (1602) — first joint-stock cos"]]],
+        ]
+      },
+      {
+        era: "Scientific Revolution (1600–1800)", rows: [
+          ["1609–1637", [["sc", "Galileo — telescope, Jupiter's moons"], ["sc", "Kepler — elliptical orbits"], ["bi", "Harvey — blood circulation (1628)"], ["sc", "Descartes — cogito ergo sum; analytic geometry"]]],
+          ["1665–1690", [["sc", "Newton — Principia: gravity, 3 laws, calculus, optics"], ["sc", "Leibniz — calculus (independent); binary numbers"], ["bi", "Hooke — discovers cells (microscope)"], ["cu", "Locke — natural rights; Glorious Revolution"]]],
+          ["1712–1769", [["en", "Newcomen steam engine (1712) → Watt improves (1769)"], ["sc", "Euler — notation (e, π, i); Bayes theorem (1750)"], ["bi", "Linnaeus — taxonomy (1735)"], ["cu", "Voltaire, Rousseau — Enlightenment; Mozart"]]],
+          ["1776–1789", [["po", "American Independence (1776)"], ["sc", "Adam Smith — Wealth of Nations"], ["po", "French Revolution (1789)"], ["bi", "Jenner — smallpox vaccine (1796)"], ["cu", "Kant — Critique of Pure Reason"]]],
+        ]
+      },
+      {
+        era: "Industrial Revolution (1800–1914)", rows: [
+          ["1800–1831", [["sc", "Gauss — statistics, normal distribution"], ["en", "Faraday — electromagnetic induction; generator"], ["en", "Steam locomotive (Stephenson 1830)"], ["sc", "Fourier series (1811)"]]],
+          ["1837–1848", [["en", "Telegraph (Morse) — first electrical communication"], ["tc", "Ada Lovelace — first algorithm (1842)"], ["po", "Communist Manifesto (Marx 1848); Revolutions across Europe"], ["sc", "Boole — Boolean algebra"]]],
+          ["1857–1869", [["in", "1857 Revolt — British Crown takes India"], ["sc", "Darwin — Origin of Species (1859)"], ["sc", "Maxwell — EM field equations; light = EM wave"], ["sc", "Mendeleev — Periodic Table (1869)"], ["en", "Suez Canal opens"]]],
+          ["1876–1895", [["en", "Bell — telephone (1876)"], ["en", "Edison — light bulb (1879); DC grid"], ["en", "Tesla — AC motor (1888)"], ["en", "Benz — automobile (1885)"], ["in", "Indian National Congress founded (1885)"], ["sc", "Röntgen — X-rays; Lumière — cinema (1895)"]]],
+          ["1896–1905", [["cu", "First Modern Olympics — Athens (1896)"], ["en", "Marconi — wireless radio; Wright Brothers — flight (1903)"], ["sc", "Planck — quantum (1900); Einstein — E=mc² (1905)"], ["in", "Bengal Partition; Swadeshi Movement"], ["po", "Russo-Japanese War — first Asian defeat of Europe"]]],
+        ]
+      },
+      {
+        era: "World Wars (1914–1945)", rows: [
+          ["1914–1919", [["po", "WWI — 20M dead; empires collapse"], ["in", "1.5M Indian soldiers fight; Jallianwala Bagh (1919)"], ["sc", "Einstein — General Relativity (1915)"], ["bi", "Spanish Flu — 50M dead"]]],
+          ["1920–1930", [["in", "Gandhi — Non-Cooperation; Salt March (1930)"], ["sc", "Quantum Mechanics — Heisenberg, Schrödinger (1925-27)"], ["bi", "Fleming — penicillin (1928)"], ["po", "Great Depression (1929)"], ["sc", "Gödel — incompleteness theorems"], ["cu", "Bollywood begins (Alam Ara 1931)"]]],
+          ["1936–1945", [["tc", "Turing Machine — computation defined (1936)"], ["po", "WWII — 70-85M dead; Holocaust; Hiroshima"], ["sc", "Nuclear fission (1938); Manhattan Project"], ["en", "Radar; Jet engine; V-2 rocket"], ["tc", "Colossus — first electronic computer (1943)"], ["in", "Bengal Famine (3M dead); Bose's INA"], ["tc", "Von Neumann Architecture (1945)"]]],
+        ]
+      },
+      {
+        era: "Cold War & Computing (1947–1991)", rows: [
+          ["1947–1950", [["in", "Independence & Partition — 15M displaced"], ["tc", "Transistor (Bell Labs)"], ["sc", "Shannon — Information Theory; bit defined"], ["in", "Constitution — universal suffrage; Patel integrates 565 states"]]],
+          ["1953–1958", [["bi", "DNA double helix (Watson & Crick)"], ["in", "IITs founded; First Five-Year Plan"], ["tc", "FORTRAN — first high-level language (1957)"], ["en", "Sputnik — Space Age (1957)"], ["tc", "Integrated Circuit (Kilby & Noyce 1958)"]]],
+          ["1969–1972", [["en", "Moon landing — Apollo 11"], ["tc", "ARPANET + Unix born"], ["tc", "Intel 4004 microprocessor; C language"], ["in", "Bangladesh Liberation — 93K POWs in 13 days"]]],
+          ["1975–1984", [["tc", "Microsoft (1975), Apple (1976)"], ["tc", "IBM PC + MS-DOS (1981); Macintosh GUI (1984)"], ["in", "Pokhran-I (1974); Emergency (1975-77)"], ["bi", "First IVF baby (1978); HIV identified (1981)"], ["tc", "GNU project — Stallman (1984)"], ["in", "Indira assassinated; Bhopal disaster (1984)"]]],
+          ["1989–1991", [["po", "Berlin Wall falls; Tiananmen; USSR dissolves"], ["tc", "WWW proposed (Berners-Lee)"], ["tc", "Linux kernel (Torvalds 1991)"], ["in", "1991 Liberalization — India opens economy"]]],
+        ]
+      },
+      {
+        era: "Internet & Digital Revolution (1993–2017)", rows: [
+          ["1993–1996", [["tc", "Mosaic browser — web goes visual"], ["tc", "Amazon founded; Java; Windows 95"], ["in", "Hotmail — Sabeer Bhatia (Bangalore-born)"], ["bi", "Dolly the sheep cloned (1996)"], ["po", "EU formed; WTO established"]]],
+          ["1998–2001", [["tc", "Google founded (PageRank)"], ["in", "Pokhran-II; Kargil War; Y2K → IT outsourcing boom"], ["tc", "Wikipedia; iPod"], ["po", "9/11 → War on Terror"], ["bi", "Human Genome sequenced (draft 2000)"]]],
+          ["2004–2007", [["tc", "Facebook, Gmail, YouTube, Android"], ["tc", "AWS — cloud computing begins (2006)"], ["tc", "iPhone (2007) — kills Nokia/BlackBerry"]]],
+          ["2008–2010", [["tc", "App Store, GitHub, Bitcoin (Satoshi)"], ["po", "Global Financial Crisis"], ["in", "26/11 Mumbai; Aadhaar launched"], ["tc", "WhatsApp; Instagram"]]],
+          ["2012–2014", [["ai", "AlexNet — deep learning proven (2012)"], ["sc", "Higgs Boson confirmed (LHC)"], ["bi", "CRISPR-Cas9 gene editing (2013)"], ["tc", "Docker, React.js (2013); Kubernetes (2014)"], ["in", "Modi era begins (2014)"]]],
+          ["2016–2017", [["in", "UPI + Jio — India's digital revolution; 450M online"], ["po", "Brexit; Trump elected"], ["ai", "AlphaGo beats Lee Sedol (2016)"], ["ai", "Transformer — 'Attention Is All You Need' (2017)"], ["sc", "Gravitational waves confirmed (LIGO 2017)"]]],
+        ]
+      },
+      {
+        era: "AI Era (2018–2026)", rows: [
+          ["2018–2020", [["ai", "GPT-1 (2018), BERT, GPT-2 (2019)"], ["ai", "GPT-3 — 175B params (2020)"], ["bi", "COVID-19 — mRNA vaccine in 11 months"], ["po", "Pandemic reshapes world; remote work revolution"]]],
+          ["Nov 2022", [["ai", "ChatGPT — 100M users in 60 days"], ["ai", "Stable Diffusion + Midjourney — image gen mainstream"]]],
+          ["Feb–Mar 2023", [["ai", "GPT-4 — multimodal; passes bar exam"], ["ai", "LLaMA leaked → open-source AI movement"], ["ai", "llama.cpp — LLMs on laptops; AutoGPT — first agent"]]],
+          ["Jul–Sep 2023", [["ai", "LLaMA 2 — open commercial model"], ["ai", "Mistral 7B — small beats big"], ["in", "Chandrayaan-3 — Moon south pole landing"], ["ai", "RAG becomes standard enterprise AI"]]],
+          ["Nov 2023–Mar 2024", [["ai", "GPT-4 Turbo — 128K context"], ["ai", "Cursor — AI code editor ($2.5B)"], ["ai", "Perplexity — AI search (CEO: Aravind Srinivas, IIT Madras)"], ["ai", "Gemini 1.5 Pro — 1M token context"], ["ai", "Sora — video generation"], ["ai", "Claude 3 — first to beat GPT-4"]]],
+          ["Jun–Sep 2024", [["ai", "Claude 3.5 Sonnet — coding king"], ["ai", "GPT-4o — omni-modal"], ["ai", "LLaMA 3.1 405B — open matches closed"], ["po", "EU AI Act — first comprehensive AI law"], ["ai", "OpenAI o1 — first reasoning model"]]],
+          ["Nov 2024–Feb 2025", [["ai", "Computer Use — AI navigates software like human"], ["ai", "MCP — 'USB standard' for AI tools (Anthropic)"], ["ai", "Bolt.new + vibe coding — describe → deploy"], ["ai", "DeepSeek R1 — $6M matches $100M+; Nvidia -$600B"], ["ai", "~30-40% US code AI-generated"]]],
+          ["Mar 2025–Apr 2026", [["ai", "Gemini 2.5 Pro — Google reclaims #1"], ["ai", "LLaMA 4 — 10M context; 200+ languages"], ["ai", "Cursor Background Agents — AI submits PRs while you sleep"], ["in", "India AI sovereignty — Sarvam, Krutrim, IndiaAI Mission"], ["ai", "Claude 4 (Opus 4, Sonnet 4.6) — multi-agent; AI Agents Era"]]],
+        ]
+      },
+    ];
+    const CN = { sc: "Science", tc: "Tech", po: "Politics", cu: "Culture", in: "India", bi: "Biology", ai: "AI", en: "Engineering" };
+    const app = document.getElementById("app");
+    function render() {
+      app.innerHTML = "";
+      D.forEach(sec => {
+        const et = document.createElement("div"); et.className = "era-t"; et.textContent = sec.era;
+        const wrap = document.createElement("div"); wrap.className = "era";
+        wrap.appendChild(et);
+        sec.rows.forEach(([yr, chips]) => {
+          const r = document.createElement("div"); r.className = "row";
+          const detail = document.createElement("div"); detail.className = "detail";
+          r.innerHTML = `<div class="yr">${yr}</div><div class="cells">${chips.map(([c, t]) => {
+            const short = t.length > 50 ? t.slice(0, t.indexOf("—") > 0 ? t.indexOf("—") : 40).trim() : t;
+            return `<span class="chip ${c}"><span class="dot"></span>${short}</span>`;
+          }).join("")}</div>`;
+          detail.innerHTML = chips.map(([c, t]) => `<b style="color:var(--${c})">[${CN[c]}]</b> ${t}`).join("<br>");
+          r.onclick = () => r.classList.toggle("open");
+          wrap.appendChild(r); wrap.appendChild(detail);
+        });
+        app.appendChild(wrap);
+      });
+    }
+    document.getElementById("sr").addEventListener("input", e => {
+      const q = e.target.value.toLowerCase();
+      document.querySelectorAll(".row").forEach(r => {
+        const d = r.nextElementSibling;
+        const show = !q || r.textContent.toLowerCase().includes(q) || (d && d.textContent.toLowerCase().includes(q));
+        r.classList.toggle("hidden", !show);
+        if (d && d.classList.contains("detail")) d.style.display = show && r.classList.contains("open") ? "block" : "none";
+        if (!show) r.classList.remove("open");
+      });
+    });
+    render();
+  </script>
+</body>
+
+</html>
