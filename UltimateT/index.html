@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Universal Timeline — Big Bang to AI Era</title>
+  <meta name="description"
+    content="An interactive, zoomable chronological timeline spanning from the Big Bang (13.8 Bya) to the modern AI Era (2026). Explore events across science, history, politics, biology, and more.">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./timeline.css">
+</head>
+
+<body>
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header" id="header">
+    <div class="header__inner">
+      <h1 class="header__title">Universal Timeline</h1>
+      <p class="header__sub">Big Bang → AI Era · 13.8 Billion Years · Click to Expand · Filter by Domain</p>
+      <a href="../index.html">Go to Home Page</a>
+    </div>
+  </header>
+
+  <!-- ═══ STICKY CONTROLS ═══ -->
+  <div class="controls" id="controls">
+    <div class="controls__inner">
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="Search events, regions, insights..."
+          autocomplete="off">
+        <span class="search-count" id="searchCount"></span>
+      </div>
+      <div class="filters" id="filters"></div>
+      <div class="controls__meta">
+        <span class="event-counter" id="eventCounter">0 events</span>
+        <button class="btn-collapse" id="btnCollapseAll" title="Collapse all">↕ Collapse All</button>
+        <button class="btn-top" id="btnTop" title="Back to top">↑ Top</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ TIMELINE CONTAINER ═══ -->
+  <main class="timeline" id="timeline"></main>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <p>Compiled April 2026 · Synthesized from multiple source registries · Zero data loss · All events loaded from
+      external data</p>
+    <p class="footer__tech">Built with vanilla HTML/CSS/JS · No framework dependencies</p>
+  </footer>
+
+  <!-- ═══ SCRIPTS ═══ -->
+  <script src="./timelineData.js"></script>
+  <script src="./timeline.js"></script>
+</body>
+
+</html>
