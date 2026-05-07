@@ -1,0 +1,3329 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Universal Chrono Timeline — Big Bang → AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --bg-primary: #07091a;
+      --bg-secondary: #0d1230;
+      --bg-card: #111836;
+      --bg-card-hover: #172044;
+      --accent-gold: #c9961a;
+      --accent-gold-light: #e8b84b;
+      --accent-gold-dim: rgba(201, 150, 26, 0.15);
+      --accent-teal: #3ecfcf;
+      --accent-teal-dim: rgba(62, 207, 207, 0.12);
+      --text-primary: #f0ead8;
+      --text-secondary: #a8a090;
+      --text-muted: #5a5548;
+      --spine-color: rgba(201, 150, 26, 0.4);
+      --border-color: rgba(201, 150, 26, 0.2);
+      --border-bright: rgba(201, 150, 26, 0.5);
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      --radius: 6px;
+      --gradient-hero: linear-gradient(135deg, #07091a 0%, #0d1845 50%, #07091a 100%);
+      --life10-color: #6b8fff;
+      --life20-color: #7fff8a;
+      --life30-color: #e8b84b;
+      --life40-color: #ff6b8a;
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #faf7f0;
+      --bg-secondary: #f0ebe0;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f5f0e5;
+      --accent-gold: #8a6000;
+      --accent-gold-light: #a07800;
+      --accent-gold-dim: rgba(138, 96, 0, 0.10);
+      --accent-teal: #006b7a;
+      --accent-teal-dim: rgba(0, 107, 122, 0.10);
+      --text-primary: #1a1408;
+      --text-secondary: #4a4030;
+      --text-muted: #8a7a60;
+      --spine-color: rgba(138, 96, 0, 0.35);
+      --border-color: rgba(138, 96, 0, 0.2);
+      --border-bright: rgba(138, 96, 0, 0.45);
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      --gradient-hero: linear-gradient(135deg, #f0ebe0 0%, #e8dfc8 50%, #f0ebe0 100%);
+    }
+
+    /* ===== RESET & BASE ===== */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'Cinzel', serif;
+      letter-spacing: 0.04em;
+    }
+
+    h4,
+    h5,
+    blockquote {
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    a {
+      color: var(--accent-teal);
+      text-decoration: underline dotted 1px;
+    }
+
+    a:hover {
+      color: var(--accent-gold-light);
+    }
+
+    /* ===== THEME TOGGLE ===== */
+    .theme-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 1000;
+      background: var(--bg-card);
+      border: 1px solid var(--border-bright);
+      color: var(--text-primary);
+      padding: 0.45rem 0.9rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+
+    .theme-toggle:hover {
+      background: var(--accent-gold-dim);
+      border-color: var(--accent-gold);
+    }
+
+    /* ===== PROGRESS BAR ===== */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      z-index: 999;
+      background: linear-gradient(90deg, var(--accent-gold), var(--accent-teal));
+      transition: width 0.1s;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--gradient-hero);
+      position: relative;
+      overflow: hidden;
+      padding: 2rem;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(201, 150, 26, 0.06) 0%, transparent 70%);
+    }
+
+    .star-field {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--text-primary);
+      animation: twinkle var(--d, 3s) ease-in-out infinite;
+      opacity: 0;
+    }
+
+    @keyframes twinkle {
+
+      0%,
+      100% {
+        opacity: 0
+      }
+
+      50% {
+        opacity: var(--o, 0.8)
+      }
+    }
+
+    .hero-content {
+      text-align: center;
+      z-index: 1;
+      max-width: 860px;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.2rem, 6vw, 5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      color: var(--text-primary);
+      text-shadow: 0 0 60px rgba(201, 150, 26, 0.3);
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-title span {
+      color: var(--accent-gold-light);
+    }
+
+    .hero-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 2rem;
+      font-weight: 300;
+    }
+
+    .hero-summary {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      max-width: 680px;
+      margin: 0 auto 3rem;
+      line-height: 1.8;
+      border-left: 2px solid var(--accent-gold);
+      padding-left: 1.2rem;
+      text-align: left;
+    }
+
+    .nav-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      justify-content: center;
+      margin-top: 0.5rem;
+    }
+
+    .nav-btn {
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      padding: 0.55rem 1.1rem;
+      border-radius: 2rem;
+      border: 1px solid var(--border-bright);
+      color: var(--text-primary);
+      background: var(--bg-card);
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .nav-btn:hover {
+      background: var(--accent-gold);
+      color: #000;
+      border-color: var(--accent-gold);
+    }
+
+    .nav-btn.zero {
+      border-color: #9b59b6;
+      color: #9b59b6;
+    }
+
+    .nav-btn.life10 {
+      border-color: var(--life10-color);
+      color: var(--life10-color);
+    }
+
+    .nav-btn.life20 {
+      border-color: var(--life20-color);
+      color: var(--life20-color);
+    }
+
+    .nav-btn.life30 {
+      border-color: var(--life30-color);
+      color: var(--life30-color);
+    }
+
+    .nav-btn.life40 {
+      border-color: var(--life40-color);
+      color: var(--life40-color);
+    }
+
+    .nav-btn:hover {
+      color: #000 !important;
+    }
+
+    /* ===== SECTION WRAPPER ===== */
+    .section {
+      padding: 6rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+      position: relative;
+    }
+
+    .section-tag {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.6rem;
+    }
+
+    .section-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    .section-divider {
+      width: 80px;
+      height: 2px;
+      margin: 1.5rem auto 0;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+    }
+
+    .full-section {
+      padding: 6rem 0;
+      position: relative;
+    }
+
+    .full-section::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--spine-color);
+      transform: translateX(-50%);
+    }
+
+    /* ===== ERA SEPARATOR ===== */
+    .era-separator {
+      text-align: center;
+      padding: 4rem 2rem;
+      position: relative;
+    }
+
+    .era-separator h2 {
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      color: var(--text-primary);
+      padding: 1rem 2rem;
+      display: inline-block;
+      border: 1px solid var(--border-bright);
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      position: relative;
+      z-index: 1;
+    }
+
+    .era-separator h2 .era-label {
+      color: var(--accent-gold);
+    }
+
+    /* ===== CARDS ===== */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .card:hover {
+      border-color: var(--border-bright);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .card-grid {
+      display: grid;
+      gap: 1.2rem;
+    }
+
+    .card-grid.cols2 {
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    }
+
+    .card-grid.cols3 {
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .card-grid.cols4 {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      color: var(--accent-gold);
+      margin-bottom: 0.6rem;
+    }
+
+    .card-body {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ===== ZERO LIFE — HYPOTHESIS CARDS ===== */
+    .hyp-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 1.6rem;
+      border: 1px solid var(--border-color);
+      transition: all 0.3s;
+      border-left: 3px solid var(--accent-gold);
+    }
+
+    .hyp-card:hover {
+      border-left-color: var(--accent-teal);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .hyp-rank {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--accent-gold);
+      margin-bottom: 0.4rem;
+    }
+
+    .hyp-name {
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      color: var(--text-primary);
+      margin-bottom: 0.3rem;
+    }
+
+    .hyp-aka {
+      font-size: 0.78rem;
+      color: var(--accent-teal);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.8rem;
+    }
+
+    .hyp-hindi {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--text-secondary);
+      margin-bottom: 0.6rem;
+      line-height: 1.6;
+    }
+
+    .hyp-english {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.8rem;
+      line-height: 1.6;
+    }
+
+    .hyp-note {
+      font-size: 0.78rem;
+      color: var(--accent-teal);
+      border-top: 1px solid var(--border-color);
+      padding-top: 0.7rem;
+      margin-top: 0.7rem;
+    }
+
+    .zero-section {
+      background: radial-gradient(ellipse at center, rgba(155, 89, 182, 0.06) 0%, transparent 70%);
+    }
+
+    /* ===== LOGARITHMIC TIMELINE ===== */
+    .log-timeline {
+      position: relative;
+      padding: 2rem 0;
+    }
+
+    .log-track {
+      height: 6px;
+      background: var(--bg-secondary);
+      border-radius: 3px;
+      position: relative;
+      margin: 3rem 2rem;
+      overflow: visible;
+    }
+
+    .log-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--life10-color), var(--accent-gold), var(--life40-color));
+    }
+
+    .log-marker {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+    }
+
+    .log-marker .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--bg-primary);
+      transition: transform 0.2s;
+    }
+
+    .log-marker:hover .dot {
+      transform: scale(1.5);
+    }
+
+    .log-marker .label {
+      position: absolute;
+      white-space: nowrap;
+      font-size: 0.7rem;
+      font-family: 'Cinzel', serif;
+      letter-spacing: 0.05em;
+    }
+
+    .log-marker.above .label {
+      bottom: 130%;
+      transform: translateX(-50%);
+      color: var(--text-secondary);
+    }
+
+    .log-marker.below .label {
+      top: 130%;
+      transform: translateX(-50%);
+      color: var(--text-secondary);
+    }
+
+    .log-tooltip {
+      position: fixed;
+      background: var(--bg-card);
+      border: 1px solid var(--border-bright);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      max-width: 280px;
+      font-size: 0.82rem;
+      color: var(--text-primary);
+      z-index: 999;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      box-shadow: var(--shadow);
+    }
+
+    .log-tooltip.visible {
+      opacity: 1;
+    }
+
+    .timeline-era-block {
+      background: var(--bg-card);
+      border-left: 3px solid var(--life10-color);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 0.8rem;
+      transition: all 0.3s;
+    }
+
+    .timeline-era-block:hover {
+      background: var(--bg-card-hover);
+      transform: translateX(3px);
+    }
+
+    .era-block-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      color: var(--accent-gold);
+      margin-bottom: 0.4rem;
+    }
+
+    .era-block-date {
+      font-size: 0.75rem;
+      color: var(--accent-teal);
+      margin-bottom: 0.6rem;
+    }
+
+    .era-block-body {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ===== SUPERCONTINENT SVG ===== */
+    .sc-container {
+      text-align: center;
+      margin: 3rem 0;
+    }
+
+    .sc-svg {
+      max-width: 100%;
+      overflow: visible;
+    }
+
+    /* ===== HOMO SPECIES CARDS ===== */
+    .homo-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .homo-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+      border-color: var(--border-bright);
+    }
+
+    .homo-header {
+      padding: 1.2rem 1.4rem;
+      background: var(--accent-gold-dim);
+    }
+
+    .homo-name {
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      color: var(--accent-gold-light);
+      margin-bottom: 0.2rem;
+    }
+
+    .homo-dates {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .homo-body {
+      padding: 1.2rem 1.4rem;
+    }
+
+    .homo-trait {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      font-size: 0.82rem;
+    }
+
+    .homo-trait span:first-child {
+      color: var(--accent-gold);
+      flex-shrink: 0;
+    }
+
+    .homo-gift {
+      margin-top: 0.8rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid var(--border-color);
+      font-size: 0.8rem;
+      color: var(--accent-teal);
+    }
+
+    /* ===== MIGRATION MAP SVG ===== */
+    .map-container {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      margin: 2rem auto;
+    }
+
+    .map-container svg {
+      width: 100%;
+      height: auto;
+    }
+
+    .migration-arrow {
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-dasharray: 6 3;
+      animation: dash-flow 3s linear infinite;
+    }
+
+    @keyframes dash-flow {
+      to {
+        stroke-dashoffset: -30;
+      }
+    }
+
+    .map-tooltip {
+      position: absolute;
+      background: var(--bg-card);
+      border: 1px solid var(--accent-gold);
+      border-radius: var(--radius);
+      padding: 0.7rem 1rem;
+      font-size: 0.78rem;
+      color: var(--text-primary);
+      pointer-events: none;
+      display: none;
+      z-index: 10;
+      max-width: 200px;
+      box-shadow: var(--shadow);
+    }
+
+    /* ===== PPN TIMELINE STRIP ===== */
+    .ppn-strip {
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      border-radius: var(--radius);
+      margin: 2rem 0;
+    }
+
+    .ppn-block {
+      flex: 1;
+      min-width: 180px;
+      padding: 1.2rem 1rem;
+      border-right: 1px solid var(--border-color);
+    }
+
+    .ppn-block:last-child {
+      border-right: none;
+    }
+
+    .ppn-block:nth-child(1) {
+      background: rgba(107, 143, 255, 0.08);
+      border-top: 2px solid #6b8fff;
+    }
+
+    .ppn-block:nth-child(2) {
+      background: rgba(78, 205, 196, 0.08);
+      border-top: 2px solid #4ecdc4;
+    }
+
+    .ppn-block:nth-child(3) {
+      background: rgba(255, 160, 100, 0.08);
+      border-top: 2px solid #ffa064;
+    }
+
+    .ppn-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      color: var(--accent-gold);
+      margin-bottom: 0.3rem;
+    }
+
+    .ppn-date {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-bottom: 0.7rem;
+    }
+
+    .ppn-items {
+      list-style: none;
+    }
+
+    .ppn-items li {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      padding: 0.2rem 0;
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .ppn-items li::before {
+      content: '▸';
+      color: var(--accent-gold);
+      flex-shrink: 0;
+    }
+
+    /* ===== METAL EVOLUTION STRIP ===== */
+    .metal-river {
+      position: relative;
+      overflow-x: auto;
+      padding: 2rem 0 3rem;
+      margin: 2rem -1rem;
+    }
+
+    .metal-track {
+      display: flex;
+      align-items: center;
+      min-width: max-content;
+      padding: 0 2rem;
+      position: relative;
+    }
+
+    .metal-track::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 2rem;
+      right: 2rem;
+      height: 2px;
+      background: linear-gradient(90deg, #b8860b, #cd7f32, #c0c0c0, #a8a9ad, #1a1a1a, #ffd700, #b2bec3, #ff6b6b);
+      transform: translateY(-50%);
+    }
+
+    .metal-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 1.2rem;
+      position: relative;
+      z-index: 1;
+      cursor: pointer;
+    }
+
+    .metal-dot {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      transition: transform 0.2s;
+      flex-shrink: 0;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .metal-node:hover .metal-dot {
+      transform: scale(1.3);
+    }
+
+    .metal-name {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      color: var(--text-primary);
+      white-space: nowrap;
+    }
+
+    .metal-date {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .metal-popup {
+      position: fixed;
+      background: var(--bg-card);
+      border: 1px solid var(--border-bright);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      z-index: 999;
+      width: 200px;
+      font-size: 0.8rem;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      box-shadow: var(--shadow);
+    }
+
+    /* ===== DUAL PANEL (Life 3.0 / 4.0) ===== */
+    .dual-panel {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    @media (max-width: 900px) {
+      .dual-panel {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 1rem 1.4rem;
+      background: var(--accent-gold-dim);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .panel-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      color: var(--accent-gold);
+    }
+
+    .panel-body {
+      padding: 1.2rem;
+      overflow-x: auto;
+    }
+
+    /* ===== REGIONAL MAP PANEL ===== */
+    .region-map {
+      position: relative;
+      width: 100%;
+    }
+
+    .region-map svg {
+      width: 100%;
+      height: auto;
+    }
+
+    .region-block {
+      transition: opacity 0.2s;
+      cursor: pointer;
+    }
+
+    .region-block:hover {
+      opacity: 0.8;
+    }
+
+    .region-tooltip {
+      position: fixed;
+      background: var(--bg-card);
+      border: 1px solid var(--border-bright);
+      border-radius: var(--radius);
+      padding: 0.8rem 1rem;
+      font-size: 0.78rem;
+      color: var(--text-primary);
+      pointer-events: none;
+      z-index: 999;
+      max-width: 240px;
+      display: none;
+      box-shadow: var(--shadow);
+    }
+
+    .region-tooltip h4 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      color: var(--accent-gold);
+      margin-bottom: 0.4rem;
+    }
+
+    /* ===== THEMATIC GRID ===== */
+    .thematic-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.8rem;
+    }
+
+    .theme-item {
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      padding: 0.8rem 1rem;
+      border-left: 2px solid var(--border-bright);
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .theme-item .t-icon {
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+      display: block;
+    }
+
+    .theme-item .t-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      color: var(--accent-gold);
+      font-family: 'Cinzel', serif;
+      margin-bottom: 0.3rem;
+    }
+
+    .theme-col-sci .theme-item {
+      border-left-color: #6b8fff;
+    }
+
+    .theme-col-com .theme-item {
+      border-left-color: #ffd700;
+    }
+
+    .theme-col-art .theme-item {
+      border-left-color: #ff9ff3;
+    }
+
+    .theme-col-soc .theme-item {
+      border-left-color: #54e346;
+    }
+
+    /* ===== WHY IT MATTERS ===== */
+    .why-matters {
+      background: var(--accent-gold-dim);
+      border: 1px solid var(--border-bright);
+      border-left: 4px solid var(--accent-gold);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .why-matters .wm-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--accent-gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .why-matters p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      font-style: italic;
+      line-height: 1.7;
+    }
+
+    /* ===== SUB-ERA HEADER ===== */
+    .sub-era {
+      margin: 4rem 0 1.5rem;
+    }
+
+    .sub-era-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      margin-bottom: 0.3rem;
+    }
+
+    .sub-era-date {
+      font-size: 0.8rem;
+      color: var(--accent-teal);
+      letter-spacing: 0.08em;
+    }
+
+    /* ===== ACCORDION ===== */
+    .accordion {
+      margin: 1rem 0;
+    }
+
+    .acc-item {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      margin-bottom: 0.6rem;
+      overflow: hidden;
+    }
+
+    .acc-header {
+      padding: 1.1rem 1.4rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-card);
+      transition: background 0.2s;
+    }
+
+    .acc-header:hover {
+      background: var(--bg-card-hover);
+    }
+
+    .acc-header h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.88rem;
+      letter-spacing: 0.06em;
+      color: var(--text-primary);
+    }
+
+    .acc-arrow {
+      color: var(--accent-gold);
+      transition: transform 0.3s;
+      font-size: 0.9rem;
+    }
+
+    .acc-item.open .acc-arrow {
+      transform: rotate(180deg);
+    }
+
+    .acc-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+      background: var(--bg-secondary);
+    }
+
+    .acc-body.open {
+      max-height: 2000px;
+    }
+
+    .acc-inner {
+      padding: 1.4rem;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .acc-inner p {
+      margin-bottom: 0.8rem;
+    }
+
+    /* ===== IT REVOLUTION TABLE ===== */
+    .it-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+
+    .it-table th {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      padding: 0.8rem 1rem;
+      text-align: left;
+      border-bottom: 2px solid var(--border-bright);
+      color: var(--accent-gold);
+      background: var(--bg-secondary);
+    }
+
+    .it-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      vertical-align: top;
+      line-height: 1.6;
+    }
+
+    .it-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .it-era-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8rem;
+      color: var(--text-primary);
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    .it-table tr:nth-child(1) {
+      --era-c: rgba(107, 143, 255, 0.1);
+    }
+
+    .it-table tr:nth-child(2) {
+      --era-c: rgba(107, 143, 255, 0.18);
+    }
+
+    .it-table tr:nth-child(3) {
+      --era-c: rgba(201, 150, 26, 0.08);
+    }
+
+    .it-table tr:nth-child(4) {
+      --era-c: rgba(201, 150, 26, 0.14);
+    }
+
+    .it-table tr:nth-child(5) {
+      --era-c: rgba(255, 107, 138, 0.12);
+    }
+
+    .it-table tr:nth-child(6) {
+      --era-c: rgba(255, 107, 138, 0.22);
+    }
+
+    .it-table tr td:first-child {
+      background: var(--era-c);
+    }
+
+    /* ===== INSIGHTS ===== */
+    .insight-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .insight-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.04;
+      background: radial-gradient(circle at top right, var(--accent-gold), transparent 60%);
+      transition: opacity 0.3s;
+    }
+
+    .insight-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+      border-color: var(--border-bright);
+    }
+
+    .insight-card:hover::before {
+      opacity: 0.1;
+    }
+
+    .insight-num {
+      font-family: 'Cinzel', serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--accent-gold-dim);
+      position: absolute;
+      top: 0.5rem;
+      right: 1rem;
+      line-height: 1;
+    }
+
+    .insight-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      color: var(--accent-gold-light);
+      margin-bottom: 0.7rem;
+      line-height: 1.4;
+    }
+
+    .insight-body {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ===== FUTURE WARNING ===== */
+    .future-warning {
+      background: rgba(255, 107, 107, 0.08);
+      border: 1px solid rgba(255, 107, 107, 0.3);
+      border-left: 4px solid #ff6b6b;
+      border-radius: var(--radius);
+      padding: 1.4rem 1.6rem;
+      margin: 2rem 0;
+    }
+
+    .fw-label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      color: #ff6b6b;
+      margin-bottom: 0.6rem;
+    }
+
+    .fw-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      color: var(--text-primary);
+      margin-bottom: 0.6rem;
+    }
+
+    .fw-body {
+      font-size: 0.87rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ===== LIFE COLOR BORDERS ===== */
+    .life10 .timeline-era-block {
+      border-left-color: var(--life10-color);
+    }
+
+    .life20 .timeline-era-block {
+      border-left-color: var(--life20-color);
+    }
+
+    .life30 .sub-era-title {
+      color: var(--life30-color);
+    }
+
+    /* ===== UTILITY ===== */
+    .text-gold {
+      color: var(--accent-gold-light);
+    }
+
+    .text-teal {
+      color: var(--accent-teal);
+    }
+
+    .text-muted {
+      color: var(--text-muted);
+    }
+
+    .mt2 {
+      margin-top: 2rem;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 2rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+    }
+
+    .tag-debate {
+      background: rgba(255, 165, 0, 0.15);
+      color: #ffa500;
+      border: 1px solid rgba(255, 165, 0, 0.3);
+    }
+
+    .highlight-box {
+      background: var(--accent-teal-dim);
+      border: 1px solid rgba(62, 207, 207, 0.25);
+      border-radius: var(--radius);
+      padding: 1rem 1.3rem;
+      font-size: 0.87rem;
+      color: var(--text-secondary);
+      margin: 1rem 0;
+      line-height: 1.7;
+    }
+
+    .highlight-box strong {
+      color: var(--accent-teal);
+    }
+
+    /* ===== SCROLL INDICATOR ===== */
+    .scroll-down {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateX(-50%) translateY(0)
+      }
+
+      50% {
+        transform: translateX(-50%) translateY(-8px)
+      }
+    }
+
+    .scroll-down span {
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.3em;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .scroll-arrow {
+      color: var(--accent-gold);
+      font-size: 1.2rem;
+    }
+
+    /* ===== COLLAPSIBLE TABLE ROWS ===== */
+    .tbl-region {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .region-badge {
+      padding: 0.3rem 0.7rem;
+      border-radius: 2rem;
+      font-size: 0.73rem;
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .region-badge:hover {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    footer p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    footer .flink {
+      color: var(--accent-teal);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      .thematic-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card-grid.cols4 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .dual-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-title {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="progress-bar" id="progressBar"></div>
+  <button class="theme-toggle" onclick="toggleTheme()">☀ LIGHT</button>
+
+  <!-- ===== STAR FIELD ===== -->
+  <div class="star-field" id="starField"></div>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <div class="hero-content">
+      <div class="hero-eyebrow">A Personal Interpretation of Universal History</div>
+      <h1 class="hero-title">Universal Chrono<br><span>Timeline</span></h1>
+      <div class="hero-subtitle">Big Bang → AI &nbsp;·&nbsp; One Story, Every Scale</div>
+      <a href="./index.html">Go to Home (UT - V1.0)</a>
+      <p class="hero-summary">
+        The complete arc from 3,500 BCE to 2000 CE can be read as a single story: humanity begins solving the same local
+        problems — food, order, meaning — independently across four continents. Slowly, the solutions begin to touch
+        each other: first through trade, then religion, then empire, then colonialism, then global institutions. Each
+        contact is both violent and generative. By 2000 CE, the first genuinely planetary civilisation is visible for
+        the first time — not uniform, not peaceful, but for the first time sharing a single interconnected economy, a
+        single scientific method, a single communication layer, and a single set of international laws. Whether this
+        planetary civilisation is stable enough to navigate the next century's challenges is the question ancient
+        history cannot answer — only we can.
+      </p>
+      <div class="nav-grid">
+        <a href="#zero-life" class="nav-btn zero">⦿ Zero Life</a>
+        <a href="#life10" class="nav-btn life10">◉ Life 1.0 · Deep Time</a>
+        <a href="#life20" class="nav-btn life20">◉ Life 2.0 · Pre-History</a>
+        <a href="#life30" class="nav-btn life30">◉ Life 3.0 · History</a>
+        <a href="#life40" class="nav-btn life40">◉ Life 4.0 · Contemporary</a>
+        <a href="#insights" class="nav-btn">◈ Insights</a>
+        <a href="https://github.com/sonimonish00/Universal-timeline" target="_blank" class="nav-btn"
+          style="border-color:#555">⎘ GitHub</a>
+      </div>
+    </div>
+    <div class="scroll-down"><span>SCROLL</span>
+      <div class="scroll-arrow">▾</div>
+    </div>
+  </section>
+
+  <!-- ===== ZERO LIFE ===== -->
+  <section id="zero-life" class="zero-section"
+    style="padding:6rem 0; background:radial-gradient(ellipse at center,rgba(155,89,182,0.06) 0%,transparent 70%)">
+    <div class="section" style="max-width:1100px">
+      <div class="section-header">
+        <span class="section-tag">Before Time Itself</span>
+        <h2 class="section-title" style="color:#c39bd3">ZERO LIFE</h2>
+        <p class="section-sub">The State Before the Big Bang — Five Competing Hypotheses</p>
+        <div class="section-divider" style="background:linear-gradient(90deg,transparent,#9b59b6,transparent)"></div>
+      </div>
+      <p style="text-align:center;font-size:0.88rem;color:var(--text-muted);margin-bottom:2.5rem;font-style:italic">
+        Ordered from most-accepted to most speculative by the scientific community</p>
+      <div class="card-grid cols2" style="max-width:900px;margin:0 auto">
+
+        <div class="hyp-card" style="border-left-color:#9b59b6">
+          <div class="hyp-rank">① MOST ACCEPTED</div>
+          <div class="hyp-name">Eternal / Cosmic Inflation</div>
+          <div class="hyp-aka">aka Multiverse Theory</div>
+          <div class="hyp-hindi">ब्रह्मांड में लगातार नए बुलबुले बन रहे हैं और हमारा ब्रह्मांड उनमें से एक है।</div>
+          <div class="hyp-english">"New bubbles are constantly forming in the cosmos, and our universe is one of them."
+          </div>
+          <div class="hyp-note">🔬 Supported by inflationary cosmology (Guth, Linde). Predicts a landscape of ~10⁵⁰⁰
+            universes with different physical constants.</div>
+        </div>
+
+        <div class="hyp-card" style="border-left-color:#7f8fe4">
+          <div class="hyp-rank">② WIDELY DISCUSSED</div>
+          <div class="hyp-name">No Boundary Proposal</div>
+          <div class="hyp-aka">aka Hartle-Hawking State</div>
+          <div class="hyp-hindi">ब्रह्मांड की शुरुआत में समय जैसा कुछ नहीं था, वह अंतरिक्ष (space) का ही हिस्सा था।
+          </div>
+          <div class="hyp-english">"At the origin of the universe, there was no time — it was simply part of space
+            itself."</div>
+          <div class="hyp-note">🔬 Hawking & Hartle (1983). Time becomes imaginary at the Big Bang, making "before" a
+            meaningless question — like asking what is south of the South Pole.</div>
+        </div>
+
+        <div class="hyp-card" style="border-left-color:#3498db">
+          <div class="hyp-rank">③ SPECULATIVE</div>
+          <div class="hyp-name">Quantum Fluctuation</div>
+          <div class="hyp-aka">aka Universe from Nothing</div>
+          <div class="hyp-hindi">शून्य ऊर्जा की स्थिति में अचानक हुए बदलाव से ब्रह्मांड पैदा हुआ।</div>
+          <div class="hyp-english">"The universe arose from a sudden change in a state of zero energy — nothing spawned
+            everything."</div>
+          <div class="hyp-note">🔬 Lawrence Krauss popularised this. Critics (David Albert) argue "quantum vacuum" is
+            not truly "nothing" — it has rich physics.</div>
+        </div>
+
+        <div class="hyp-card" style="border-left-color:#1abc9c">
+          <div class="hyp-rank">④ EXOTIC / SPECULATIVE</div>
+          <div class="hyp-name">Brane Cosmology</div>
+          <div class="hyp-aka">aka Ekpyrotic Model</div>
+          <div class="hyp-hindi">दो बड़े आयामों (higher dimensions) के आपस में टकराने से बिग बैंग हुआ।</div>
+          <div class="hyp-english">"The Big Bang was caused by the collision of two vast higher-dimensional membranes
+            (branes)."</div>
+          <div class="hyp-note">🔬 Steinhardt & Turok. Requires extra dimensions from String Theory. Difficult to test
+            observationally.</div>
+        </div>
+
+        <div class="hyp-card" style="border-left-color:#e74c3c" style="grid-column:1/-1">
+          <div class="hyp-rank">⑤ MOST DOUBTFUL</div>
+          <div class="hyp-name">Big Bounce / Cyclic Cosmology</div>
+          <div class="hyp-aka">aka Conformal Cyclic Cosmology (Penrose)</div>
+          <div class="hyp-hindi">पुराना ब्रह्मांड सिकुड़कर एक बिंदु बना और फिर धमाके के साथ दोबारा फैलने लगा।</div>
+          <div class="hyp-english">"The old universe contracted to a point and then exploded outward again — an eternal
+            cosmic heartbeat."</div>
+          <div class="hyp-note">🔬 Roger Penrose's CCC: each "aeon" ends in a Big Crunch that IS the next Big Bang.
+            Intriguing but lacks strong observational evidence; CMB anomalies claimed as evidence remain disputed.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LIFE 1.0 ===== -->
+  <section id="life10"
+    style="padding:6rem 0;background:radial-gradient(ellipse at top left,rgba(107,143,255,0.06) 0%,transparent 60%)">
+    <div class="section" style="max-width:1100px">
+      <div class="section-header">
+        <span class="section-tag">13.8 Billion Years Ago → 300,000 Years Ago</span>
+        <h2 class="section-title" style="color:var(--life10-color)">LIFE 1.0</h2>
+        <p class="section-sub">Natural History &amp; Deep Time — Universe, Earth, and Life's First Blueprint</p>
+        <div class="section-divider"
+          style="background:linear-gradient(90deg,transparent,var(--life10-color),transparent)"></div>
+      </div>
+
+      <!-- LOGARITHMIC SCALE INDICATOR -->
+      <div
+        style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:1rem 1.4rem;margin-bottom:2rem;font-size:0.82rem;color:var(--text-secondary)">
+        <strong style="color:var(--accent-gold)">Scale Note:</strong> The following timeline spans 13.8 billion years.
+        Click any era marker for details. Numbers shown in both Western and Indian formats.
+      </div>
+
+      <!-- LOGARITHMIC TIMELINE BAR -->
+      <div class="log-timeline" style="margin-bottom:3rem">
+        <div class="log-track">
+          <div class="log-fill" style="width:100%"></div>
+          <!-- Markers: position is log-scale approximation -->
+          <div class="log-marker above" style="left:2%"
+            data-info="Big Bang|13.8 Bya (1,380 Crore Ya)|Formation of space, time, matter, and energy from a singularity. First particles emerge within seconds.">
+            <div class="dot" style="background:#fff;width:10px;height:10px"></div>
+            <div class="label">Big Bang<br>13.8 Bya</div>
+          </div>
+          <div class="log-marker below" style="left:22%"
+            data-info="Stars &amp; Galaxies|13–10 Bya (1,000–1,300 Crore Ya)|First stars (Population III) ignite. Heavy elements forged in stellar cores. Milky Way forms ~10 Bya.">
+            <div class="dot" style="background:#ffe4b5"></div>
+            <div class="label">Stars Form<br>~10 Bya</div>
+          </div>
+          <div class="log-marker above" style="left:38%"
+            data-info="Solar System &amp; Earth|4.5 Bya (450 Crore Ya)|Sun ignites from a collapsing nebula. Theia impactor creates the Moon, giving Earth its axial tilt and stable climate.">
+            <div class="dot" style="background:#4169e1"></div>
+            <div class="label">Earth Formed<br>4.5 Bya</div>
+          </div>
+          <div class="log-marker below" style="left:48%"
+            data-info="First Life (Prokaryotes)|3.5 Bya (350 Crore Ya)|Anaerobic single-celled life in primordial soup. Only 2 ATP energy. Carbon-based chemistry. Archean Eon. Supercontinent Vaalbara/Ur forms.">
+            <div class="dot" style="background:#2ecc71"></div>
+            <div class="label">1st Life<br>3.5 Bya</div>
+          </div>
+          <div class="log-marker above" style="left:58%"
+            data-info="Great Oxidation Event (GOE)|2.4 Bya (240 Crore Ya)|Cyanobacteria flood atmosphere with oxygen — a catastrophe for anaerobic life (1st Mass Extinction) but enabling aerobic eukaryotes producing 38 ATP. Kenorland supercontinent.">
+            <div class="dot" style="background:#27ae60"></div>
+            <div class="label">GOE<br>2.4 Bya</div>
+          </div>
+          <div class="log-marker below" style="left:65%"
+            data-info="Boring Billion &amp; Snowball Earth|1.8 Bya–635 Mya|Columbia/Nuna SC → stasis → Rodinia SC → Snowball Earth glaciation. Sex evolves. Ediacaran soft-body creatures emerge after thaw.">
+            <div class="dot" style="background:#74b9ff"></div>
+            <div class="label">Snowball 🌏<br>~720 Mya</div>
+          </div>
+          <div class="log-marker above" style="left:72%"
+            data-info="Cambrian Explosion|541 Mya (54.1 Crore Ya)|Sudden proliferation of complex animal body plans. Hard shells, eyes, predator-prey arms race. Pannotia → Pangea supercontinents bracket this era.">
+            <div class="dot" style="background:#fd79a8"></div>
+            <div class="label">Cambrian 💥<br>541 Mya</div>
+          </div>
+          <div class="log-marker below" style="left:80%"
+            data-info="Age of Dinosaurs (Mesozoic)|252–66 Mya|Pangea splits into Laurasia (north) and Gondwana (south). 70% plankton death → future oil reserves. Triassic-Jurassic ME (201 Mya) clears way for mammals. K-Pg asteroid (66 Mya) ends dinosaurs.">
+            <div class="dot" style="background:#ff7675"></div>
+            <div class="label">Dinosaurs 🦖<br>252–66 Mya</div>
+          </div>
+          <div class="log-marker above" style="left:90%"
+            data-info="Cenozoic — Age of Mammals|66 Mya–Present|Recovery, grasslands, primate evolution. Chimp-hominin split ~6–7 Mya. Lucy (Australopithecus) ~4 Mya. Homo habilis ~2.2 Mya.">
+            <div class="dot" style="background:#fdcb6e"></div>
+            <div class="label">Mammals 🐘<br>66 Mya</div>
+          </div>
+          <div class="log-marker below" style="left:98%"
+            data-info="Homo Sapiens Emerge|300,000 Ya (3 Lakh Ya)|Modern humans evolve in Africa. Brain 3× larger than chimps. Bipedalism, language, abstract thought.">
+            <div class="dot" style="background:#e17055;width:16px;height:16px;border:2px solid var(--accent-gold)">
+            </div>
+            <div class="label">Sapiens 🧔<br>3 Lakh Ya</div>
+          </div>
+        </div>
+      </div>
+      <div class="log-tooltip" id="logTooltip"></div>
+
+      <!-- ERA BLOCKS -->
+      <div class="life10">
+        <div class="timeline-era-block">
+          <div class="era-block-title">A · Universe — 13.8 Bya → 4.5 Bya</div>
+          <div class="era-block-date">13,800,000,000 years ago (1,380 Crore Ya) → 4,500,000,000 years ago (450 Crore Ya)
+          </div>
+          <div class="era-block-body">Big Bang → Stars → Solar System. The first atoms (hydrogen, helium) form within
+            380,000 years. Gravity pulls them into the first stars (Population III), which forge heavier elements in
+            their cores and scatter them via supernova. The Milky Way coalesces ~10 Bya. Our Sun ignites ~4.6 Bya from a
+            collapsing nebula enriched by prior stellar deaths. The Theia impactor (~4.5 Bya) blasts off material that
+            becomes Earth's Moon, crucially setting Earth's 23.5° axial tilt — the engine of stable seasons and thus
+            complex life.</div>
+        </div>
+        <div class="timeline-era-block">
+          <div class="era-block-title">B · Earth &amp; First Life (Hadean → Archean) — 4.5 Bya → 3.5 Bya</div>
+          <div class="era-block-date">4,500,000,000 → 3,500,000,000 years ago (450 Crore → 350 Crore Ya)</div>
+          <div class="era-block-body"><strong style="color:var(--life10-color)">Hadean Eon:</strong> Molten Earth
+            bombarded by asteroids bringing water (💧), minerals (🪙), and carbon compounds (💎). <strong
+              style="color:var(--life10-color)">Archean Eon:</strong> Earth cools. First stable crust forms. Oceans
+            appear. Anaerobic prokaryotic life emerges in primordial soup — generating only 2 ATP per glucose.
+            Supercontinent #1: Vaalbara/Ur forms ~3.6 Bya.</div>
+        </div>
+        <div class="timeline-era-block">
+          <div class="era-block-title">C · Proterozoic — Multi-Cellular Life — 3.5 Bya → 541 Mya</div>
+          <div class="era-block-date">3,500,000,000 → 541,000,000 years ago</div>
+          <div class="era-block-body">
+            <strong>Great Oxidation Event (GOE, ~2.4 Bya):</strong> Cyanobacteria release O₂ — a revolution and a
+            catastrophe. Anaerobes die (1st Mass Extinction). SC #2: Kenorland forms. <br>
+            <strong>Endosymbiosis (~1.8 Bya):</strong> A prokaryote engulfs another, creating the first eukaryotic cell
+            — unlocking 38 ATP and complex cell structures. SC #3: Columbia/Nuna forms, with the first SuperMountains.
+            <br>
+            <strong>Boring Billion (~1.8–0.8 Bya):</strong> Life innovates slowly. Sex evolves. SC #4: Rodinia →
+            Snowball Earth (~720 Mya, ~7.2 Crore Ya ago) — the planet freezes entirely. Thaw triggers the
+            <strong>Ediacaran</strong> bloom of soft-bodied creatures (jellyfish-like multicellular organisms).
+          </div>
+        </div>
+        <div class="timeline-era-block">
+          <div class="era-block-title">D · Paleozoic — Age of Fish, Forest &amp; Reptiles — 541 → 252 Mya</div>
+          <div class="era-block-date">541,000,000 → 252,000,000 years ago (54.1 Crore → 25.2 Crore Ya)</div>
+          <div class="era-block-body">
+            SC #5: Pannotia → SC #6: <strong>Pangea</strong> assembles. <strong>Cambrian Explosion (541 Mya):</strong>
+            Hard shells, eyes, predator-prey arms race — most animal body plans appear in ~25 million years. Late
+            Ordovician-Silurian ME (~444 Mya): glaciation kills ~85% marine life. Plants colonise land. <strong>Devonian
+              Age of Fish:</strong> Tiktaalik (~375 Mya, 37.5 Crore Ya) — the fish that crawls, bridging water and land.
+            Late Devonian ME (~360 Mya, 36 Crore Ya): ~75% marine species vanish. Carboniferous: vast forests → coal
+            seams (fuel of the Industrial Revolution!). Giant insects thrive in high-O₂ atmosphere. Karoo Ice Age.
+            <strong>Great Dying/Permian ME (~252 Mya):</strong> Siberian Traps volcanism; ~96% of all species extinct —
+            the worst extinction in Earth's history.
+          </div>
+        </div>
+        <div class="timeline-era-block">
+          <div class="era-block-title">E · Mesozoic — Age of Dinosaurs — 252 → 66 Mya</div>
+          <div class="era-block-date">252,000,000 → 66,000,000 years ago (25.2 Crore → 6.6 Crore Ya)</div>
+          <div class="era-block-body">
+            Triassic → Jurassic → Cretaceous. <strong>Pangea splits:</strong> Laurasia (north: N. America, Europe, Asia)
+            separates from Gondwana (south: S. America, Africa, Antarctica, Australia, India). India drifts north — its
+            collision will create the Himalayas and the ancient Aravalli range. Gondwana's TransG SuperMountains form.
+            70% plankton/algae die during Mesozoic events — their compressed remains become oil reserves powering modern
+            civilisation. <strong>Triassic-Jurassic ME (~201 Mya):</strong> Allows mammals to expand. <strong>K-Pg ME
+              (66 Mya):</strong> Chicxulub asteroid (~10 km) + volcanism → dinosaurs extinct. Note: ~70% plankton death
+            → future oil.
+          </div>
+        </div>
+        <div class="timeline-era-block">
+          <div class="era-block-title">F · Cenozoic — Age of Mammals — 66 Mya → Present</div>
+          <div class="era-block-date">66,000,000 years ago (6.6 Crore Ya) → Today</div>
+          <div class="era-block-body">
+            <strong>Paleogene:</strong> Paleocene (recovery) → Eocene (warmth, mammals diversify) → Oligocene
+            (grasslands spread, primates evolve). <br>
+            <strong>Neogene / Miocene (~6–7 Mya / 60–70 Lakh Ya):</strong> Chimpanzee lineage splits from hominin line.
+            Sahelanthropus, Orrorin, Ardipithecus emerge. <br>
+            <strong>Pliocene (~4 Mya / 40 Lakh Ya):</strong> Australopithecus (Lucy) — first upright walker. (~2.2 Mya /
+            22 Lakh Ya): <em>Homo habilis</em> — "Handy Man," first stone tool user with noticeably larger brain.
+          </div>
+        </div>
+      </div>
+
+      <!-- SUPERCONTINENT CYCLE -->
+      <div class="section-header" style="margin-top:4rem;margin-bottom:2rem">
+        <span class="section-tag">Visual Guide</span>
+        <h3 class="section-title" style="font-size:1.5rem">Supercontinent Cycle</h3>
+        <p class="section-sub">Six known supercontinents — each shaped climate, life, and evolution</p>
+      </div>
+      <div class="sc-container">
+        <svg class="sc-svg" viewBox="0 0 960 180" xmlns="http://www.w3.org/2000/svg"
+          style="max-width:100%;overflow:visible">
+          <defs>
+            <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L8,3 z" fill="rgba(201,150,26,0.6)" />
+            </marker>
+          </defs>
+          <!-- Connecting line -->
+          <line x1="60" y1="90" x2="900" y2="90" stroke="rgba(201,150,26,0.2)" stroke-width="1.5"
+            stroke-dasharray="4 3" />
+          <!-- SC nodes -->
+          <g id="sc1" transform="translate(60,90)" class="sc-node" style="cursor:pointer">
+            <circle r="28" fill="#1a1a3e" stroke="#6b8fff" stroke-width="1.5" />
+            <text text-anchor="middle" y="-38" fill="#6b8fff" font-size="9" font-family="Cinzel,serif"
+              letter-spacing="0.05em">VAALBARA/UR</text>
+            <text text-anchor="middle" y="-26" fill="#5a5548" font-size="8" font-family="DM Sans,sans-serif">3.6
+              Bya</text>
+            <text text-anchor="middle" y="4" fill="#8888aa" font-size="10">#1</text>
+          </g>
+          <line x1="92" y1="90" x2="208" y2="90" stroke="rgba(201,150,26,0.4)" stroke-width="1.5"
+            marker-end="url(#arr)" />
+          <g transform="translate(220,90)" class="sc-node" style="cursor:pointer">
+            <circle r="28" fill="#1a1a3e" stroke="#7f8fe4" stroke-width="1.5" />
+            <text text-anchor="middle" y="-38" fill="#7f8fe4" font-size="9" font-family="Cinzel,serif"
+              letter-spacing="0.05em">KENORLAND</text>
+            <text text-anchor="middle" y="-26" fill="#5a5548" font-size="8" font-family="DM Sans,sans-serif">2.7
+              Bya</text>
+            <text text-anchor="middle" y="4" fill="#8888aa" font-size="10">#2</text>
+          </g>
+          <line x1="252" y1="90" x2="368" y2="90" stroke="rgba(201,150,26,0.4)" stroke-width="1.5"
+            marker-end="url(#arr)" />
+          <g transform="translate(380,90)" class="sc-node" style="cursor:pointer">
+            <circle r="28" fill="#1a2a3e" stroke="#3498db" stroke-width="1.5" />
+            <text text-anchor="middle" y="-38" fill="#3498db" font-size="9" font-family="Cinzel,serif"
+              letter-spacing="0.05em">COLUMBIA/NUNA</text>
+            <text text-anchor="middle" y="-26" fill="#5a5548" font-size="8" font-family="DM Sans,sans-serif">1.8 Bya
+              (SM)</text>
+            <text text-anchor="middle" y="4" fill="#8888aa" font-size="10">#3</text>
+          </g>
+          <line x1="412" y1="90" x2="528" y2="90" stroke="rgba(201,150,26,0.4)" stroke-width="1.5"
+            marker-end="url(#arr)" />
+          <g transform="translate(540,90)" class="sc-node" style="cursor:pointer">
+            <circle r="28" fill="#1a3a2e" stroke="#1abc9c" stroke-width="1.5" />
+            <text text-anchor="middle" y="-38" fill="#1abc9c" font-size="9" font-family="Cinzel,serif"
+              letter-spacing="0.05em">RODINIA</text>
+            <text text-anchor="middle" y="-26" fill="#5a5548" font-size="8" font-family="DM Sans,sans-serif">1.1 Bya
+              ❄️</text>
+            <text text-anchor="middle" y="4" fill="#8888aa" font-size="10">#4</text>
+          </g>
+          <line x1="572" y1="90" x2="688" y2="90" stroke="rgba(201,150,26,0.4)" stroke-width="1.5"
+            marker-end="url(#arr)" />
+          <g transform="translate(700,90)" class="sc-node" style="cursor:pointer">
+            <circle r="28" fill="#2a2a1e" stroke="#f39c12" stroke-width="1.5" />
+            <text text-anchor="middle" y="-38" fill="#f39c12" font-size="9" font-family="Cinzel,serif"
+              letter-spacing="0.05em">PANNOTIA</text>
+            <text text-anchor="middle" y="-26" fill="#5a5548" font-size="8" font-family="DM Sans,sans-serif">600
+              Mya</text>
+            <text text-anchor="middle" y="4" fill="#8888aa" font-size="10">#5</text>
+          </g>
+          <line x1="732" y1="90" x2="848" y2="90" stroke="rgba(201,150,26,0.4)" stroke-width="1.5"
+            marker-end="url(#arr)" />
+          <g transform="translate(860,90)" class="sc-node" style="cursor:pointer">
+            <circle r="32" fill="#3a2020" stroke="#e74c3c" stroke-width="2" />
+            <text text-anchor="middle" y="-42" fill="#e74c3c" font-size="9" font-family="Cinzel,serif"
+              letter-spacing="0.05em">PANGEA</text>
+            <text text-anchor="middle" y="-30" fill="#5a5548" font-size="8" font-family="DM Sans,sans-serif">335 Mya →
+              175 Mya</text>
+            <text text-anchor="middle" y="4" fill="#aaaaaa" font-size="9">Last SC</text>
+            <text text-anchor="middle" y="35" fill="#e74c3c" font-size="7.5" font-family="DM Sans,sans-serif">→ Laurasia
+              + Gondwana</text>
+            <text text-anchor="middle" y="48" fill="#5a5548" font-size="7">Next: Pangea Proxima ~250 Mya</text>
+          </g>
+          <!-- Labels at bottom -->
+          <text x="480" y="160" text-anchor="middle" fill="#5a5548" font-size="9" font-family="DM Sans,sans-serif">SC =
+            SuperContinent · SM = SuperMountain phase · ❄️ = associated Snowball Earth event</text>
+        </svg>
+      </div>
+
+      <!-- MASS EXTINCTIONS -->
+      <div class="section-header" style="margin-top:3rem;margin-bottom:1.5rem;text-align:left">
+        <h3 style="font-family:Cinzel,serif;color:var(--text-primary);font-size:1.1rem">The Big Five Mass Extinctions
+        </h3>
+      </div>
+      <div class="card-grid cols3">
+        <div class="card">
+          <div class="card-title">① Late Ordovician-Silurian ME · ~444 Mya</div>
+          <div class="card-body"><strong style="color:#ff6b6b">~85% species lost.</strong> Cause: Glaciation (Gondwana
+            drifts over South Pole) → sea level fall → habitat loss. First land plants spread after this.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">② Late Devonian ME · ~360 Mya</div>
+          <div class="card-body"><strong style="color:#ff6b6b">~75% species lost.</strong> Cause: Land plants leach
+            nutrients into oceans → algae blooms → ocean anoxia. Marine ecosystems collapse.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">③ Permian (Great Dying) ME · ~252 Mya</div>
+          <div class="card-body"><strong style="color:#ff6b6b">~96% species lost</strong> — worst ever. Cause: Siberian
+            Traps volcanism → CO₂ → warming → ocean acidification. Cleared way for dinosaurs.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">④ Triassic-Jurassic ME · ~201 Mya</div>
+          <div class="card-body"><strong style="color:#ff6b6b">~80% species lost.</strong> Cause: CAMP volcanic
+            eruptions + asteroid? Most large non-dinosaur archosaurs vanish, allowing dinosaur dominance.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">⑤ K-Pg (Cretaceous-Paleogene) ME · ~66 Mya</div>
+          <div class="card-body"><strong style="color:#ff6b6b">~76% species lost.</strong> Cause: Chicxulub asteroid (10
+            km) + Deccan Traps volcanism. Non-avian dinosaurs extinct. Mammals and birds inherit the Earth.</div>
+        </div>
+        <div class="card" style="border-color:#ff6b6b;background:rgba(255,107,107,0.06)">
+          <div class="card-title" style="color:#ff6b6b">⑥ Holocene / Anthropocene ME · NOW</div>
+          <div class="card-body"><strong style="color:#ff6b6b">ONGOING.</strong> Cause: Human activity — habitat
+            destruction, climate change, pollution. Species loss rate 100–1,000× background extinction rate. The only
+            extinction caused by a single species.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LIFE 2.0 ===== -->
+  <section id="life20"
+    style="padding:6rem 0;background:radial-gradient(ellipse at top right,rgba(127,255,138,0.05) 0%,transparent 60%)">
+    <div class="section" style="max-width:1100px">
+      <div class="section-header">
+        <span class="section-tag">300,000 Years Ago → 3,500 BCE</span>
+        <h2 class="section-title" style="color:var(--life20-color)">LIFE 2.0</h2>
+        <p class="section-sub">Pre-History — Homo Sapiens: Fire, Migration &amp; the Edge of Civilisation</p>
+        <div class="section-divider"
+          style="background:linear-gradient(90deg,transparent,var(--life20-color),transparent)"></div>
+      </div>
+
+      <!-- HOMO SPECIES COMPARISON -->
+      <h3 style="font-family:Cinzel,serif;font-size:1.1rem;color:var(--text-primary);margin-bottom:1.5rem">Homo Species
+        Comparison</h3>
+      <div class="card-grid cols4">
+        <div class="homo-card">
+          <div class="homo-header">
+            <div class="homo-name">Homo Erectus</div>
+            <div class="homo-dates">~2 Mya → 500,000 Ya (200 Lakh → 5 Lakh Ya)</div>
+          </div>
+          <div class="homo-body">
+            <div class="homo-trait"><span>🌍</span><span>First to leave Africa (~20 Lakh Ya). Spread to Europe, China
+                (Peking Man), Java.</span></div>
+            <div class="homo-trait"><span>🔥</span><span>First to control fire → cooked meat → larger brains → language
+                → abstract thought.</span></div>
+            <div class="homo-trait"><span>🧠</span><span>Brain: ~900 cc (mid-way between chimp and sapiens).</span>
+            </div>
+            <div class="homo-gift">🧬 Legacy: Gave rise to Neanderthals &amp; Denisovans via separate groups.</div>
+          </div>
+        </div>
+        <div class="homo-card">
+          <div class="homo-header">
+            <div class="homo-name">Neanderthal</div>
+            <div class="homo-dates">~400,000 → 40,000 Ya (4 Lakh → 40,000 Ya)</div>
+          </div>
+          <div class="homo-body">
+            <div class="homo-trait"><span>❄️</span><span>Adapted to cold Europe &amp; Middle East. Stocky build, large
+                noses for warming cold air.</span></div>
+            <div class="homo-trait"><span>🛠️</span><span>Sophisticated Mousterian tool culture. Evidence of burial,
+                pigment use, care for elderly.</span></div>
+            <div class="homo-trait"><span>🧠</span><span>Brain volume ~1,600 cc — larger than modern humans! But
+                different shape.</span></div>
+            <div class="homo-gift">🧬 Gift to Modern Humans: Cold tolerance, immunity genes, skin/hair adaptation, wound
+              healing. ~2% of non-African DNA.</div>
+          </div>
+        </div>
+        <div class="homo-card">
+          <div class="homo-header">
+            <div class="homo-name">Denisovan</div>
+            <div class="homo-dates">~500,000 → 30,000 Ya (5 Lakh → 30,000 Ya)</div>
+          </div>
+          <div class="homo-body">
+            <div class="homo-trait"><span>🏔️</span><span>Known primarily from DNA &amp; a few bones from Denisova Cave,
+                Siberia. Also found in Tibet &amp; SE Asia.</span></div>
+            <div class="homo-trait"><span>🌡️</span><span>Possible high-altitude adaptation genes (EPAS1 — "superhero
+                gene" for low-oxygen environments).</span></div>
+            <div class="homo-trait"><span>🦷</span><span>Giant teeth — likely much larger than Neanderthals.</span>
+            </div>
+            <div class="homo-gift">🧬 Gift to Modern Humans: High-altitude adaptation (Tibetans), immune system
+              variants, cold/metabolism genes. ~3–5% of Melanesian/Aboriginal DNA.</div>
+          </div>
+        </div>
+        <div class="homo-card" style="border-color:var(--accent-gold)">
+          <div class="homo-header" style="background:rgba(201,150,26,0.15)">
+            <div class="homo-name" style="color:var(--accent-gold-light)">Homo Sapiens 🧔</div>
+            <div class="homo-dates">~300,000 Ya → Present (3 Lakh Ya → Now)</div>
+          </div>
+          <div class="homo-body">
+            <div class="homo-trait"><span>🧠</span><span>Hot-blooded, diurnal, bipedal. Large brain (energy intensive —
+                ~20% of body's calories). Abstract thought &amp; language.</span></div>
+            <div class="homo-trait"><span>💦</span><span>Thermoregulation via sweat (unique among primates) — enables
+                long-distance endurance running.</span></div>
+            <div class="homo-trait"><span>🍖</span><span>Omnivory — meat-eating drove rapid brain expansion.</span>
+            </div>
+            <div class="homo-trait"><span>👶</span><span>Premature birth (narrow pelvis from bipedalism + large brain) →
+                extended infant dependency → social bonding.</span></div>
+            <div class="homo-gift">🏆 WINNER by ~30 Kya: Population scale, teamwork, language, and symbolic culture
+              outcompeted all others.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HOMO SAPIENS BIOLOGY NOTE -->
+      <div class="highlight-box" style="margin-top:1.5rem">
+        <strong>On Bipedalism (the Pivotal Trade-off):</strong> Pros — long-distance running, tool use, visual
+        surveillance over tall grass. Cons — narrow short pelvis causing premature birth &amp; lifelong back pain.
+        Neutral but consequential — sexual preference shift (frontal orientation, visible breast development)
+        strengthened pair-bonding and complex social structures.
+      </div>
+
+      <!-- MIGRATION MAP -->
+      <h3 style="font-family:Cinzel,serif;font-size:1.1rem;color:var(--text-primary);margin:3rem 0 1rem">Out-of-Africa:
+        Homo Sapiens Migration Waves</h3>
+      <div class="map-container">
+        <div class="map-tooltip" id="mapTooltip"></div>
+        <svg viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg"
+          style="width:100%;height:auto;background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius)">
+          <!-- Ocean background -->
+          <rect width="900" height="480" fill="var(--bg-secondary)" rx="6" />
+          <!-- Continents - simplified schematic shapes -->
+          <!-- Africa -->
+          <path
+            d="M 370 120 Q 410 110 430 130 L 450 160 Q 460 200 450 250 Q 440 300 420 340 Q 400 370 380 360 Q 360 350 350 320 Q 330 280 340 240 Q 345 200 360 170 Z"
+            fill="#2d3a1a" stroke="#4a6a2a" stroke-width="1.5" id="africa" class="region-block"
+            data-tip="<h4>🌍 Africa — Origin Point</h4>Homo Sapiens evolve here ~3 Lakh Ya. All modern humans trace ancestry to this continent. Toba supervolcano (~74K BCE) nearly drove the species extinct, reducing population to ~10,000 individuals." />
+          <!-- Europe -->
+          <path d="M 380 80 Q 400 70 430 75 L 460 80 Q 480 85 490 95 Q 470 120 440 120 Q 400 125 380 110 Z"
+            fill="#1a2d3a" stroke="#2a4a6a" stroke-width="1.5" id="europe" class="region-block"
+            data-tip="<h4>🏛️ Europe</h4>Homo Sapiens arrive ~45,000 BCE, replacing Neanderthals over ~5,000–10,000 years. Neanderthal interbreeding occurs — their genes live on in Europeans today." />
+          <!-- Middle East / Levant -->
+          <path d="M 480 110 Q 510 105 530 115 Q 545 130 540 150 Q 520 160 500 155 Q 480 145 475 130 Z" fill="#3a2d1a"
+            stroke="#6a5a2a" stroke-width="1.5" id="mideast" class="region-block"
+            data-tip="<h4>🌙 Middle East / Levant</h4>Key staging ground for Out-of-Africa migrations. Natufians (~15,000–12,000 BCE) begin semi-sedentary life and harvest wild cereals — the precursor to agriculture. Sapiens interbreed with Neanderthals here." />
+          <!-- India -->
+          <path
+            d="M 590 140 Q 620 135 640 150 Q 650 180 645 220 Q 630 250 610 240 Q 590 225 585 195 Q 580 165 590 140 Z"
+            fill="#1a3a2d" stroke="#2a6a5a" stroke-width="1.5" id="india" class="region-block"
+            data-tip="<h4>🇮🇳 India (AASI Origin)</h4>~65,000–50,000 BCE: Homo Sapiens arrive from Africa via southern coastal route — becoming the Ancient Ancestral South Indians (AASI). India's first settlers. Later mixed with Iranian farmers from Zagros (~4,000–2,000 BCE) to form IVC populations." />
+          <!-- Central / East Asia -->
+          <path d="M 640 80 Q 700 70 760 80 L 790 100 Q 780 130 750 140 Q 700 145 660 130 Q 640 115 640 95 Z"
+            fill="#2d1a3a" stroke="#5a2a6a" stroke-width="1.5" id="asia" class="region-block"
+            data-tip="<h4>🐉 Central &amp; East Asia</h4>Denisovans inhabited Siberia and SE Asia. Homo Sapiens arrive ~45,000 BCE from Central Asia. Interbreeding with Denisovans confers high-altitude genes to Tibetans and immunity genes to many Asian populations." />
+          <!-- Australia -->
+          <path
+            d="M 720 300 Q 780 290 810 310 Q 830 340 810 370 Q 780 390 740 380 Q 710 365 700 340 Q 695 315 720 300 Z"
+            fill="#3a1a1a" stroke="#6a3a2a" stroke-width="1.5" id="australia" class="region-block"
+            data-tip="<h4>🦘 Australia</h4>~65,000 BCE: First sea-faring migration in human history. Homo Sapiens cross open ocean to reach Australia — becoming Aboriginal Australians. This predates the European arrival in the Americas by ~50,000 years!" />
+          <!-- Americas -->
+          <path
+            d="M 150 120 Q 180 110 200 125 Q 210 160 195 200 Q 175 250 165 300 Q 155 350 160 380 Q 145 360 135 320 Q 125 270 135 220 Q 140 170 150 120 Z"
+            fill="#1a1a3a" stroke="#3a3a6a" stroke-width="1.5" id="americas" class="region-block"
+            data-tip="<h4>🦅 The Americas</h4>~15,000 BCE: Homo Sapiens cross the Beringia land bridge from Siberia to Alaska during a glacial low sea level. They rapidly populate both continents. Megafauna (mammoths, giant sloths, saber-tooth cats) go extinct — likely due to human hunting." />
+
+          <!-- MIGRATION ARROWS -->
+          <!-- Africa → Middle East (main route) -->
+          <path d="M 430 200 Q 460 170 478 145" fill="none" stroke="var(--accent-gold)" stroke-width="2.5"
+            stroke-dasharray="7 4" class="migration-arrow" style="stroke-dashoffset:0" />
+          <!-- Africa → India coastal -->
+          <path d="M 450 240 Q 520 250 580 200" fill="none" stroke="#4ecdc4" stroke-width="2" stroke-dasharray="7 4"
+            class="migration-arrow" />
+          <!-- Middle East → Europe -->
+          <path d="M 490 120 Q 460 105 445 95" fill="none" stroke="var(--accent-gold)" stroke-width="2"
+            stroke-dasharray="7 4" class="migration-arrow" />
+          <!-- India → SE Asia → Australia -->
+          <path d="M 640 230 Q 690 270 710 295" fill="none" stroke="#4ecdc4" stroke-width="2" stroke-dasharray="7 4"
+            class="migration-arrow" />
+          <!-- Asia → Americas (Beringia) -->
+          <path d="M 770 90 Q 800 85 820 90 Q 850 85 200 110" fill="none" stroke="#ff9ff3" stroke-width="2"
+            stroke-dasharray="7 4" class="migration-arrow" />
+
+          <!-- DATE LABELS -->
+          <text x="448" y="188" fill="var(--accent-gold)" font-size="8.5" font-family="Cinzel,serif">~70K BCE</text>
+          <text x="510" y="258" fill="#4ecdc4" font-size="8.5" font-family="Cinzel,serif">~65–50K BCE → AASI</text>
+          <text x="420" y="95" fill="var(--accent-gold)" font-size="8.5" font-family="Cinzel,serif">~45K BCE</text>
+          <text x="695" y="280" fill="#4ecdc4" font-size="8" font-family="Cinzel,serif">~65K BCE</text>
+          <text x="810" y="60" fill="#ff9ff3" font-size="8" font-family="Cinzel,serif">~15K BCE via Beringia</text>
+
+          <!-- AFRICA ORIGIN STAR -->
+          <circle cx="408" cy="230" r="8" fill="var(--accent-gold)" opacity="0.9" />
+          <circle cx="408" cy="230" r="14" fill="none" stroke="var(--accent-gold)" stroke-width="1.5" opacity="0.5" />
+          <text x="408" y="233" text-anchor="middle" fill="#000" font-size="8" font-weight="bold">★</text>
+          <text x="408" y="258" text-anchor="middle" fill="var(--accent-gold)" font-size="8.5"
+            font-family="Cinzel,serif">ORIGIN</text>
+
+          <!-- BERINGIA label -->
+          <text x="810" y="100" text-anchor="middle" fill="#ff9ff3" font-size="8"
+            font-family="Cinzel,serif">BERINGIA</text>
+          <rect x="765" y="92" width="90" height="12" fill="rgba(255,159,243,0.1)" rx="2" />
+
+          <!-- TOBA label -->
+          <text x="630" y="140" fill="#ff6b6b" font-size="8" font-family="Cinzel,serif">Toba Volcano</text>
+          <text x="630" y="152" fill="#ff6b6b" font-size="7.5" font-family="DM Sans,sans-serif">~74K BCE
+            (near-extinction)</text>
+
+          <!-- LEGEND -->
+          <g transform="translate(15, 400)">
+            <rect width="260" height="70" fill="rgba(0,0,0,0.4)" rx="4" stroke="var(--border-color)" stroke-width="1" />
+            <text x="10" y="15" fill="var(--text-muted)" font-size="8" font-family="Cinzel,serif"
+              letter-spacing="0.1em">LEGEND</text>
+            <line x1="10" y1="27" x2="45" y2="27" stroke="var(--accent-gold)" stroke-width="2" stroke-dasharray="6 3" />
+            <text x="50" y="31" fill="var(--text-secondary)" font-size="8" font-family="DM Sans,sans-serif">Primary
+              migration route</text>
+            <line x1="10" y1="43" x2="45" y2="43" stroke="#4ecdc4" stroke-width="2" stroke-dasharray="6 3" />
+            <text x="50" y="47" fill="var(--text-secondary)" font-size="8" font-family="DM Sans,sans-serif">Coastal/AASI
+              route</text>
+            <line x1="10" y1="59" x2="45" y2="59" stroke="#ff9ff3" stroke-width="2" stroke-dasharray="6 3" />
+            <text x="50" y="63" fill="var(--text-secondary)" font-size="8" font-family="DM Sans,sans-serif">Beringia
+              crossing (~15K BCE)</text>
+          </g>
+          <text x="450" y="468" text-anchor="middle" fill="var(--text-muted)" font-size="8"
+            font-family="DM Sans,sans-serif">Click any region for details · Arrows animated for direction</text>
+        </svg>
+      </div>
+
+      <!-- PRE-POTTERY NEOLITHIC STRIP -->
+      <h3 style="font-family:Cinzel,serif;font-size:1.1rem;color:var(--text-primary);margin:3rem 0 1rem">Pre-Pottery
+        Neolithic (PPN) — The Dawn of Agriculture</h3>
+      <div class="ppn-strip">
+        <div class="ppn-block">
+          <div class="ppn-label">PPNA</div>
+          <div class="ppn-date">10,000 BCE → 8,800 BCE (~12,000 → 10,800 Ya)</div>
+          <ul class="ppn-items">
+            <li>Founder crops: wild barley, wheat, lentils</li>
+            <li>Mud-brick dwellings; communal storage</li>
+            <li><a href="https://en.wikipedia.org/wiki/G%C3%B6bekli_Tepe" target="_blank">Göbekli Tepe</a> Temple
+              (~9,600 BCE) — Turkey</li>
+            <li>Jericho: world's first walled settlement (~9,000 BCE) — Palestine</li>
+            <li>Mureybet, Syria (~10,200–8,000 BCE)</li>
+          </ul>
+        </div>
+        <div class="ppn-block">
+          <div class="ppn-label">PPNB</div>
+          <div class="ppn-date">8,800 BCE → 6,500 BCE (~10,800 → 8,500 Ya)</div>
+          <ul class="ppn-items">
+            <li>Full domestication of "founder crops"</li>
+            <li>First herding: sheep &amp; goat</li>
+            <li>Lime plaster floors; rectangular architecture</li>
+            <li>Ain Ghazal (Jordan) — large statues</li>
+            <li>Çatalhöyük (Turkey) — proto-city, 8,000+ people</li>
+          </ul>
+        </div>
+        <div class="ppn-block">
+          <div class="ppn-label">PPNC</div>
+          <div class="ppn-date">6,500 BCE → 6,200 BCE (~8,500 → 8,200 Ya)</div>
+          <ul class="ppn-items">
+            <li>Shift toward nomadic pastoralism</li>
+            <li>PPN populations become primary ancestors of 1st Neolithic farmers who later migrate to Europe</li>
+            <li>Chinese Neolithic: Yangshao &amp; Longshan cultures emerge</li>
+            <li>Indian Neolithic (~7,000–3,000 BCE): Iranian Zagros farmers mix with local AASI → seeds of IVC</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- HOLOCENE KEY EVENTS -->
+      <div class="card-grid cols2" style="margin-top:2rem">
+        <div class="card">
+          <div class="card-title">~5,500 BCE (7,500 Ya) — Wheel &amp; Copper</div>
+          <div class="card-body">The wheel is invented in Mesopotamia (modern Iraq) — first for pottery, then transport.
+            Simultaneously, <strong>Copper (Tamba) smelting</strong> begins — the Chalcolithic Age. Copper's 1,085°C
+            melting point makes it the first metal humanity can control, though too soft for effective weapons.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">~3,500 BCE (5,500 Ya) — Writing &amp; Bronze</div>
+          <div class="card-body"><strong>Writing invented</strong> in Sumer (Mesopotamia) — cuneiform clay tablets for
+            economic records. Egypt develops hieroglyphs (~3,250 BCE). Purpose evolves: economics/trade →
+            literature/poetry (Epic of Gilgamesh, ~2,000 BCE). <strong>Bronze (Cu + Tin = Kansa)</strong> also emerges,
+            ~3,000–4,000 years after copper. History begins.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LIFE 3.0 ===== -->
+  <section id="life30"
+    style="padding:6rem 0;background:radial-gradient(ellipse at bottom left,rgba(232,184,75,0.05) 0%,transparent 60%)">
+    <div class="section" style="max-width:1200px">
+      <div class="section-header">
+        <span class="section-tag">3,500 BCE → 1950s</span>
+        <h2 class="section-title" style="color:var(--life30-color)">LIFE 3.0</h2>
+        <p class="section-sub">Recorded History — Civilisation, Empire, Religion &amp; the Modern World</p>
+        <div class="section-divider"
+          style="background:linear-gradient(90deg,transparent,var(--life30-color),transparent)"></div>
+      </div>
+
+      <!-- METAL EVOLUTION STRIP -->
+      <h3 style="font-family:Cinzel,serif;font-size:1rem;color:var(--text-primary);margin-bottom:0.5rem">Metal Evolution
+        — Tools, Trade &amp; Power</h3>
+      <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1rem">Hover each node for details</p>
+      <div class="metal-river">
+        <div class="metal-track">
+          <div class="metal-node" data-metal="Gold" data-date="6000 BCE" data-region="Middle East / Egypt"
+            data-use="Currency, status symbols, jewellery, temple offerings">
+            <div class="metal-dot" style="background:linear-gradient(135deg,#ffd700,#b8860b)">Au</div>
+            <div class="metal-name">Gold</div>
+            <div class="metal-date">6,000 BCE</div>
+          </div>
+          <div class="metal-node" data-metal="Copper" data-date="5000 BCE" data-region="Middle East / Balkans"
+            data-use="First worked metal. Tools, ornaments — too soft for effective weapons. Chalcolithic Age begins.">
+            <div class="metal-dot" style="background:linear-gradient(135deg,#cd7f32,#8b4513)">Cu</div>
+            <div class="metal-name">Copper</div>
+            <div class="metal-date">5,000 BCE</div>
+          </div>
+          <div class="metal-node" data-metal="Bronze" data-date="3000 BCE" data-region="Mesopotamia / IVC"
+            data-use="Cu + Tin = Bronze (Kansa). Revolutionised warfare and agriculture. Defines an entire age.">
+            <div class="metal-dot" style="background:linear-gradient(135deg,#cd853f,#8b6914)">Br</div>
+            <div class="metal-name">Bronze</div>
+            <div class="metal-date">3,000 BCE</div>
+          </div>
+          <div class="metal-node" data-metal="Silver" data-date="3000 BCE" data-region="Anatolia / Aegean"
+            data-use="Secondary currency, mirrors, luxury vessels. Mined extensively in ancient Greece (Laurion mines funded the Athenian navy).">
+            <div class="metal-dot" style="background:linear-gradient(135deg,#c0c0c0,#808080)">Ag</div>
+            <div class="metal-name">Silver</div>
+            <div class="metal-date">3,000 BCE</div>
+          </div>
+          <div class="metal-node" data-metal="Iron" data-date="1200 BCE" data-region="Anatolia (Turkey) → Middle East"
+            data-use="Harder and cheaper than bronze once smelted. Democratised warfare and agriculture — any kingdom with iron could arm large armies.">
+            <div class="metal-dot" style="background:linear-gradient(135deg,#696969,#2f2f2f)">Fe</div>
+            <div class="metal-name">Iron</div>
+            <div class="metal-date">1,200 BCE</div>
+          </div>
+          <div class="metal-node" data-metal="Brass" data-date="500 BCE" data-region="Rome &amp; India"
+            data-use="Cu + Zinc. Used as a gold substitute in coinage and decorative arts. India and Rome develop it independently.">
+            <div class="metal-dot" style="background:linear-gradient(135deg,#daa520,#b8860b)">Bs</div>
+            <div class="metal-name">Brass</div>
+            <div class="metal-date">500 BCE</div>
+          </div>
+          <div class="metal-node" data-metal="Steel (Wootz)" data-date="400 BCE" data-region="India"
+            data-use="India's Wootz steel — the world's first high-carbon steel. Coveted across the Middle East and Europe. Basis of legendary Damascus steel blades.">
+            <div class="metal-dot" style="background:linear-gradient(135deg,#a8a9ad,#5a5a5a)">W</div>
+            <div class="metal-name">Steel 1.0</div>
+            <div class="metal-date">400 BCE</div>
+          </div>
+          <div class="metal-node" data-metal="Diamond" data-date="4th c BCE" data-region="India (Golconda mines)"
+            data-use="First mined and traded in India. Status symbol, abrasive tool, later the world's most valuable gemstone.">
+            <div class="metal-dot" style="background:linear-gradient(135deg,#e0f7fa,#80d8ff)">💎</div>
+            <div class="metal-name">Diamond</div>
+            <div class="metal-date">~4 BCE</div>
+          </div>
+          <div class="metal-node" data-metal="Platinum" data-date="1700 CE"
+            data-region="South America (Spanish colonies)"
+            data-use="Initially a nuisance to silver miners. Later: catalytic converters, jewellery, laboratory equipment, cancer drugs.">
+            <div class="metal-dot" style="background:linear-gradient(135deg,#e5e4e2,#a9a9a9)">Pt</div>
+            <div class="metal-name">Platinum</div>
+            <div class="metal-date">1700 CE</div>
+          </div>
+          <div class="metal-node" data-metal="Industrial Steel" data-date="1850 CE" data-region="Britain / USA"
+            data-use="Bessemer process (1856) makes mass steel production cheap. Railways, skyscrapers, ships, guns — the skeleton of the Industrial Revolution.">
+            <div class="metal-dot" style="background:linear-gradient(135deg,#708090,#2f4f4f)">St</div>
+            <div class="metal-name">Steel 2.0</div>
+            <div class="metal-date">1850 CE</div>
+          </div>
+          <div class="metal-node" data-metal="Aluminium" data-date="Late 1800s" data-region="France / USA"
+            data-use="Rarer than gold until electrolytic smelting (Hall-Héroult, 1886). Now: aviation, packaging, construction. Most abundant metal in Earth's crust.">
+            <div class="metal-dot" style="background:linear-gradient(135deg,#bdc3c7,#95a5a6)">Al</div>
+            <div class="metal-name">Aluminium</div>
+            <div class="metal-date">1880s</div>
+          </div>
+          <div class="metal-node" data-metal="Silicon" data-date="1950s" data-region="USA (Silicon Valley)"
+            data-use="Semiconductor. Basis of all modern electronics — transistors, CPUs, solar panels, microchips. The atom of the Information Age.">
+            <div class="metal-dot" style="background:linear-gradient(135deg,#6c5ce7,#341f97)">Si</div>
+            <div class="metal-name">Silicon</div>
+            <div class="metal-date">1950s</div>
+          </div>
+          <div class="metal-node" data-metal="Nuclear / Uranium" data-date="1945"
+            data-region="Australia, Kazakhstan, Russia"
+            data-use="Fission energy. Nuclear weapons (Hiroshima 1945). Nuclear power plants. Medicine (radiotherapy). Geopolitics forever changed.">
+            <div class="metal-dot" style="background:linear-gradient(135deg,#00b894,#00cec9)">☢</div>
+            <div class="metal-name">Nuclear</div>
+            <div class="metal-date">1940s</div>
+          </div>
+          <div class="metal-node" data-metal="Rare Earth Elements (REE)" data-date="21st Century"
+            data-region="China, Africa, Greenland, USA, Australia"
+            data-use="Li (batteries), Nd/Dy (EV motors), Ga/Ge (semiconductors), La (catalysts). AI, EVs, 5G, and green energy are impossible without them. The new geopolitical battleground.">
+            <div class="metal-dot" style="background:linear-gradient(135deg,#ff7675,#d63031)">REE</div>
+            <div class="metal-name">REE</div>
+            <div class="metal-date">2000s+</div>
+          </div>
+        </div>
+      </div>
+      <div class="metal-popup" id="metalPopup"></div>
+
+      <!-- NON-METAL EVOLUTION -->
+      <div class="highlight-box" style="margin:1.5rem 0">
+        <strong>Non-Metal Material Evolution (Shape by Force → Transform with Fire):</strong>
+        <br><br>
+        <span style="color:var(--accent-gold)">Stone Age</span> (flint/chert/obsidian → hard-rock/greenstone/basalt) —
+        raw sand for bedding and basic floor levelling →
+        <span style="color:var(--accent-gold)">Ceramic Age</span> (soft clay/pottery → clay+sand+straw 🧱 → baked
+        clay/ceramic/terracotta) →
+        <span style="color:var(--accent-gold)">Metals Age</span> (Cu → Bronze → Sand/Glass → Fe).
+        <br><br>Clay-Chikni Mitti (fine clay) &amp; Sand-Balu/Ret (coarse sand) are the two base materials that bridge
+        Stone and Metal ages across all civilisations simultaneously.
+      </div>
+
+      <!-- ===== ANCIENT HISTORY ===== -->
+      <div class="era-separator" style="padding:3rem 0 1rem">
+        <h2
+          style="font-family:Cinzel,serif;font-size:1.4rem;padding:1rem 2rem;display:inline-block;border:1px solid var(--border-bright);background:var(--bg-secondary);border-radius:var(--radius)">
+          <span style="color:var(--accent-gold)">ANCIENT HISTORY</span> · ~3,000 BCE → 500 CE
+        </h2>
+      </div>
+      <div class="why-matters">
+        <div class="wm-label">✦ PERSPECTIVE NOTE</div>
+        <p>This was an age of settlement after agriculture. Everyone was trying to urbanise, codify, and find meaning.
+          Only India was ahead of its time — creating the Upanishads, the world's most sophisticated philosophical
+          framework. But India did not value or protect this knowledge, paying the price to this day in the form of
+          casteism, endogamy, and social fragmentation.</p>
+      </div>
+
+      <!-- Sub-era 1: 3000–1500 BCE -->
+      <div class="sub-era">
+        <div class="sub-era-title">Bronze Age · ~3,000 BCE → 1,500 BCE</div>
+        <div class="sub-era-date">5,000 → 3,500 Years Ago</div>
+      </div>
+      <div class="dual-panel">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">🗺 REGIONAL VIEW</div>
+          </div>
+          <div class="panel-body" style="font-size:0.82rem;color:var(--text-secondary);line-height:1.8">
+            <p><strong style="color:var(--accent-gold)">EMEA / Mid-East:</strong> Mesopotamia (Tigris/Euphrates) —
+              Sumerians → Akkadians → Babylonians → Assyrians. Egypt (Nile): Old Kingdom → Middle Kingdom. Nubia/Kush in
+              Africa. Iceland &amp; Madagascar uninhabited.</p>
+            <p><strong style="color:var(--life20-color)">India:</strong> Indus Valley Civilisation (IVC) — Iranian
+              Zagros farmers + AASI = Harappan culture. Mohenjo-daro &amp; Harappa. Planned grid cities, sanitation,
+              standardised weights. IVC decline splits: migration north (Ganges plains) and south (IVC + local AASI =
+              ASI Dravidian).</p>
+            <p><strong style="color:#e74c3c)">China:</strong> Xia Dynasty (legendary/proto-historic) → Shang Dynasty
+              (oracle bone script, bronze casting).</p>
+            <p><strong style="color:#9b59b6">Americas:</strong> Caral-Supe (Andes) — among the world's oldest cities.
+              Early Maya (Mesoamerica). Pre-Dorset people in Arctic Canada/Alaska. Saqqaq/Independence I cultures in
+              extreme Greenland Arctic.</p>
+            <p><strong style="color:#f39c12">Oceania:</strong> Aboriginal Australians &amp; Austronesian cultures.
+              Hawaii &amp; Easter Island uninhabited.</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">📊 THEMATIC VIEW — Sci / Commerce / Arts / Society</div>
+          </div>
+          <div class="panel-body">
+            <div class="thematic-grid">
+              <div class="theme-item theme-col-sci"><span class="t-icon">🔬</span><span class="t-label">SCI · TECH ·
+                  MED</span>Sumerian base-60 math (still used for hours/minutes). Egyptian geometry. Invention of the
+                wheel &amp; bronze. Ebers Papyrus — early herbal medicine.</div>
+              <div class="theme-item theme-col-com"><span class="t-icon">💰</span><span class="t-label">COMMERCE ·
+                  LOGISTICS</span>River-based transport (Nile, Tigris). Early barter systems. Domestication of horses
+                &amp; camels begins long-distance trade.</div>
+              <div class="theme-item theme-col-art"><span class="t-icon">🎭</span><span class="t-label">ARTS · MEDIA ·
+                  CULTURE</span>Pyramids &amp; monumental architecture. Early frescoes &amp; visual arts. Epic of
+                Gilgamesh (~2,000 BCE) — world's first recorded literature.</div>
+              <div class="theme-item theme-col-soc"><span class="t-icon">🏛️</span><span class="t-label">SOCIETY · IDEAS
+                  · ED</span>Shift from tribes to God-Kings &amp; early theocracies. Scribes trained in temples
+                (cuneiform/hieroglyphs). First formal education systems.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sub-era 2: 1500–500 BCE -->
+      <div class="sub-era" style="margin-top:3rem">
+        <div class="sub-era-title">Iron Age &amp; Axial Age · ~1,500 BCE → 500 BCE</div>
+        <div class="sub-era-date">3,500 → 2,500 Years Ago · Buddha, Confucius, Socrates, Zoroaster</div>
+      </div>
+      <div class="dual-panel">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">🗺 REGIONAL VIEW</div>
+          </div>
+          <div class="panel-body" style="font-size:0.82rem;color:var(--text-secondary);line-height:1.8">
+            <p><strong style="color:var(--accent-gold)">EMEA:</strong> Egypt New Kingdom (🥇 age: Ramesses II,
+              Akhenaten, Tutankhamun). Ancient Greece's golden age → Greek Dark Ages [Aegean/Mediterranean]. Jewish
+              Kingdom (Jerusalem) splits into Israel &amp; Judah — Enemy: Mesopotamia. Archaic/Classic Greece.
+              <strong>Alexander the Great vs. Persian Achaemenid Empire (Pārsi 𔓙).</strong> Zoroastrianism influences
+              Judaism → Christianity → Islam (the great religious chain).
+            </p>
+            <p><strong style="color:var(--life20-color)">India:</strong> Aryan/Steppe pastoral people + North IVC = ANI.
+              Vedic Age (Ganges plain). Mahajanapadas &amp; Indo-Aryan Kingdoms. Heterodox Reform: <strong>Jainism →
+                Buddhism</strong> emerge as challenges to Brahminical orthodoxy.</p>
+            <p><strong style="color:#e74c3c">China:</strong> Eastern Zhou — Confucius, Laozi, Sun Tzu, Daoism. Then Qin
+              Shi Huang unifies China.</p>
+            <p><strong style="color:#9b59b6">Americas:</strong> Poverty Point (North) → Olmec (Meso) → Chavín (Andes).
+              Arctic harpoon tech. Early Dorset culture in Greenland. Lapita culture in Pacific.</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">📊 THEMATIC VIEW</div>
+          </div>
+          <div class="panel-body">
+            <div class="thematic-grid">
+              <div class="theme-item theme-col-sci"><span class="t-icon">⚗️</span><span class="t-label">SCI · TECH ·
+                  MED</span>Iron smelting revolutionises tools &amp; weapons. Early Ayurvedic principles in India
+                (Atharvaveda). Astronomical calendars refined across civilisations.</div>
+              <div class="theme-item theme-col-com"><span class="t-icon">⚓</span><span class="t-label">COMMERCE ·
+                  LOGISTICS</span>Phoenicians dominate Mediterranean maritime trade — and invent the first true phonetic
+                alphabet primarily for accounting purposes.</div>
+              <div class="theme-item theme-col-art"><span class="t-icon">📜</span><span class="t-label">ARTS · MEDIA ·
+                  CULTURE</span>The Vedas (India). Homer's Iliad &amp; Odyssey (Greece). Early Zhou poetry (China).
+                First Olympic Games (776 BCE) — sport as diplomacy.</div>
+              <div class="theme-item theme-col-soc"><span class="t-icon">💡</span><span class="t-label">SOCIETY · IDEAS
+                  · ED</span>The Axial Age: independent philosophical breakthroughs on every continent. Early democratic
+                concepts in Greek city-states. Upanishads — India's peak intellectual moment.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sub-era 3: 500 BCE–500 CE -->
+      <div class="sub-era" style="margin-top:3rem">
+        <div class="sub-era-title">Classical Age · ~500 BCE → 500 CE</div>
+        <div class="sub-era-date">West Rome Falls · East Rome/Byzantine Rises · Silk Road Opens</div>
+      </div>
+      <div class="dual-panel">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">🗺 REGIONAL VIEW</div>
+          </div>
+          <div class="panel-body" style="font-size:0.82rem;color:var(--text-secondary);line-height:1.8">
+            <p><strong style="color:var(--accent-gold)">EMEA:</strong> Rome ✝️ — Republic → Massive Empire → Fall of
+              West Rome (triggers European Dark Ages). Enemies: Punic Wars (Carthage), Persians (Parthian, Sasanian),
+              Germanic tribes. After Sasanian fall, Persia becomes Islamic (Rashidun Caliphate ☪️). Aksum (Africa)
+              rises.</p>
+            <p><strong style="color:var(--life20-color)">India:</strong> Around 100 CE+, <a
+                href="https://www.google.com/search?q=Indian+Cline" target="_blank">endogamy leads to casteism</a> —
+              limiting genetic diversity across north &amp; south India. <strong>Maurya Empire (Ashoka)</strong> —
+              Kalinga War → Buddhism spreads globally. <strong>Gupta Golden Age (Chandragupta)</strong>. Sangam era:
+              Tamil kingdoms (Chera, Chola, Pandya). Monsoons drive Indo-Roman trade: Rome 💰 → India 🌶️🧵.</p>
+            <p><strong style="color:#e74c3c">China:</strong> Qin → Han. <strong>Silk Road</strong> opens. Great Wall of
+              China. Buddhism spreads east. 🛤️ Silk Road spread trade, ideas — and plague — from Chang'an to
+              Constantinople. Europe's collapse helped spark the Renaissance.</p>
+            <p><strong style="color:#9b59b6">Americas:</strong> Zapotec → Teotihuacan → Classic Maya. Nazca, Moche
+              (South). Hopewell culture (North). Dorset culture (Arctic). Polynesian Expansion reaches Hawaii.</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">📊 THEMATIC VIEW</div>
+          </div>
+          <div class="panel-body">
+            <div class="thematic-grid">
+              <div class="theme-item theme-col-sci"><span class="t-icon">🔭</span><span class="t-label">SCI · TECH ·
+                  MED</span>Hellenistic Golden Age: Archimedes, Euclid's geometry, Aryabhata (concept of zero). Roman
+                concrete &amp; aqueducts — engineering marvels unmatched for 1,500 years.</div>
+              <div class="theme-item theme-col-com"><span class="t-icon">🛣️</span><span class="t-label">COMMERCE ·
+                  LOGISTICS</span>The Silk Road opens East-West trade. Roman coin standardisation powers a massive,
+                integrated economy spanning Britain to Mesopotamia.</div>
+              <div class="theme-item theme-col-art"><span class="t-icon">🎭</span><span class="t-label">ARTS · MEDIA ·
+                  CULTURE</span>Greek tragedy &amp; comedy theatre. Classical sculpture. Virgil's Aeneid. The Kamasutra.
+                Buddhist art spreads across Asia via trade routes.</div>
+              <div class="theme-item theme-col-soc"><span class="t-icon">🏫</span><span class="t-label">SOCIETY · IDEAS
+                  · ED</span>The Axial Age religions mature. Taxila &amp; Nalanda — proto-global universities. Rome
+                formalises legal codes still influencing modern law.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== MEDIEVAL ===== -->
+      <div class="era-separator" style="padding:4rem 0 1rem">
+        <h2
+          style="font-family:Cinzel,serif;font-size:1.4rem;padding:1rem 2rem;display:inline-block;border:1px solid var(--border-bright);background:var(--bg-secondary);border-radius:var(--radius)">
+          <span style="color:var(--accent-gold)">MEDIEVAL / MIDDLE AGES</span> · ~500 CE → 1500 CE
+        </h2>
+      </div>
+      <div class="why-matters">
+        <div class="wm-label">✦ PERSPECTIVE NOTE</div>
+        <p>This was the era of religion. The true spirit of the Axial Age sages was misunderstood — replaced by
+          religious invasion, warfare, and expansion. Christianity &amp; Islam/Arab powers, alongside nomadic
+          Turk/Mongol warriors, clashed across continents. Islam was the clear winner of this era, while Europe — though
+          relatively dormant — was quietly preparing, via Renaissance → Scientific Revolution → Age of Discovery →
+          Industrial Revolution, to dominate the Modern age.</p>
+      </div>
+
+      <!-- Medieval 500–1000 CE -->
+      <div class="sub-era">
+        <div class="sub-era-title">Early Medieval · 500 CE → 1,000 CE</div>
+        <div class="sub-era-date">Islamic Golden Age · European Dark Ages · Viking Expansion</div>
+      </div>
+      <div class="dual-panel">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">🗺 REGIONAL VIEW</div>
+          </div>
+          <div class="panel-body" style="font-size:0.82rem;color:var(--text-secondary);line-height:1.8">
+            <p><strong style="color:var(--accent-gold)">EMEA:</strong> Arab Caliphates <a
+                href="https://www.google.com/search?q=baghdad+golden+age+of+islam" target="_blank">[Baghdad]</a> — 🥇
+              Islamic Golden Age. Umayyad → Abbasid → Rashidun Caliphate wins Jerusalem from Byzantine ✝️. Vikings
+              (Scandinavian) rise. West EU (France, England, Germany) — Dark Ages. Charlemagne/Carolingian Empire. Ghana
+              Empire (Africa). Madagascar finally settled (~500 CE) by Austronesians. Iceland discovered by Norse (~874
+              CE). Rome's western shell fragments into Germanic kingdoms (Franks, Visigoths, Lombards). Plague of
+              Justinian → accelerates Islam's rise.</p>
+            <p><strong style="color:var(--life20-color)">India (North):</strong> Tripartite Struggle — Kannauj:
+              Pratihara vs Pala vs Rashtrakuta vs Arab Umayyad/Ghazni Turk invaders. Rajputs (Bappa Rawal vs Arabs).
+              Vardhana/Harsha Empire. Pala Empire. <strong>South:</strong> Early Cholas.</p>
+            <p><strong style="color:#e74c3c">China &amp; SE Asia:</strong> Sui → Tang 🥇 → 5 Dynasties/10 Kingdoms.
+              Japan: Heian period. SE Asia: Srivijaya (Indo) → Khmer (Cambodia) → Majapahit (Indo).</p>
+            <p><strong style="color:#9b59b6">Americas:</strong> Peak Maya (Meso). Tiwanaku/Wari (South). Ancestral
+              Puebloans (North). Thule people in Arctic Canada. Erik the Red establishes Norse settlements in Greenland
+              (~985 CE). Polynesians discover &amp; settle Hawaii &amp; Easter Island (Rapa Nui).</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">📊 THEMATIC VIEW</div>
+          </div>
+          <div class="panel-body">
+            <div class="thematic-grid">
+              <div class="theme-item theme-col-sci"><span class="t-icon">📐</span><span class="t-label">SCI · TECH ·
+                  MED</span>Al-Khwarizmi invents Algebra. Avicenna's Canon of Medicine standardises global healthcare.
+                Chinese woodblock printing — the first information revolution.</div>
+              <div class="theme-item theme-col-com"><span class="t-icon">🏦</span><span class="t-label">COMMERCE ·
+                  LOGISTICS</span>Islamic Hawala system — early banking/value transfer across continents. Tang China
+                invents "flying cash" — the world's first paper money.</div>
+              <div class="theme-item theme-col-art"><span class="t-icon">🖊️</span><span class="t-label">ARTS · MEDIA ·
+                  CULTURE</span>Tang Dynasty poetry Golden Age (Li Bai). Intricate Islamic geometric art &amp;
+                calligraphy. Buddhist art spreads across Asia.</div>
+              <div class="theme-item theme-col-soc"><span class="t-icon">🕌</span><span class="t-label">SOCIETY · IDEAS
+                  · ED</span>Rise of Islamic theology. Spread of Buddhism across Asia. House of Wisdom founded in
+                Baghdad — the world's greatest library and research centre.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Medieval 1000–1300 CE -->
+      <div class="sub-era" style="margin-top:3rem">
+        <div class="sub-era-title">High Medieval · 1,000 CE → 1,300 CE</div>
+        <div class="sub-era-date">Mongol Conquest · Crusades · Chinese Innovation Peaks</div>
+      </div>
+      <div class="dual-panel">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">🗺 REGIONAL VIEW</div>
+          </div>
+          <div class="panel-body" style="font-size:0.82rem;color:var(--text-secondary);line-height:1.8">
+            <p><strong style="color:var(--accent-gold)">EMEA:</strong> Abbasid vs Mongols (Baghdad sacked by Hülegü
+              Khan). Seljuk Turks [Enemy: Mongols]. West EU vs Levant — Crusader ✝️ States (including Norman Vikings) →
+              Ayyubid Caliphate (Saladin/Sunni) wins back Jerusalem. Mamluk Turks (slave-soldiers) as kingmakers.
+              Mali/Mansa Musa Empire (Africa). Pax Mongolica + Crusades turbocharge Eastern innovation across Indian
+              Ocean trade web.</p>
+            <p><strong style="color:var(--life20-color)">India:</strong> Early Delhi Sultanate [Ghori/Turk →
+              Qutb-Aibak/Mamluk-Turk-Slave → Khalji]. Rajput Rise (Prithviraj Chauhan vs Ghori). <strong>Peak Chola
+                Empire (South)</strong>. Ahom Kingdom (Assam) vs later Mughals &amp; Aurangzeb.</p>
+            <p><strong style="color:#e74c3c">China:</strong> Song Dynasty (gunpowder, paper money, compass) → Xia/Jin →
+              Mongol Conquest (Genghis) → Yuan Dynasty (Kublai Khan). Japan: Kamakura Shogunate (repels Mongol
+              invasions).</p>
+            <p><strong style="color:#9b59b6">Americas:</strong> Toltec (Meso), Chimú (South), Mississippian (North).
+              Vikings briefly settle Newfoundland (~1000 CE) — first European contact with Americas. Thule/Inuit arrive
+              in Greenland, coexisting with Norse. Māori (Polynesian) settle New Zealand.</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">📊 THEMATIC VIEW</div>
+          </div>
+          <div class="panel-body">
+            <div class="thematic-grid">
+              <div class="theme-item theme-col-sci"><span class="t-icon">🧭</span><span class="t-label">SCI · TECH ·
+                  MED</span>China's Four Great Inventions spread globally: Compass, Gunpowder, Papermaking, Printing.
+                These alone reshape all subsequent world history.</div>
+              <div class="theme-item theme-col-com"><span class="t-icon">⚖️</span><span class="t-label">COMMERCE ·
+                  LOGISTICS</span>Magnetic compass revolutionises maritime shipping. European trade fairs and craft
+                guilds emerge — precursors to modern commerce.</div>
+              <div class="theme-item theme-col-art"><span class="t-icon">⛪</span><span class="t-label">ARTS · MEDIA ·
+                  CULTURE</span>Gothic architecture (Notre Dame). Birth of polyphonic music in Europe. Chola bronzes
+                (Nataraja) — among history's finest sculptures.</div>
+              <div class="theme-item theme-col-soc"><span class="t-icon">📚</span><span class="t-label">SOCIETY · IDEAS
+                  · ED</span>First modern Universities founded: Bologna, Oxford, Paris. Magna Carta (1215) limits royal
+                power — a foundational document for modern democracy.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Medieval 1300–1500 CE -->
+      <div class="sub-era" style="margin-top:3rem">
+        <div class="sub-era-title">Late Medieval · 1,300 CE → 1,500 CE</div>
+        <div class="sub-era-date">Black Death · Timurid Destruction · Renaissance Begins · Age of Discovery Opens</div>
+      </div>
+      <div class="why-matters">
+        <div class="wm-label">✦ WHY THIS ERA MATTERS</div>
+        <p>The Great Mortality (Black Death's labour disruption) and the Ottoman closure of eastern trade routes
+          together triggered the collapse of feudalism and forced Europe's pivot to the Atlantic — launching the Age of
+          Discovery. Every subsequent century of European global dominance traces back to this trauma-forced innovation.
+        </p>
+      </div>
+      <div class="dual-panel">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">🗺 REGIONAL VIEW</div>
+          </div>
+          <div class="panel-body" style="font-size:0.82rem;color:var(--text-secondary);line-height:1.8">
+            <p><strong style="color:var(--accent-gold)">EMEA:</strong> Mamluk Egypt vs Mongols &amp; Crusaders ✝️. EU:
+              Black Death/Plague. Italy: <strong>Renaissance begins</strong>. Ottoman Turks [Enemy: Timur/Turk-Mongol
+              wins, but Ottomans recover] → Ottomans conquer Constantinople (1453) — ending East Roman Empire fully.
+              Songhai Empire (Africa). Spain vs Portugal vs Britain: Age of Discovery. Spanish Empire peaks here, later
+              eclipsed by Britain.</p>
+            <p><strong style="color:var(--life20-color)">India:</strong> Later Delhi Sultanate (Tughlaq → Timurid/Sayyid
+              → Lodi). Rajput (Rana Kumbha). <strong>Vijayanagara Empire</strong> (Harihara/Bukkaray → Krishnadevaraya
+              🥇 age) vs. Islamic/Bahmani &amp; Kalinga/Gajapati. Bahmani splits into Nizamshahi &amp; Adil Shah. Mughal
+              pressure from north + Bahmani pressure from south creates the "sandwich situation" that gives rise to the
+              <strong>Maratha Empire</strong>. Similarly, <strong>Sikh identity</strong> arises from the need for
+              religious survival. <strong>Rajputana</strong> as India's front-line gatekeepers.
+            </p>
+            <p><strong style="color:#e74c3c">China:</strong> Ming Dynasty. Norse Greenland settlements collapse — only
+              Inuit remain.</p>
+            <p><strong style="color:#9b59b6">Americas:</strong> Aztec (Meso), Inca (South), Iroquois Confederacy (North)
+              — massive centralised empires at their peak until European contact (1492). Māori culture peaks in New
+              Zealand.</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">📊 THEMATIC VIEW</div>
+          </div>
+          <div class="panel-body">
+            <div class="thematic-grid">
+              <div class="theme-item theme-col-sci"><span class="t-icon">🔬</span><span class="t-label">SCI · TECH ·
+                  MED</span>Gutenberg's Printing Press (~1440) democratises information — the most consequential
+                invention between the wheel and the internet. Early observational astronomy begins challenging Church
+                dogma.</div>
+              <div class="theme-item theme-col-com"><span class="t-icon">📒</span><span class="t-label">COMMERCE ·
+                  LOGISTICS</span>Luca Pacioli (1494) publishes the first work on double-entry bookkeeping — "Father of
+                Accounting/CA." Medici family (Florence) invents modern banking — letters of credit, interest, risk
+                management.</div>
+              <div class="theme-item theme-col-art"><span class="t-icon">🎨</span><span class="t-label">ARTS · MEDIA ·
+                  CULTURE</span>Italian Renaissance (Da Vinci, Michelangelo) — hyper-realistic visual arts, humanist
+                philosophy, revival of classical knowledge. A complete transformation of European self-understanding.
+              </div>
+              <div class="theme-item theme-col-soc"><span class="t-icon">🌐</span><span class="t-label">SOCIETY · IDEAS
+                  · ED</span>Humanism shifts focus from the divine to human potential. Early forms of tennis &amp; golf
+                emerge in Europe. Columbus 1492 — a date that permanently divides world history.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== MODERN HISTORY ===== -->
+      <div class="era-separator" style="padding:4rem 0 1rem">
+        <h2
+          style="font-family:Cinzel,serif;font-size:1.4rem;padding:1rem 2rem;display:inline-block;border:1px solid var(--border-bright);background:var(--bg-secondary);border-radius:var(--radius)">
+          <span style="color:var(--accent-gold)">MODERN HISTORY</span> · ~1500 CE → 1950s
+        </h2>
+      </div>
+      <div class="why-matters">
+        <div class="wm-label">✦ PERSPECTIVE NOTE</div>
+        <p>Europe/USA was the clear winner here. All other nations tried independence, fought world wars, and resisted
+          colonialism — but ultimately, the knowledge benefit went to Europe/USA. This should have gone to India, which
+          had a deeper philosophical foundation than the West. But India never valued its own philosophy, while the
+          West's comparatively shallower philosophy still ruled the world. The lesson: India can still become a
+          superpower — but only by returning to the root of its philosophy and gaining true knowledge and wisdom, which
+          is the true frontier in this Information/AI Age.</p>
+      </div>
+
+      <div class="card-grid cols2" style="margin-bottom:2rem">
+        <div class="card">
+          <div class="card-title">💰 Potosí Silver Cycle</div>
+          <div class="card-body">Potosí silver from South America funded Ming China through global Spanish trade webs —
+            the first genuinely planetary monetary system, centuries before the dollar.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">🏭 Industrial Imbalance</div>
+          <div class="card-body">Industrial tariffs + colonial extraction enabled Europe's wealth drain. Concrete 2.0
+            (large-scale durable construction) and Steel 2.0 (Industrial Revolution) built the physical infrastructure
+            of dominance.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">⛓️ Structural Dependency</div>
+          <div class="card-body">Post-1945 decolonisation &amp; Cold War finance replaced empires with a hyper-connected
+            but fragile world. Separate civilisations were turned into one coercive global supply-chain system.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">⚡ Energy = Wars</div>
+          <div class="card-body">Oil &amp; Electricity (2nd Industrial Revolution) led to the evolution of warfare —
+            with the Middle East as epicenter. The Petrodollar system still governs global geopolitics today.</div>
+        </div>
+      </div>
+
+      <!-- Modern 1500–1750 -->
+      <div class="sub-era">
+        <div class="sub-era-title">Gunpowder Empires &amp; First Global Age · ~1500 → 1750</div>
+      </div>
+      <div class="dual-panel">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">🗺 REGIONAL VIEW</div>
+          </div>
+          <div class="panel-body" style="font-size:0.82rem;color:var(--text-secondary);line-height:1.8">
+            <p><strong style="color:var(--accent-gold)">EMEA:</strong> Ottoman/Suleiman (defeats Mamluks). Renaissance →
+              Enlightenment → seeds of USA &amp; French Revolutions. Absolutism. Protestant Reformation ✝️. Scientific
+              Revolution. <strong>Great Divergence:</strong> Ottoman Blockade forces European Atlantic expansion; Ming
+              Pivot ends China's maritime dominance. Gutenberg's press (~1440) begins the information revolution.</p>
+            <p><strong style="color:var(--life20-color)">India:</strong> Later Delhi Sultanate → <strong>Mughal Empire
+                (Babur ⇒ Aurangzeb)</strong>. Babur claims Delhi as 6th-generation descendant of Timur. Rajputs: Rana
+              Sanga vs Lodi/Babur; Maharana Pratap vs Akbar. <strong>Maratha Rise (1674) — Chhatrapati Shivaji →
+                Shambhaji vs Aurangzeb, Bajirao.</strong> Sikh Empire vs Mughals: Banda Singh Bahadur. EIC (East India
+              Company) rises in Bengal. Suri Dynasty (Sher Shah Suri) interrupts Mughal dynasty. South kingdoms (Nayaka,
+              Mysore) after Vijayanagara falls.</p>
+            <p><strong style="color:#e74c3c">China:</strong> Late Ming → Early Qing.</p>
+            <p><strong style="color:#9b59b6">Americas:</strong> Fall of Aztec &amp; Inca. European Transatlantic slave
+              trade. Columbian Exchange (crops, animals, devastating diseases cross the Atlantic). French New France
+              &amp; British Hudson's Bay Company (fur trade).</p>
+            <p><strong style="color:#f39c12">Oceania:</strong> Dutch explorer Abel Tasman sights Australia &amp; NZ but
+              establishes no colonies. Svalbard (Arctic) discovered by Dutch (1596) — massive whaling hub.</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">📊 THEMATIC VIEW</div>
+          </div>
+          <div class="panel-body">
+            <div class="thematic-grid">
+              <div class="theme-item theme-col-sci"><span class="t-icon">🍎</span><span class="t-label">SCI · TECH ·
+                  MED</span>Scientific Revolution — Newtonian physics, Galilean astronomy. Discovery of the circulatory
+                system (Harvey, 1628). Microscope &amp; telescope invented.</div>
+              <div class="theme-item theme-col-com"><span class="t-icon">📈</span><span class="t-label">COMMERCE ·
+                  LOGISTICS</span>Birth of the Joint-Stock Company: VOC (Dutch East India Company, 1602) — the world's
+                first publicly traded company. First modern stock exchanges open.</div>
+              <div class="theme-item theme-col-art"><span class="t-icon">🎵</span><span class="t-label">ARTS · MEDIA ·
+                  CULTURE</span>Baroque and early Classical music (Bach, Mozart). Shakespeare (literature). Cervantes'
+                Don Quixote. Mughal miniature painting peaks in India.</div>
+              <div class="theme-item theme-col-soc"><span class="t-icon">💭</span><span class="t-label">SOCIETY · IDEAS
+                  · ED</span>The Enlightenment (Locke, Rousseau, Voltaire). Early capitalism vs. mercantilism debates.
+                Foundations of modern political philosophy laid.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modern 1750–1900 -->
+      <div class="sub-era" style="margin-top:3rem">
+        <div class="sub-era-title">Industrialisation &amp; Age of Revolutions · ~1750 → 1900</div>
+      </div>
+      <div class="dual-panel">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">🗺 REGIONAL VIEW</div>
+          </div>
+          <div class="panel-body" style="font-size:0.82rem;color:var(--text-secondary);line-height:1.8">
+            <p><strong style="color:var(--accent-gold)">EMEA:</strong> Industrial Revolution (1st: steam/textiles; 2nd:
+              electricity/steel). Imperialism. Laki eruption in Iceland (1783) kills 20% of population. Madagascar
+              conquered by French.</p>
+            <p><strong style="color:var(--life20-color)">India:</strong> Maratha Empire (Shinde, Ahilyabai Holkar). Sikh
+              Empire (Ranjit Singh, Hari Singh Nalwa, Akali Phula Singh). <strong>British Raj. 1857 Revolt</strong> —
+              Mangal Pandey, Rani of Jhansi, Tatya Tope. South/Mysore: Hyder Ali, Tipu Sultan. The systematic
+              deindustrialisation of India.</p>
+            <p><strong style="color:#e74c3c">China:</strong> Late Qing / Century of Humiliation (Opium Wars). Western
+              powers carve out spheres of influence.</p>
+            <p><strong style="color:#9b59b6">Americas:</strong> American, Haitian, &amp; Latin American independence
+              from European powers. US Civil War. Russia colonises Alaska; US purchases it (1867). Canada becomes a
+              Confederation (1867). Antarctica first sighted (1820). Hawaii unified under Kamehameha, later annexed by
+              US (1898).</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">📊 THEMATIC VIEW</div>
+          </div>
+          <div class="panel-body">
+            <div class="thematic-grid">
+              <div class="theme-item theme-col-sci"><span class="t-icon">🧬</span><span class="t-label">SCI · TECH ·
+                  MED</span>Darwinian Evolution. Mendeleev's Periodic Table. Steam engine, telegraph, early electricity.
+                Germ Theory (Pasteur). Golden Age of Microbiology (19th c) → Penicillin, Vaccines.</div>
+              <div class="theme-item theme-col-com"><span class="t-icon">🚂</span><span class="t-label">COMMERCE ·
+                  LOGISTICS</span>Industrial Revolution: Railways, steamships, canals shrink the world. First MBA
+                concept emerges in the US (late 1800s). Chicago commodity exchanges pioneer futures trading.</div>
+              <div class="theme-item theme-col-art"><span class="t-icon">📷</span><span class="t-label">ARTS · MEDIA ·
+                  CULTURE</span>Photography invented. Early motion pictures. Romanticism → Impressionism (Monet). Mass
+                printing enables newspapers — the birth of public opinion.</div>
+              <div class="theme-item theme-col-soc"><span class="t-icon">⚔️</span><span class="t-label">SOCIETY · IDEAS
+                  · ED</span>American &amp; French Revolutions. Abolition of slavery. Marxism vs. Laissez-faire
+                Capitalism. Foundations of modern nation-state and international law.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modern 1900–1950 -->
+      <div class="sub-era" style="margin-top:3rem">
+        <div class="sub-era-title">Global Conflict &amp; the Shift in Power · ~1900 → 1950s</div>
+      </div>
+      <div class="dual-panel">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">🗺 REGIONAL VIEW</div>
+          </div>
+          <div class="panel-body" style="font-size:0.82rem;color:var(--text-secondary);line-height:1.8">
+            <p><strong style="color:var(--accent-gold)">EMEA:</strong> WW1 → WW2. Holocaust ✡️ (Hitler vs Jews). Russian
+              Revolution (USSR ☭). Iron Curtain/Cold War begins. Iceland gains full independence from Denmark as a
+              Republic (1944).</p>
+            <p><strong style="color:var(--life20-color)">India:</strong> Mass Freedom Struggle. <strong>1947 🇮🇳
+                Independence.</strong> Partition (India vs Pakistan &amp; Bangladesh). 1st Kashmir War.</p>
+            <p><strong style="color:#e74c3c">China:</strong> Fall of Qing Dynasty → Republic → PRC/CCP (Mao) vs Taiwan,
+              warlordism &amp; Japanese invasion.</p>
+            <p><strong style="color:#9b59b6">Americas:</strong> US Great Depression. US dominance in WW1–WW2.
+              <strong>Oppenheimer (WW2) — Nuclear Age</strong> (Hiroshima &amp; Nagasaki 💣, 1945). Klondike Gold Rush;
+              Alaska Highway built in WWII.
+            </p>
+            <p><strong style="color:#f39c12">Oceania:</strong> Australia/NZ fight heavily in WWI/WWII. Amundsen &amp;
+              Scott reach South Pole (1911/1912). Antarctica fully explored. Most technology during WW1/WW2 → later
+              transferred to universities → consumer products.</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">📊 THEMATIC VIEW</div>
+          </div>
+          <div class="panel-body">
+            <div class="thematic-grid">
+              <div class="theme-item theme-col-sci"><span class="t-icon">⚛️</span><span class="t-label">SCI · TECH ·
+                  MED</span>Quantum Mechanics. Einstein's Relativity. Wright Bros' flight. Ford assembly line (IC
+                Engine/Otto Cycle). Penicillin (antibiotics — saves ~200 million lives post-WW2).</div>
+              <div class="theme-item theme-col-com"><span class="t-icon">✈️</span><span class="t-label">COMMERCE ·
+                  LOGISTICS</span>Aviation industry born. Highway systems. Great Depression triggers massive financial
+                reforms — Keynesian economics becomes the dominant framework.</div>
+              <div class="theme-item theme-col-art"><span class="t-icon">🎬</span><span class="t-label">ARTS · MEDIA ·
+                  CULTURE</span>Nobel Prizes (1901). Oscars (Academy Awards, 1929). Golden Age of Hollywood. Radio
+                broadcasts. Jazz → Big Band → early Rock. War propaganda shapes mass media.</div>
+              <div class="theme-item theme-col-soc"><span class="t-icon">🌍</span><span class="t-label">SOCIETY · IDEAS
+                  · ED</span>Fascism vs. Communism vs. Democracy — the 20th century's defining ideological struggle.
+                World Wars permanently reshape the global order. UN founded (1945).</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LIFE 4.0 ===== -->
+  <section id="life40"
+    style="padding:6rem 0;background:radial-gradient(ellipse at top,rgba(255,107,138,0.05) 0%,transparent 60%)">
+    <div class="section" style="max-width:1200px">
+      <div class="section-header">
+        <span class="section-tag">1950s → Future</span>
+        <h2 class="section-title" style="color:var(--life40-color)">LIFE 4.0</h2>
+        <p class="section-sub">Anthropocene — Digital, Information, AI Era &amp; What Comes Next</p>
+        <div class="section-divider"
+          style="background:linear-gradient(90deg,transparent,var(--life40-color),transparent)"></div>
+      </div>
+
+      <div class="card-grid cols2" style="margin-bottom:2rem">
+        <div class="card">
+          <div class="card-title">⚡ Energy Transition</div>
+          <div class="card-body">Nuclear (post-WW2 bomb) → Green (Solar, Wind, Electricity, Hydro/Geothermal,
+            Biomass/waste/gas). The 21st century's defining infrastructure race.</div>
+        </div>
+        <div class="card">
+          <div class="card-title">🔑 Key Markers</div>
+          <div class="card-body">Silicon (Transistor), Internet (Web 1.0 → 4.0), Computers/Hardware (IT Industry
+            Evolution), AI (LLMs). These four define the arc from 1950 to the present.</div>
+        </div>
+      </div>
+
+      <!-- Future Warning -->
+      <div class="future-warning">
+        <div class="fw-label">⚠ FUTURE APOCALYPSE — ANTHROPOGENIC RISKS</div>
+        <div class="fw-title">The Three Existential Threats of Life 4.0</div>
+        <div class="fw-body">
+          <strong style="color:#ff6b6b">① Climate Crisis (6th Mass Extinction):</strong> Human-driven habitat
+          destruction, CO₂ emissions, and ecosystem collapse. Species extinction rate 100–1,000× background levels. We
+          are already in it.<br><br>
+          <strong style="color:#ff6b6b">② WW-3 Risk (Nuclear / AI / Cyber):</strong> Proliferation of nuclear weapons,
+          AI-controlled warfare systems, and cyber-warfare capable of grid collapse. The Cuban Missile Crisis nearly
+          ended everything in 1962; the next near-miss may not resolve peacefully.<br><br>
+          <strong style="color:#ff6b6b">③ Multi-Planetary Colonisation (Existential Insurance):</strong> The long-term
+          answer to both above risks — but also a source of new geopolitical conflict over who controls off-Earth
+          resources and governance.
+        </div>
+      </div>
+
+      <!-- Contemporary 1950–1980 -->
+      <div class="sub-era" style="margin-top:2rem">
+        <div class="sub-era-title">Cold War &amp; Third World · ~1950s → 1980s</div>
+      </div>
+      <div class="dual-panel">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">🗺 REGIONAL VIEW</div>
+          </div>
+          <div class="panel-body" style="font-size:0.82rem;color:var(--text-secondary);line-height:1.8">
+            <p><strong style="color:var(--accent-gold)">EMEA:</strong> Cold War Divide (NATO/Iron Curtain).
+              Decolonisation (Middle East, Africa) → regional wars (Arab vs Israeli). Iceland fights "Cod Wars" against
+              the UK over fishing rights.</p>
+            <p><strong style="color:var(--life20-color)">India:</strong> <a
+                href="https://www.google.com/search?q=non+aligned+movement+india" target="_blank">Non-Aligned
+                Movement</a>. Nation-building — License Raj, Five-Year Plans, Green Revolution. 1975 Emergency (Indira
+              Gandhi). Wars: 🇮🇳 vs 🇨🇳 (1950, '62, '67); 2nd Kashmir War vs 🇵🇰 (1965); Bangladesh Liberation 🇧🇩
+              (1971).</p>
+            <p><strong style="color:#e74c3c">China:</strong> Maoist Era. Isolation — Great Leap Forward, Cultural
+              Revolution.</p>
+            <p><strong style="color:#9b59b6">Americas:</strong> US Civil Rights Movement. Cold War Proxy Wars — Vietnam,
+              Korea, Soviet-Afghan, Angola. Cuban Missile Crisis (near-apocalyptic). Latin America: Operation Condor.
+              Alaska becomes 49th US state (1959). Hawaii becomes 50th (1959). Nunavut self-governance movement begins.
+              Antarctica demilitarised (1959). ANZUS formed.</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">📊 THEMATIC VIEW</div>
+          </div>
+          <div class="panel-body">
+            <div class="thematic-grid">
+              <div class="theme-item theme-col-sci"><span class="t-icon">🚀</span><span class="t-label">SCI · TECH ·
+                  MED</span>Transistors → microprocessors → ARPANET (early internet). The Space Race: Sputnik (1957) to
+                Apollo 11 (1969). DNA double helix discovered (Watson &amp; Crick, 1953).</div>
+              <div class="theme-item theme-col-com"><span class="t-icon">📦</span><span class="t-label">COMMERCE ·
+                  LOGISTICS</span>Malcolm McLean invents shipping containers — sparking ultimate globalisation. Credit
+                cards become ubiquitous. Bretton Woods system (USD as global reserve currency).</div>
+              <div class="theme-item theme-col-art"><span class="t-icon">🎸</span><span class="t-label">ARTS · MEDIA ·
+                  CULTURE</span>Grammys established (1959). Rock &amp; Roll, Pop, Hip-Hop emerge. Colour TV becomes the
+                global standard. Beatles, Motown — music as global culture.</div>
+              <div class="theme-item theme-col-soc"><span class="t-icon">✊</span><span class="t-label">SOCIETY · IDEAS ·
+                  ED</span>Cold War ideological battle. Civil Rights movements globally. Commercialisation of the
+                Olympics and FIFA. Mass university expansion in the West.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contemporary 1980–2000 -->
+      <div class="sub-era" style="margin-top:3rem">
+        <div class="sub-era-title">Unipolar Moment &amp; Globalisation · ~1980s → 2000s</div>
+      </div>
+      <div class="dual-panel">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">🗺 REGIONAL VIEW</div>
+          </div>
+          <div class="panel-body" style="font-size:0.82rem;color:var(--text-secondary);line-height:1.8">
+            <p><strong style="color:var(--accent-gold)">EMEA:</strong> Fall of USSR &amp; Cold War ends (Berlin Wall,
+              1991). EU formation. South Africa: Apartheid ends.</p>
+            <p><strong style="color:var(--life20-color)">India:</strong> <strong>1991 Liberalisation (LPG — Manmohan
+                Singh/PV Narasimha Rao).</strong> IT Boom ⚛️. Pokhran-2 nuclear test (Operation Shakti — Thar Desert,
+              Rajasthan; Vajpayee &amp; APJ Abdul Kalam, 1998).</p>
+            <p><strong style="color:#e74c3c">China:</strong> Deng's Reforms. Tiananmen Square Massacre (1989) — high
+              inflation + corruption → crackdown → paradoxically enables Economic Rise. "Factory of the World"
+              manufacturing dominance.</p>
+            <p><strong style="color:#9b59b6">Americas:</strong> US Unipolar Hegemony (Superpower). NAFTA. Dot-Com Boom.
+              Nunavut Territory created (1999) — major Inuit self-government. AUS/NZ pivot trade toward rising Asian
+              markets. Falkland Islands War (1982).</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">📊 THEMATIC VIEW</div>
+          </div>
+          <div class="panel-body">
+            <div class="thematic-grid">
+              <div class="theme-item theme-col-sci"><span class="t-icon">💻</span><span class="t-label">SCI · TECH ·
+                  MED</span>Personal Computer revolution (Apple/Microsoft). World Wide Web (Berners-Lee, 1991). Human
+                Genome Project begins. The internet transforms everything.</div>
+              <div class="theme-item theme-col-com"><span class="t-icon">🌐</span><span class="t-label">COMMERCE ·
+                  LOGISTICS</span>NAFTA, WTO, hyper-globalised supply chains. Wall Street deregulation — algorithmic
+                trading begins. The "Washington Consensus" shapes global economic policy.</div>
+              <div class="theme-item theme-col-art"><span class="t-icon">🎥</span><span class="t-label">ARTS · MEDIA ·
+                  CULTURE</span>CGI revolutionises filmmaking (Jurassic Park, The Matrix). 24-hour cable news networks
+                shape public opinion. Video games become a mass cultural medium.</div>
+              <div class="theme-item theme-col-soc"><span class="t-icon">🧱</span><span class="t-label">SOCIETY · IDEAS
+                  · ED</span>Fall of the Berlin Wall. "End of History" (Fukuyama). Rise of massive online/distance
+                learning. Globalisation's winners and losers become starkly visible.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contemporary 2000–Present -->
+      <div class="sub-era" style="margin-top:3rem">
+        <div class="sub-era-title">Digital Age &amp; Multipolar World · ~2000s → Present</div>
+      </div>
+      <div class="dual-panel">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">🗺 REGIONAL VIEW</div>
+          </div>
+          <div class="panel-body" style="font-size:0.82rem;color:var(--text-secondary);line-height:1.8">
+            <p><strong style="color:var(--accent-gold)">EMEA:</strong> MENA: GWOT (Global War on Terror — the next big
+              thing after the Cold War, post-9/11) — oil &amp; weapons profits in the name of ending Islamic terrorism.
+              EU: Brexit &amp; present conflicts (Russia-Ukraine). Iceland suffers catastrophic national banking
+              collapse (2008) but rapidly recovers.</p>
+            <p><strong style="color:var(--life20-color)">India:</strong> Digital India infrastructure. Space exploration
+              (Mars Orbiter/Mangalyaan, Chandrayaan). Global emergence — influencing both the West &amp; Global South.
+            </p>
+            <p><strong style="color:#e74c3c">China:</strong> Xi Jinping. Belt &amp; Road Initiative (BRI). Tech Hegemony
+              (SuperPower contender) vs. 🇺🇸 (AI/5G/Green Energy competition).</p>
+            <p><strong style="color:#9b59b6">Americas:</strong> Post-9/11 GWOT. 2008 Financial Crisis →
+              Crypto/Blockchain. Big Tech (Silicon Valley). Extreme political polarisation. Arctic sovereignty becomes
+              geopolitical issue as Northwest Passage opens (climate change). Greenland votes for expanded
+              self-government (2009), moving toward independence.</p>
+            <p><strong style="color:#f39c12">Oceania:</strong> Antarctica = "ground zero" for global climate research.
+              Pacific island nations (Tuvalu, Kiribati) face existential threats from rising sea levels.</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">📊 THEMATIC VIEW</div>
+          </div>
+          <div class="panel-body">
+            <div class="thematic-grid">
+              <div class="theme-item theme-col-sci"><span class="t-icon">🤖</span><span class="t-label">SCI · TECH ·
+                  MED</span>Smartphones. AI/Machine Learning → Generative AI/LLMs. Cloud Computing. CRISPR gene editing.
+                mRNA vaccines (COVID-19). Commercial spaceflight (SpaceX). The age of acceleration.</div>
+              <div class="theme-item theme-col-com"><span class="t-icon">₿</span><span class="t-label">COMMERCE ·
+                  LOGISTICS</span>2008 Financial Crisis → Crypto/Blockchain (FinTech). E-commerce giants (Amazon)
+                revolutionise last-mile delivery. Gig economy disrupts traditional employment.</div>
+              <div class="theme-item theme-col-art"><span class="t-icon">📱</span><span class="t-label">ARTS · MEDIA ·
+                  CULTURE</span>Streaming platforms (Netflix, Spotify) disrupt traditional cinema and music. Social
+                media algorithms dictate culture at scale. AI-generated art challenges human authorship.</div>
+              <div class="theme-item theme-col-soc"><span class="t-icon">🌡️</span><span class="t-label">SOCIETY · IDEAS
+                  · ED</span>Post-truth era. Extreme political polarisation via social media. Climate activism (Fridays
+                for Future). AI governance debates. The meaning of "work" transformed by automation.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- IT REVOLUTION TABLE -->
+      <div class="section-header" style="margin-top:5rem;margin-bottom:2rem">
+        <span class="section-tag">Deep Dive</span>
+        <h3 class="section-title" style="font-size:1.8rem">IT Revolution — From Abacus to ASI</h3>
+        <p class="section-sub">Six stages of human-computer co-evolution</p>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="it-table">
+          <thead>
+            <tr>
+              <th style="min-width:140px">Era</th>
+              <th style="min-width:200px">Hardware &amp; Comm. Networks</th>
+              <th style="min-width:200px">Software, Languages &amp; Logic</th>
+              <th style="min-width:200px">AI Evolution &amp; DIKW Paradigm</th>
+              <th style="min-width:200px">Economy &amp; Human-Computer Mix</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="it-era-label">Ancient</span><span style="font-size:0.72rem;color:var(--text-muted)">~3000
+                  BCE – 500 CE</span></td>
+              <td><strong>Analog Mechanics:</strong> Abacus, Antikythera Mechanism. Comms: Couriers, beacon fires, Roman
+                Cursus Publicus.</td>
+              <td><strong>Foundations:</strong> Base-60 math, Euclidean algorithms, Pingala's early binary concepts.
+              </td>
+              <td><strong style="color:#6b8fff">THE DATA ERA</strong> — Raw facts recorded on clay tablets and papyrus.
+                AI Level: Zero.</td>
+              <td><strong>The Physical Worker:</strong> Humans rely entirely on biological memory and physical tools. IT
+                restricted to elite scribes.</td>
+            </tr>
+            <tr>
+              <td><span class="it-era-label">Medieval</span><span style="font-size:0.72rem;color:var(--text-muted)">~500
+                  – 1500 CE</span></td>
+              <td><strong>Mechanisation:</strong> Geared astrolabes, mechanical clocks, Gutenberg Printing Press.</td>
+              <td><strong>Formal Logic:</strong> Algebra (Al-Khwarizmi), Cryptanalysis, Double-entry bookkeeping.</td>
+              <td><strong style="color:#74b9ff">THE INFORMATION ERA</strong> — Data organised, duplicated, and
+                mass-distributed (books/ledgers).</td>
+              <td><strong>The Artisan/Scholar:</strong> Knowledge is power, hoarded by guilds and universities.
+                Information moves at horse speed.</td>
+            </tr>
+            <tr>
+              <td><span class="it-era-label">Modern</span><span style="font-size:0.72rem;color:var(--text-muted)">~1500
+                  – 1950s</span></td>
+              <td><strong>Electronic Signals:</strong> Telegraph, Telephone, Radio. Vacuum tube computers (ENIAC). Early
+                transistors.</td>
+              <td><strong>Early Code:</strong> Boolean logic, Ada Lovelace's first algorithm. Turing Machines. Assembly
+                language.</td>
+              <td><strong style="color:var(--accent-gold)">INFORMATION PROCESSING</strong> — Punch cards → magnetic
+                tape. AI Level: Conceptual (Turing asks, "Can machines think?").</td>
+              <td><strong>The "Human Computer":</strong> People hired to do math for space/war efforts. Shift from
+                physical to early white-collar work begins.</td>
+            </tr>
+            <tr>
+              <td><span class="it-era-label">Contemporary</span><span
+                  style="font-size:0.72rem;color:var(--text-muted)">~1950s – 2020s</span></td>
+              <td><strong>The Digital Boom:</strong> Microprocessors, PCs, Smartphones, Cloud Server Farms, Global Fiber
+                Optics, 5G, IoT.</td>
+              <td><strong>High-Level Languages:</strong> C, Java, Python, JavaScript. Object-oriented &amp; cloud-native
+                programming. Open Source.</td>
+              <td><strong style="color:#fdcb6e">THE KNOWLEDGE ERA</strong> — Relational DBs, Big Data. AI Level: ML →
+                Deep Learning → Generative AI/LLMs.</td>
+              <td><strong>The Knowledge Worker:</strong> Peak of the traditional "brain economy." Humans use smartphones
+                as "external brains" (early, unintegrated cyborgs).</td>
+            </tr>
+            <tr>
+              <td><span class="it-era-label">Near Future</span><span
+                  style="font-size:0.72rem;color:var(--text-muted)">~2030s – 2050s</span></td>
+              <td><strong>Quantum &amp; Spatial:</strong> Commercial Quantum Computers, AR/VR integration, wearable
+                non-invasive Brain-Computer Interfaces (BCIs).</td>
+              <td><strong>Intent-Based Coding:</strong> Natural Language Programming. AI writes, tests, and deploys its
+                own code (AutoML).</td>
+              <td><strong style="color:#ff7675">THE WISDOM ERA</strong> — Systems make ethical, context-aware decisions.
+                AI Level: Artificial General Intelligence (AGI) achieved.</td>
+              <td><strong>The Creative Director:</strong> AI takes over pure "knowledge work" (coding, law, accounting).
+                Humans shift to directing AI and hyper-empathetic roles.</td>
+            </tr>
+            <tr style="background:rgba(255,107,138,0.05)">
+              <td><span class="it-era-label" style="color:var(--life40-color)">Far Future</span><span
+                  style="font-size:0.72rem;color:var(--text-muted)">2050s &amp; Beyond</span></td>
+              <td><strong>Biological Computing:</strong> Nanobots, Neural Laces (invasive BCIs), DNA data storage,
+                Matrioshka Brains/Dyson Spheres.</td>
+              <td><strong>Post-Code:</strong> Direct thought-to-execution. Software no longer written — instantly
+                manifested by collective thought.</td>
+              <td><strong style="color:#ff6b6b">THE OMNI-SCIENCE ERA</strong> — Instant access to universal knowledge.
+                AI Level: Artificial Superintelligence (ASI).</td>
+              <td><strong>Transhumanism/The Singularity:</strong> End of the "biological-only" human. Minds integrate
+                directly with the cloud. The question of what "human" means is permanently open.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== THEMATIC DEEP-DIVES ===== -->
+  <section id="themes" style="padding:6rem 0;background:var(--bg-secondary)">
+    <div class="section" style="max-width:900px">
+      <div class="section-header">
+        <span class="section-tag">Collapsible Deep-Dives</span>
+        <h2 class="section-title">Thematic Notes &amp; Perspectives</h2>
+        <p class="section-sub">Personal interpretations, contested hypotheses, and contextual background</p>
+        <div class="section-divider"></div>
+      </div>
+      <div class="accordion">
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)">
+            <h3>🧬 Homo Sapiens Biology &amp; the Bipedalism Trade-off</h3>
+            <span class="acc-arrow">▾</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-inner">
+              <p><strong style="color:var(--accent-gold)">Key traits:</strong> Hot-blooded, diurnal, bipedal. Large
+                brain (~20% of caloric intake — an enormous evolutionary bet on intelligence). Thermoregulation via
+                sweat (not like dogs — this enables continuous long-distance running in heat, a uniquely human
+                capability). Round cranium, small face, true chin. Omnivory — meat-eating was directly responsible for
+                rapid brain expansion. Penile evolution supports longer pair-bonding behaviour.</p>
+              <p><strong style="color:var(--accent-gold)">Bipedalism — The Central Trade-off:</strong></p>
+              <p><strong>Pros:</strong> Long-distance endurance running (persistence hunting), tool use with freed
+                hands, visual surveillance over tall grass in savannah environments.</p>
+              <p><strong>Cons:</strong> Narrow, short pelvis creates an agonising conflict with large brain size →
+                premature birth (human infants are born far earlier than other primates relative to developmental stage)
+                → extended infant dependency → deeper social bonding structures → language → civilisation. Also:
+                lifelong back pain — the price of walking upright on a skeleton evolved for quadrupedalism.</p>
+              <p><strong>Neutral but consequential:</strong> Sexual preference shift — from rear to frontal orientation,
+                with visible breast development becoming permanently prominent (unique to Homo sapiens) — strengthened
+                pair-bonding and created more complex, sustained social relationships.</p>
+            </div>
+          </div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)">
+            <h3>🪢 Casteism &amp; Genetics in India (~100 BCE Context)</h3>
+            <span class="acc-arrow">▾</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-inner">
+              <p>Casteism through endogamy began to significantly influence genetics in India around ~100 BCE — within
+                what we call Ancient History — during the Vedic Age. This system was brought by Steppe/Aryan pastoral
+                peoples (arriving ~2,000–3,000 years ago) when Brahminism was at its ideological peak. Later,
+                Brahminism's power declined due to Jainism and Buddhism's reform movements, but strict legal codes like
+                Manusmriti had already become mainstream — effectively tying genetics and caste/jati together almost
+                inseparably.</p>
+              <p>The one partial benefit of the gotra system (unlike strict Islamic cousin-marriage practices, which
+                risk inbreeding within small groups) was that it enforced exogamy within a limited genetic pool —
+                producing somewhat healthier children than true incest, though still far from genetically diverse. North
+                vs. South India differ on gotra marriage conventions to this day, but both are significantly more
+                endogamous than most global populations.</p>
+              <p>This is why India's genetic landscape is one of the most complex in the world — ancient AASI layers,
+                Iranian farmer admixture, Steppe ancestry, and thousands of years of caste-enforced endogamy have
+                created what geneticists call the "Indian Cline" — a population with very high between-group genetic
+                differentiation despite geographical proximity.</p>
+            </div>
+          </div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)">
+            <h3>⚠️ Contested Hypotheses — Diamond &amp; Harari <span class="tag tag-debate"
+                style="margin-left:0.5rem">DEBATED</span></h3>
+            <span class="acc-arrow">▾</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-inner">
+              <p style="color:var(--accent-gold);font-size:0.82rem;font-family:Cinzel,serif;letter-spacing:0.08em">NOTE:
+                These hypotheses face significant scientific criticism and are presented as thought-provoking
+                frameworks, not established truths.</p>
+              <p><strong>Jared Diamond — Guns, Germs &amp; Steel:</strong> Proposes that Eurasian civilisations'
+                dominance was primarily driven by geography (east-west axis allowing crop/animal species to spread),
+                biogeography (more domesticable plants and animals), and the resulting advantages in guns, epidemic
+                diseases, and steel. Critics argue it underweights agency, culture, politics, and contingency —
+                essentially reducing history to environmental determinism.</p>
+              <p><strong>Yuval Noah Harari — Sapiens/Homo Deus framework:</strong></p>
+              <p>• Cognitive Revolution (~70,000 years ago) — language and myth-making enabled large-scale human
+                cooperation.<br>
+                • Agriculture as Fraud: "Wheat domesticated humans, not the other way around" — farming trapped humans
+                in harder lives to feed growing populations.<br>
+                • Future Unification: Economy (money), Politics (imperialism/empire), Universal Religion
+                (Christ-Islam-Buddhism) as three unifying forces.<br>
+                • Homo Deus: Humanism → Dataism. AI will create a "useless class" of humans. Algorithms will outperform
+                human judgment. Future: direct algorithmic governance of human society.</p>
+              <p>Critics of Harari note oversimplification of complex historical processes, excessive technological
+                determinism, and insufficient engagement with non-Western philosophical traditions.</p>
+            </div>
+          </div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)">
+            <h3>📜 Proto-History Note — IVC, China &amp; the Writing Question</h3>
+            <span class="acc-arrow">▾</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-inner">
+              <p>While Mesopotamia (Sumerians/Uruk) and Egypt were developing writing, most of the world was not. Many
+                civilisations exist in what scholars call "proto-history" — a zone between pure prehistory (no writing
+                at all) and full recorded history (deciphered written records).</p>
+              <p>The Indus Valley Civilisation (IVC/Harappan) and early Chinese civilisations technically fall into this
+                category — their scripts (Indus script, early oracle bone script) were either undeciphered, appeared
+                later, or are known primarily through external references. However, we discuss them within Ancient
+                History because they were genuinely parallel, contemporaneous civilisations alongside Egypt, Greece,
+                Rome, and China, and treating them as "prehistoric" would distort our understanding of the era's actual
+                complexity.</p>
+              <p>The key insight: <strong>writing is a proxy for civilisation, not its definition.</strong> IVC had
+                standardised weights, planned sanitation, long-distance trade networks, and dense urban centres — all
+                without a fully deciphered writing system. Civilisation and literacy are correlated but not identical.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-header" onclick="toggleAcc(this)">
+            <h3>🌐 SuperContinent → SuperMountain → Climate Cycle</h3>
+            <span class="acc-arrow">▾</span>
+          </div>
+          <div class="acc-body">
+            <div class="acc-inner">
+              <p>The SuperContinent (SC) cycle drives a cascading chain of consequences that ultimately shape biological
+                evolution and human history:</p>
+              <p><strong>SC Formation → SuperMountain (SM) Phase:</strong> When continents collide, massive mountain
+                ranges (SuperMountains) form — Columbia/Nuna SC created the first known SuperMountain phase. These
+                mountains dramatically increase erosion, silicate weathering draws CO₂ from the atmosphere, and global
+                temperatures drop.</p>
+              <p><strong>Climate Swings:</strong> SC assembly and breakup alter ocean current patterns, trade wind
+                directions, and continental climate zones. Rodinia's breakup + position over the South Pole triggered
+                Snowball Earth (~720–635 Mya). Pangea's assembly created the massive Permian deserts that stressed life
+                before the Great Dying.</p>
+              <p><strong>Mass Extinction Connection:</strong> Most major mass extinctions (M.E.) are associated with
+                massive volcanic CO₂ release (as SC fragments pull apart, mantle plumes erupt), not asteroid impacts
+                (the K-Pg event is the only confirmed large-asteroid-driven extinction).</p>
+              <p><strong>Future SC:</strong> Pangea Proxima is predicted to form ~250 million years from now — a merger
+                of the Atlantic-closing Americas with Eurasia-Africa. Antarctica may join later. The resulting
+                SuperMountains and climate effects will shape whatever life exists then.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== INSIGHTS PANEL ===== -->
+  <section id="insights" style="padding:6rem 0">
+    <div class="section" style="max-width:1100px">
+      <div class="section-header">
+        <span class="section-tag">Patterns Across All Scales</span>
+        <h2 class="section-title">Insights from the Full Arc</h2>
+        <p class="section-sub">Cross-era patterns visible only from 13.8 billion years of perspective</p>
+        <div class="section-divider"></div>
+      </div>
+      <div class="card-grid cols2">
+        <div class="insight-card">
+          <div class="insight-num">01</div>
+          <div class="insight-title">Every Major Empire Collapse Triggered the Next Superpower Cycle</div>
+          <div class="insight-body">The fall of West Rome (476 CE) → Islamic Golden Age. Mongol destruction of Baghdad
+            (1258) → Ottoman rise. Ottoman Route Closure → European Age of Discovery → British Empire. Cold War end → US
+            Unipolar Moment → now China's rise. Collapse is not failure — it is the mechanism of transfer. The current
+            US-China transition fits this pattern precisely.</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-num">02</div>
+          <div class="insight-title">Trade Routes = Disease Routes = Idea Routes</div>
+          <div class="insight-body">The Silk Road simultaneously carried silk, plague (Justinian's Plague weakened
+            Byzantium, enabling Islam's rise; Black Death accelerated the Renaissance), Buddhism from India to China,
+            paper from China to the Islamic world, and eventually the printing press to Europe. The Columbian Exchange
+            (1492+) carried maize, potatoes, tomatoes — and smallpox, which killed ~90% of Indigenous Americans. Every
+            network that carries value also carries virus and vision simultaneously.</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-num">03</div>
+          <div class="insight-title">EU/USA Knowledge Dominance vs. India's Philosophical Head-Start</div>
+          <div class="insight-body">India produced the Upanishads, zero, decimal system, Wootz steel, the world's first
+            university (Taxila/Nalanda), and arguably the world's deepest philosophical framework — millennia before the
+            West. Yet the knowledge dividend went to Europe/USA. The lesson is not that Indian philosophy was wrong, but
+            that it was not institutionalised, protected, or continuously built upon. In this AI/Information Age — where
+            wisdom, not just information, is the frontier — India has the raw material. The question is whether it will
+            use it.</div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-num">04</div>
+          <div class="insight-title">Material Evolution Mirrors Cognitive Evolution</div>
+          <div class="insight-body">Stone → Ceramic → Copper → Bronze → Iron → Steel → Silicon → Nuclear → REE. Each
+            material transition correlates with a cognitive leap: flint tools = spatial reasoning; bronze = trade
+            networks and specialisation; iron = democratised warfare; steel = industrial scale; silicon = information
+            processing; REE = AI/energy transition. The materials humanity works with shape the cognitive demands placed
+            upon it — and those demands drive the next evolutionary leap.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p>Universal Chrono Timeline &nbsp;·&nbsp; A Personal Interpretation</p>
+    <p style="margin-top:0.5rem">
+      <a href="https://github.com/sonimonish00/Universal-timeline" target="_blank" class="flink">GitHub Repository</a>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/sonimonish00/IT-industry-evolution" target="_blank" class="flink">IT &amp; AI
+        Evolution</a>
+    </p>
+    <p style="margin-top:1rem;font-size:0.72rem;color:var(--text-muted)">Science and philosophy speak of the same
+      reality.</p>
+  </footer>
+
+  <!-- REGION TOOLTIP -->
+  <div class="region-tooltip" id="regionTooltip"></div>
+
+  <script>
+    // ===== THEME TOGGLE =====
+    function toggleTheme() {
+      const html = document.documentElement;
+      const btn = document.querySelector('.theme-toggle');
+      if (html.dataset.theme === 'dark') {
+        html.dataset.theme = 'light';
+        btn.textContent = '🌙 DARK';
+      } else {
+        html.dataset.theme = 'dark';
+        btn.textContent = '☀ LIGHT';
+      }
+    }
+
+    // ===== STAR FIELD =====
+    (function () {
+      const sf = document.getElementById('starField');
+      for (let i = 0; i < 80; i++) {
+        const s = document.createElement('div');
+        s.className = 'star';
+        const size = Math.random() * 2.5 + 0.5;
+        s.style.cssText = `
+      width:${size}px;height:${size}px;
+      left:${Math.random() * 100}%;top:${Math.random() * 100}vh;
+      --d:${(Math.random() * 4 + 2).toFixed(1)}s;
+      --o:${(Math.random() * 0.6 + 0.2).toFixed(2)};
+      animation-delay:${(Math.random() * 5).toFixed(1)}s;
+    `;
+        sf.appendChild(s);
+      }
+    })();
+
+    // ===== PROGRESS BAR =====
+    window.addEventListener('scroll', () => {
+      const el = document.getElementById('progressBar');
+      const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      el.style.width = pct + '%';
+    });
+
+    // ===== LOG TIMELINE TOOLTIP =====
+    const logTooltip = document.getElementById('logTooltip');
+    document.querySelectorAll('.log-marker').forEach(m => {
+      m.addEventListener('mouseenter', e => {
+        const parts = m.dataset.info.split('|');
+        logTooltip.innerHTML = `<strong style="color:var(--accent-gold)">${parts[0]}</strong><br><span style="color:var(--accent-teal);font-size:0.75rem">${parts[1]}</span><br><br>${parts[2]}`;
+        logTooltip.classList.add('visible');
+      });
+      m.addEventListener('mousemove', e => {
+        logTooltip.style.left = (e.clientX + 14) + 'px';
+        logTooltip.style.top = (e.clientY - 10) + 'px';
+      });
+      m.addEventListener('mouseleave', () => logTooltip.classList.remove('visible'));
+    });
+
+    // ===== SVG MAP TOOLTIPS =====
+    const mapTooltip = document.getElementById('mapTooltip');
+    const regionTooltip = document.getElementById('regionTooltip');
+    document.querySelectorAll('.region-block').forEach(el => {
+      el.addEventListener('mouseenter', e => {
+        regionTooltip.innerHTML = el.dataset.tip;
+        regionTooltip.style.display = 'block';
+      });
+      el.addEventListener('mousemove', e => {
+        regionTooltip.style.left = (e.clientX + 12) + 'px';
+        regionTooltip.style.top = (e.clientY - 10) + 'px';
+      });
+      el.addEventListener('mouseleave', () => regionTooltip.style.display = 'none');
+    });
+
+    // ===== METAL EVOLUTION TOOLTIP =====
+    const metalPopup = document.getElementById('metalPopup');
+    document.querySelectorAll('.metal-node').forEach(node => {
+      node.addEventListener('mouseenter', e => {
+        const d = node.dataset;
+        metalPopup.innerHTML = `
+      <strong style="color:var(--accent-gold);font-family:Cinzel,serif">${d.metal}</strong><br>
+      <span style="color:var(--accent-teal);font-size:0.72rem">${d.date}</span><br>
+      <span style="color:var(--text-muted);font-size:0.72rem">Origin: ${d.region}</span><br><br>
+      <span style="font-size:0.78rem;color:var(--text-secondary)">${d.use}</span>
+    `;
+        metalPopup.style.opacity = '1';
+      });
+      node.addEventListener('mousemove', e => {
+        metalPopup.style.left = (e.clientX + 14) + 'px';
+        metalPopup.style.top = Math.max(10, e.clientY - 80) + 'px';
+      });
+      node.addEventListener('mouseleave', () => metalPopup.style.opacity = '0');
+    });
+
+    // ===== ACCORDION =====
+    function toggleAcc(header) {
+      const item = header.parentElement;
+      const body = item.querySelector('.acc-body');
+      const isOpen = item.classList.contains('open');
+      // Close all
+      document.querySelectorAll('.acc-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.acc-body').classList.remove('open');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        body.classList.add('open');
+      }
+    }
+
+    // ===== SCROLL REVEAL =====
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.card, .hyp-card, .homo-card, .insight-card, .timeline-era-block, .ppn-block, .why-matters, .future-warning').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(el);
+    });
+  </script>
+</body>
+
+</html>
