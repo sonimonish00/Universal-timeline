@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Knowledge Tree — Evolution of Human Subjects</title>
+  <meta name="description"
+    content="An interactive visualization tracing how every major field of knowledge evolved from the Big Bang to modern specializations.">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Playfair+Display:wght@700;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- HERO -->
+  <section id="hero">
+    <div class="stars" id="stars"></div>
+    <div class="hero-content">
+      <p class="hero-tag">From Singularity to Specialization</p>
+      <h1>The Knowledge Tree</h1>
+      <a href="../index.html">Go to Home (UT - V1.0)</a>
+      <br>
+      <p class="hero-sub">How every subject humanity studies today traces its roots back to the birth of the universe
+      </p>
+      <a href="#timeline" class="cta-btn">Begin the Journey ↓</a>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section id="timeline">
+    <div class="timeline-line"></div>
+    <div id="layers-container"></div>
+  </section>
+
+  <!-- DEPENDENCY GRAPH -->
+  <section id="graph-section">
+    <h2 class="section-title">The Dependency Web</h2>
+    <p class="section-sub">Every modern field stands on the shoulders of earlier knowledge</p>
+    <canvas id="depGraph"></canvas>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>The Knowledge Tree &mdash; An exploration of intellectual evolution</p>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
